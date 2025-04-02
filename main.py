@@ -6,13 +6,13 @@ import winsound
 from message import send_email
 import time
 
-#initialising threatalarm
+#alarm if a match is found
 def threat_alarm():
     duration = 5000  
     frequency = 1000  
     winsound.Beep(frequency, duration)  
 
-#initialising safealarm
+#alarm if no match found
 def safe_alarm():
     duration=500
     frequency=1000
