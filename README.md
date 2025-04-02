@@ -22,7 +22,7 @@ to proceed.
 
 2. Face Encoding & Labeling: The system loads all images, extracts facial features using face_recognition, and encodes them into numerical vectors.It then assigns each encoding to the person’s name based on the folder structure.
 
-3. Real time face recognition: Scans the individuals face using OpenCV. Detects and extracts faces in real time. Compares detected faces against stored encodings using distance metricsIf similarity is above a certain threshold (< 0.4), the person is identified.
+3. Real time face recognition: Scans the individuals' face using OpenCV. Detects and extracts faces in real time. Compares detected faces against stored encodings using distance metricsIf similarity is above a certain threshold (< 0.4), the person is identified.
 
 4. Identity Confirmation:  The system takes 10 second to analyze and confirm the match. If the match remains consistent for 10 seconds and the alarm has not been trigerred for last 30 seconds, it triggers the alarm based on the match type: safe_alarm for "No match" and threat_alarm for "match".
 
