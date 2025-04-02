@@ -1,6 +1,6 @@
 # FaceAlert
 
-Developed a real time security alert system using face recognition to identify individuals from a wanted dataset and classify them as a safe or a potential threat. If the person doesn't match with the wanted dataset, it triggers a safe alarm, notifying the individual is harmless and safe to go. If a match is found, the system triggers a threat alarm and also sends an email to the authorities notifying them of a potential threat.
+Developed a real time security alert system using face recognition to identify individuals from a wanted dataset. If the person doesn't match with the wanted dataset, it triggers a safe alarm, notifying the individual is harmless and safe to go. If a match is found, the system triggers a threat alarm and also sends an email to the authorities notifying them of a potential threat.
 
 # Tech Stack: OpenCV, face_recognition, SMTPLib, Winsound
 
