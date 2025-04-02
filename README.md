@@ -1,13 +1,15 @@
 # FaceAlert
-
-Developed a real-time security alert system using face recognition to scan individuals at checkpoints (example: hotels, airports etc.) and verify them against a  dataset, consisting of individuals under security watchlist (wanted/banned/runaway crminals). If no match is found, a safe alarm is triggered, indicating the individual is clear to proceed. If a match is detected, the system activates a threat alarm and sends an email alert to authorities.
+Built a real-time security screening system that scans individuals at checkpoints (e.g., hotels, airports) using face
+recognition.If a person’s face matches an entry in the system’s dataset of known threats or wanted individuals, the system
+triggers a threat alarm and sends an email alert to authorities. Otherwise, a safe alarm is triggered, allowing them
+to proceed.
 
 # Tech Stack: OpenCV, face_recognition, SMTPLib, Winsound
 
 # Features:
 1. The system scans individuals and detects faces.
 
-2. Compares detected faces against a Security Watchlist dataset, consisting of wanted/banned individuals.
+2. Compares detected faces against a dataset, consisting of wanted/banned individuals.
 
 3. The system takes 10 seconds to analyze and confirm the match before coming to a conclusion.
 
@@ -16,7 +18,7 @@ Developed a real-time security alert system using face recognition to scan indiv
 5. if a match is found a threat_alarm is triggered and an email is sent directly to the authorities notifying them of the potential threat.
 
 # Workflow:
-1. Dataset: The dataset contains different folders for each individual who is under security watchlist. The folder contains images of that individual.
+1. Dataset: The dataset consists of folders, each representing an individual who is a known threat or wanted. Each folder contains images of that individual for identification.
 
 2. Face Encoding & Labeling: The system loads all images, extracts facial features using face_recognition, and encodes them into numerical vectors.It then assigns each encoding to the person’s name based on the folder structure.
 
