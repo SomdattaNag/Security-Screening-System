@@ -1,6 +1,6 @@
 # FaceAlert
 
-Developed a real-time security alert system using face recognition to scan individuals at checkpoints (example: hotels, airports etc.) and verify them against a Security Watchlist dataset. If no match is found, a safe alarm is triggered, indicating the individual is clear to proceed. If a match is detected, the system activates a threat alarm and sends an email alert to authorities.
+Developed a real-time security alert system using face recognition to scan individuals at checkpoints (example: hotels, airports etc.) and verify them against a  dataset, consisting of individuals under security watchlist (wanted/banned/runaway crminals). If no match is found, a safe alarm is triggered, indicating the individual is clear to proceed. If a match is detected, the system activates a threat alarm and sends an email alert to authorities.
 
 # Tech Stack: OpenCV, face_recognition, SMTPLib, Winsound
 
