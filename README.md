@@ -1,8 +1,7 @@
-# FaceAlert
-Built a real-time security screening system with face recognition that scans individuals using a webcam at check-
-points (e.g., hotels, airports). If a person’s face matches an entry in the system’s dataset of known threats or wanted individuals, the system
-triggers a threat alarm and sends an email alert to authorities. Otherwise, a safe alarm is triggered, allowing them
-to proceed.
+# Security Screening System
+Built a real-time security screening system, using face recognition with OpenCV. The system scans individuals via a webcam at check- points (e.g., hotels, airports). If a person’s face matches an
+entry in the system’s dataset of known threats or wanted individuals, the system triggers a threat alarm and sends
+an email alert to authorities. Otherwise, a safe alarm is triggered, allowing them to proceed.
 
 # Tech Stack: OpenCV, face_recognition, SMTPLib, Winsound
 
