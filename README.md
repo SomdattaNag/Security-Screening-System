@@ -3,7 +3,7 @@ Built a real-time security screening system, using face recognition with OpenCV.
 entry in the system’s dataset of known threats or wanted individuals, the system triggers a threat alarm and sends
 an email alert to authorities. Otherwise, a safe alarm is triggered, allowing them to proceed.
 
-# Tech Stack: OpenCV, face_recognition, SMTPLib, Winsound
+# Tech Stack: OpenCV, Face Recognition, SMTPLib, Winsound
 
 # Features:
 1. The system scans individuals and detects faces.
