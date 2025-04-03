@@ -8,7 +8,7 @@ import time
 
 #alarm if a match is found
 def threat_alarm():
-    duration = 5000  
+    duration = 10000  
     frequency = 1000  
     winsound.Beep(frequency, duration)  
 
