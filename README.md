@@ -8,7 +8,7 @@ an email alert to authorities. Otherwise, a safe alarm is triggered, allowing th
 # Features:
 1. The system scans individuals and detects faces.
 
-2. Compares detected faces against a dataset, consisting of wanted/banned/runaway individuals.
+2. Compares detected faces against a dataset of wanted/banned/runaway individuals.
 
 3. The system takes 10 seconds to analyze and confirm the match before coming to a conclusion.
 
