@@ -17,7 +17,7 @@ an email alert to authorities. Otherwise, a safe alarm is triggered, allowing th
 5. if a match is found a threat_alarm is triggered and an email is sent directly to the authorities notifying them of the potential threat.
 
 # Workflow:
-1. Dataset: The dataset consists of folders, each representing an individual who is a known threat or wanted. Each folder contains images of that individual for identification.
+1. Dataset: The dataset consists of folders, each representing an individual who is a known threat, criminal or wanted. Each folder contains images of that individual for identification.
 
 2. Face Encoding & Labeling: The system loads all images, extracts facial features using the face_recognition model , and encodes them into numerical vectors.It then assigns each encoding to the person’s name based on the folder structure.
 
