@@ -1,6 +1,6 @@
 # Security Screening System
 Built a real-time security screening system, using face recognition with OpenCV. The system scans individuals via a webcam at check- points (e.g., hotels, airports). If a person’s face matches an
-entry in the system’s dataset of known threats or wanted individuals, the system triggers a threat alarm and sends
+entry in the system’s dataset of known threats, runaway criminals or wanted individuals, the system triggers a threat alarm and sends
 an email alert to authorities. Otherwise, a safe alarm is triggered, allowing them to proceed.
 
 # Tech Stack: OpenCV, Face Recognition, SMTPLib, Winsound
@@ -8,7 +8,7 @@ an email alert to authorities. Otherwise, a safe alarm is triggered, allowing th
 # Features:
 1. The system scans individuals and detects faces.
 
-2. Compares detected faces against a dataset, consisting of wanted/banned individuals.
+2. Compares detected faces against a dataset, consisting of wanted/banned/runaway individuals.
 
 3. The system takes 10 seconds to analyze and confirm the match before coming to a conclusion.
 
