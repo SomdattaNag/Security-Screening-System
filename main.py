@@ -76,11 +76,11 @@ try:
         detected_now = set(curr_names)
         
         for name in detected_now:
-            
             if name not in detection_time:
                 #first detection
                 detection_time[name] = curr_time
                 last_alarmed[name] = 0  
+        
         for name in detected_now:
             scan_time= curr_time - detection_time[name]
             if scan_time>= 10 and (curr_time - last_alarmed.get(name, 0)) >= 30:
