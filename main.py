@@ -91,10 +91,13 @@ try:
                 else:
                     safe_alarm()
                 last_alarmed[name] = curr_time
+        
         for name in list(detection_time.keys()):
             if name not in detected_now:
                 del detection_time[name]
+        
         cv2.imshow("Face Recognition", frame)
+        
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
         if cv2.getWindowProperty("Face Recognition", cv2.WND_PROP_VISIBLE) < 1:
