@@ -51,9 +51,9 @@ def send_email(name,frame):
       </body>
     </html>
     """
-    msg.attach(MIMEText(body))
+    msg.attach(MIMEText(body, 'html'))
 
-    # Attach the face image
+    # Attach face image
     image = MIMEImage(img_data, name="detected_face.jpg")
     msg.attach(image)
     
