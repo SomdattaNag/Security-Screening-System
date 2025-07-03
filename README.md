@@ -1,5 +1,3 @@
-# Security Screening System
-
 # Problem Statement
 Traditional security checkpoints (e.g., airports, hotels, event venues) rely heavily on manual ID verification and human surveillance, which are:
 Time-consuming and prone to human error
