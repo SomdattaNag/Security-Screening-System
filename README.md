@@ -2,7 +2,7 @@
 Traditional security checkpoints (e.g., airports, hotels, event venues) rely heavily on manual ID verification and human surveillance, which are time-consuming and prone to human error, vulnerable to identity fraud, forged documents, and look-alikes, inefficient in detecting wanted, banned, or high-risk individuals in real-time. Given the increasing need for automated, intelligent surveillance systems, there is a strong demand for a non-intrusive, reliable, and scalable solution to screen individuals based on biometric identity especially facial recognition without interrupting regular flow.
 
 # Proposed Solution
-Built a real-time security screening system, using face recognition with OpenCV. The system aims to scan individuals via a webcam at check- points (e.g., hotels, airports). If a person’s face matches an
+A real-time security screening system, using face recognition with OpenCV. The system aims to scan individuals via a webcam at check- points (e.g., hotels, airports). If a person’s face matches an
 entry in the system’s dataset of known threats, runaway criminals or wanted individuals, the system triggers a threat alarm and sends
 an email alert to authorities. Otherwise, a safe alarm is triggered, allowing them to proceed.
 
