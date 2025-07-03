@@ -33,5 +33,5 @@ Python, OpenCV, Face Recognition, SMTPLib, Winsound
 
 # Note:
 1. This is a prototype/demo project created for educational purposes. 
-2. Due to a deliberately lower matching threshold to reduce false positives, the system may occasionally produce false negatives.
+2. Due to a deliberately lower matching threshold to reduce false positives, the system might produce false negatives in few cases.
 3. To improve accuracy and reliability, it is recommended to use a larger number of diverse images per individual in the dataset.
