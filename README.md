@@ -1,5 +1,14 @@
 # Security Screening System
-Built a real-time security screening system, using face recognition with OpenCV. The system scans individuals via a webcam at check- points (e.g., hotels, airports). If a person’s face matches an
+
+# Problem Statement
+Traditional security checkpoints (e.g., airports, hotels, event venues) rely heavily on manual ID verification and human surveillance, which are:
+Time-consuming and prone to human error
+Vulnerable to identity fraud, forged documents, and look-alikes
+Inefficient in detecting wanted, banned, or high-risk individuals in real-time
+Given the increasing need for automated, intelligent surveillance systems, there is a strong demand for a non-intrusive, reliable, and scalable solution to screen individuals based on biometric identity — especially facial recognition — without interrupting regular flow.
+
+# Solution
+Built a real-time security screening system, using face recognition with OpenCV. The system aims to scan individuals via a webcam at check- points (e.g., hotels, airports). If a person’s face matches an
 entry in the system’s dataset of known threats, runaway criminals or wanted individuals, the system triggers a threat alarm and sends
 an email alert to authorities. Otherwise, a safe alarm is triggered, allowing them to proceed.
 
@@ -28,4 +37,4 @@ an email alert to authorities. Otherwise, a safe alarm is triggered, allowing th
 5. Email Notification: If a threat is identified and threat_alarm is trigerred an email is sent to authorities including the name, photo, time and Ip location of the individual. The authorities can be the organisation security, admin, police authorities, local authorities, public safety etc.
 
 # Note:
-This is a prototype/demo project created for educational purposes and is not deployed in any real-world scenario yet.
+This is a prototype/demo project created for educational purposes and is not deployed in any real-world scenario.
