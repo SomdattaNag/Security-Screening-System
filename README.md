@@ -31,4 +31,6 @@ an email alert to authorities. Otherwise, a safe alarm is triggered, allowing th
 5. Email Notification: If a threat is identified and threat_alarm is trigerred an email is sent to authorities including the name, photo, time and Ip location of the individual. The authorities can be the organisation security, admin, police authorities, local authorities, public safety etc.
 
 # Note:
-This is a prototype/demo project created for educational purposes and is not deployed in any real-world scenario.
+1. This is a prototype/demo project created for educational purposes and is not deployed in any real-world scenario.
+2. Due to a deliberately lower matching threshold to reduce false positives, the system may occasionally produce false negatives.
+3. To improve accuracy and reliability, it is recommended to use a larger number of diverse images per individual in the dataset.
