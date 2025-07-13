@@ -25,7 +25,7 @@ Python, OpenCV, Face Recognition, SMTPLib, Winsound
 
 2. Face Encoding & Labeling: The system loads all images, extracts facial features using the face_recognition model , and encodes them into numerical vectors.It then assigns each encoding to the person’s name based on the folder structure.
 
-3. Real time face recognition: Scans the individuals face using OpenCV. Detects and extracts faces in real time. Compares detected faces against stored encodings using distance metrics. If similarity is above a certain threshold (< 0.4), the person is identified. The threshold is intentionally set lower in order to avoid false positives. While false negatives can be handled with additional procedures, false positives can cause serious issues and are therefore minimized.
+3. Real time face recognition: Scans the individuals face using OpenCV. Detects and extracts faces in real time. Compares detected faces against stored encodings using distance metrics. If similarity is above a certain threshold (< 0.4), the person is identified. The threshold is intentionally set lower in order to avoid false positives. While false negatives can be handled with additional procedures, false positives can cause serious harassment and authority disturbance issues and are therefore minimized.
 
 4. Identity Confirmation:  The system takes 10 seconds to analyze and confirm the match. If the match remains consistent for 10 seconds and the alarm has not been trigerred for last 30 seconds, it triggers the alarm based on the match type: safe_alarm for "No match" and threat_alarm for "match".
 
