@@ -32,6 +32,6 @@ Python, OpenCV, Face Recognition, SMTPLib, Winsound
 5. Email Notification: If a threat is identified and threat_alarm is trigerred an email is sent to authorities including the name, photo, time and Ip location of the individual. The authorities can be the organisation security, admin, police authorities, local authorities, public safety etc.
 
 # Note:
-1. This is a prototype/demo project created for educational purposes. 
+1. This is a functional prototype designed for a security checkpoint use case. It demonstrates the core facial recognition and threat-detection logic of a real-time screening system. The project is modular and can be extended to integrate with IoT hardware or GUI interfaces as needed.
 2. Due to a deliberately lower matching threshold to reduce false positives, the system might produce false negatives in few cases.
 3. To improve accuracy and reliability, it is recommended to use a larger number of diverse images per individual in the dataset.
