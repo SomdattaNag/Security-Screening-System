@@ -90,8 +90,8 @@ learn.md: This learning and documentation guide.
     
     ```
     python -m venv venv
-    source venv/bin/activate (for linux) 
-    venv\Scripts\activate (for windows)
+    source venv/bin/activate #for linux) 
+    venv\Scripts\activate #for windows)
     
     ```
 
@@ -100,7 +100,7 @@ learn.md: This learning and documentation guide.
     ```
     pip install -r requirements.txt 
     ```
-            or type manually
+    *Or manually:*
     
     ```
     pip install opencv-python face-recognition numpy
@@ -196,10 +196,10 @@ learn.md: This learning and documentation guide.
             ```
         5. Open this .eml file using Outlook, Thunderbird, or any email client to view the message exactly as a recipient would.
         6. Console Output Includes:
-            Subject line,
-            Body content,
-            Image attachment,
-            Any SMTP errors, if applicable.
+            1. Subject line,
+            2. Body content,
+            3. Image attachment,
+            4. Any SMTP errors, if applicable.
         7. Troubleshooting Local Server:
             If you see a connection error like Connection refused, ensure your SMTP Debug Server is running.
 
