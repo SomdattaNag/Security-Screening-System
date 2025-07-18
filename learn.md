@@ -25,15 +25,16 @@ This project is a Real-Time Security Screening System utilizing face recognition
 
 # Usage Instructions
 
-    1. The system uses your webcam to detect and analyze faces.
-    2. It continuously compares detected faces to the dataset.
-    3. On identification:
-    4. Threat detected → Threat alarm triggers + Email sent.
-    5. No match found → Safe alarm triggers.
-    6. Press 'q' or close the webcam window to exit. 
+1. The system uses your webcam to detect and analyze faces.
+2. It continuously compares detected faces to the dataset.
+3. On identification:
+4. Threat detected → Threat alarm triggers + Email sent.
+5. No match found → Safe alarm triggers.
+6. Press 'q' or close the webcam window to exit. 
 
 # Folder Structure
 
+```
 project/
 │
 ├── data/
@@ -45,6 +46,7 @@ project/
 ├── message.py
 ├── README.md
 └── learn.md
+```
 
 data/: Contains subfolders for each individual, filled with multiple images for accurate recognition.
 
@@ -78,35 +80,53 @@ learn.md: This learning and documentation guide.
 
 1. Fork the Repository: Click the Fork button on GitHub to create your own copy of the repository.
     Clone Your Fork Locally
+    ```
     git clone <your-fork-url>
     cd <cloned-project-folder-name>
+    
+    ```
 
 2. Set Up a Virtual Environment (Optional):
+    
+    ```
     python -m venv venv
     source venv/bin/activate (for linux) 
     venv\Scripts\activate (for windows)
+    
+    ```
 
 3. Install Dependencies
     Dependencies are listed in requirements.txt. Install them with:
+    ```
     pip install -r requirements.txt 
+
+    ```
             or type manually
+    ```
     pip install opencv-python face-recognition numpy
+    ```
 
 4. Work on a Feature or Fix
 
 5. Create a new branch:
-    git checkout -b feature/your-feature-name
     
+    ```
+    git checkout -b feature/your-feature-name
+    ```
+
 6. Follow Best Practices
     Keep code modular and readable.
     Add comments where needed.
     Test your changes before committing.
 
 7. Commit Changes and Push
+    
+    ```
     git add .
     git commit -m "Add: short description of feature"
     git push origin feature/your-feature-name
-    Submit a Pull Request (PR)
+    ```
+    
 
 8. Submit a PR (pull request)
     1. Go to your fork on GitHub and click Compare & pull request
@@ -123,9 +143,11 @@ learn.md: This learning and documentation guide.
     1. Normal testing: (Production-based: sends real emails)
         1. Configure Emails in message.py:
             Replace placeholder values with your credentials:
+            ```
             sender_email = 'your_email@gmail.com'
             sender_password = 'your_app_password'
             receiver_email = 'receiver_email@example.com'
+            ```
         3. Secure Authentication Setup:
         4. Google may block apps using your main password. To avoid this:
         5. Enable Two-Factor Authentication (2FA) on your Google account.
@@ -133,10 +155,13 @@ learn.md: This learning and documentation guide.
             Google Account → Security → App Passwords
         7. Generate a new App Password (choose "Mail" as the app).
         8. Use this App Password in:
-        9. sender_password = 'your_app_password'
-        10. Test the System:
-        11. Run the project.
-        12. On threat detection, you should receive an email with the required details.
+            ```
+            sender_password = 'your_app_password'
+            ```
+
+        9. Test the System:
+        10. Run the project.
+        11. On threat detection, you should receive an email with the required details.
 
     2. Alternative testing: (If you are unable to use app password)
         For safer local testing without sending real emails, use Python’s built-in SMTP Debugging Server.
@@ -146,19 +171,27 @@ learn.md: This learning and documentation guide.
             Email contents can be saved locally for detailed review.
         1. Edit message.py:
             Replace email server configuration:
+            
+            ```
                 smtp_server = 'localhost'
                 smtp_port = 1025
                 sender_email = 'test@example.com'
                 receiver_email = 'debug@example.com'
+            ```
+
         2. Start a Local Debug SMTP Server:
             In a separate terminal window, run:
+            ```
                 python -m smtpd -c DebuggingServer -n localhost:1025
-            
+            ```
+
             This will simulate an SMTP server and print email details directly to the terminal.
         3. Optional: Save Emails as Files
             In the send_email() function, email messages are saved locally:
-        4. with open("debug_email.eml", "wb") as f:
+            ```
+            with open("debug_email.eml", "wb") as f:
                 f.write(msg.as_bytes())
+            ```
         5. Open this .eml file using Outlook, Thunderbird, or any email client to view the message exactly as a recipient would.
         6. Console Output Includes:
             Subject line.
