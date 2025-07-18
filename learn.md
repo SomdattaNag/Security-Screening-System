@@ -90,8 +90,8 @@ learn.md: This learning and documentation guide.
     
     ```
     python -m venv venv
-    source venv/bin/activate #for linux) 
-    venv\Scripts\activate #for windows)
+    source venv/bin/activate #for linux
+    venv\Scripts\activate #for windows
     
     ```
 
@@ -114,10 +114,10 @@ learn.md: This learning and documentation guide.
     git checkout -b feature/your-feature-name
     ```
 
-6. Follow Best Practices
-    Keep code modular and readable.
-    Add comments where needed.
-    Test your changes before committing.
+6. Follow Best Practices:
+    1. Keep code modular and readable.
+    2. Add comments where needed.
+    3. Test your changes before committing.
 
 7. Commit Changes and Push
     
