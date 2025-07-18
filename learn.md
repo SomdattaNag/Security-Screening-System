@@ -99,9 +99,9 @@ learn.md: This learning and documentation guide.
     Dependencies are listed in requirements.txt. Install them with:
     ```
     pip install -r requirements.txt 
-
     ```
             or type manually
+    
     ```
     pip install opencv-python face-recognition numpy
     ```
@@ -163,12 +163,14 @@ learn.md: This learning and documentation guide.
         10. Run the project.
         11. On threat detection, you should receive an email with the required details.
 
-    2. Alternative testing: (If you are unable to use app password)
+    2. Alternative testing (If you are unable to use app password):
+        
         For safer local testing without sending real emails, use Python’s built-in SMTP Debugging Server.
         Why Use This?
             No real emails are sent.
             You can visually inspect email formatting, message content, and attachments.
             Email contents can be saved locally for detailed review.
+        
         1. Edit message.py:
             Replace email server configuration:
             
