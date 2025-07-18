@@ -196,9 +196,9 @@ learn.md: This learning and documentation guide.
             ```
         5. Open this .eml file using Outlook, Thunderbird, or any email client to view the message exactly as a recipient would.
         6. Console Output Includes:
-            Subject line.
-            Body content.
-            Image attachment
+            Subject line,
+            Body content,
+            Image attachment,
             Any SMTP errors, if applicable.
         7. Troubleshooting Local Server:
             If you see a connection error like Connection refused, ensure your SMTP Debug Server is running.
