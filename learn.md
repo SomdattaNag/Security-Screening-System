@@ -100,11 +100,6 @@ learn.md: This learning and documentation guide.
     ```
     pip install -r requirements.txt 
     ```
-    *Or manually:*
-    
-    ```
-    pip install opencv-python face-recognition numpy
-    ```
 
 4. Work on a Feature or Fix
 
