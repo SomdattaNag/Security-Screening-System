@@ -5,6 +5,8 @@ import face_recognition
 import winsound
 from message import send_email
 import time
+prev_time = 0
+
 
 #alarm if a match is found
 def threat_alarm():
@@ -46,6 +48,13 @@ last_alarmed = {}
 try:
     while True:
         ret, frame = face_cap.read()
+        curr_time = time.time()
+        fps = 1 / (curr_time - prev_time) if (curr_time - prev_time) > 0 else 0
+        prev_time = curr_time
+        fps_text = f"FPS: {int(fps)}"
+
+        cv2.putText(frame, fps_text, (30, 50), cv2.FONT_HERSHEY_SIMPLEX, 1.4, (0, 255, 255), 3)
+
         if not ret:
             break
         
