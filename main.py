@@ -56,6 +56,7 @@ try:
         face_encodings = face_recognition.face_encodings(rgb_small_frame, face_locations)
 
         curr_names = []
+        curr_time = time.time() 
         
         for face_encoding, face_location in zip(face_encodings, face_locations):
             face_distances =face_recognition.face_distance(face_encode, face_encoding)
@@ -70,9 +71,16 @@ try:
             color = (0, 255, 0) if name!= "No match" else (0, 0, 255)
             cv2.rectangle(frame, (left, top), (right, bottom), color, 2)
             cv2.putText(frame, name, (left, top - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
-        
+
+            #added: a countdown timer for each detected face
+            if name in detection_time:
+                scan_time = curr_time - detection_time[name]
+                remaining_time = max(0, 10 - int(scan_time))
+                timer_text = f"{remaining_time:.1f}s"
+                cv2.putText(frame, timer_text, (left, top + 20), cv2.FONT_HERSHEY_COMPLEX, 0.5, color, 2)
+                
         #starting timer
-        curr_time = time.time()
+        
         detected_now = set(curr_names)
         
         for name in detected_now:
