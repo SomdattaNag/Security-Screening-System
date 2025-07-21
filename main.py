@@ -48,6 +48,7 @@ last_alarmed = {}
 try:
     while True:
         ret, frame = face_cap.read()
+        frame = cv2.flip(frame,1)
         curr_time = time.time()
         fps = 1 / (curr_time - prev_time) if (curr_time - prev_time) > 0 else 0
         prev_time = curr_time
