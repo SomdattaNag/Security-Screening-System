@@ -1,4 +1,5 @@
 import cv2
+import sys
 import numpy as np
 import os
 import face_recognition
@@ -38,6 +39,9 @@ for person_name in os.listdir(data_path):
                     face_name.append(person_name)  
 
 face_cap = cv2.VideoCapture(0)
+if not face_cap.isOpened():
+    print("❌ Error: Could not access the webcam. Please check if it's connected, or if it's being used by another application.")
+    sys.exit()
 detection_time = {}  
 last_alarmed = {}    
 
