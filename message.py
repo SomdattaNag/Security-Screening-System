@@ -37,11 +37,6 @@ def location():
         show_error("Location Error", f"Failed to get location: {e}")
         return ["Unknown City", "Unknown Region"], "0,0"
 
-# Email credentials (fill these in)
-sender_email = 'user_email@example.com'
-sender_password = 'your_app_password_here'
-receiver_email = 'admin_email@example.com'
-
 # Main function to send alert email
 def send_email(name, frame):
     try:
