@@ -66,14 +66,17 @@ learn.md: This learning and documentation guide.
     1. Inside the data/ folder, create subfolders for each individual (named after the person). The subfolder with contain the individual's images.
     2. Add multiple images of each person in their respective subfolder to improve recognition accuracy.
 
-4. Configure Email Settings
+4. 1. Copy `.env.example` to `.env`
+   2. Replace placeholder values with your actual credentials
+
+5. Configure Email Settings
     1. Edit message.py to set your SMTP server details and credentials.
     2. Ensure the send_email() function can send emails from your desired account.
 
-5. Run the Project
+6. Run the Project
     run the main file 
         python main.py
-6. Stop the System
+7. Stop the System
     Press 'q' in the webcam window or close the window to stop.
 
 # Contribution Guidelines:

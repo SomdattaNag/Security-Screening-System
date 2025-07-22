@@ -4,7 +4,12 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.image import MIMEImage
 import datetime
 import cv2
+import os
 import requests
+from dotenv import load_dotenv
+
+load_dotenv()
+
 
 def location():
         response = requests.get('https://ipinfo.io/json').json()
@@ -14,9 +19,11 @@ def location():
         locate=[city,region]
         return locate, coords
 
-sender_email='user_email'
-sender_password='user_email_password'
-receiver_email=['admin_1_email','admin_2_email','admin_3_email','admin_4_email']
+sender_email = os.getenv('SENDER_EMAIL')
+sender_password = os.getenv('SENDER_PASSWORD')
+receiver_emails = os.getenv('RECEIVER_EMAIL', '').split(',')
+
+
 
 
 def send_email(name,frame):
@@ -31,7 +38,7 @@ def send_email(name,frame):
     msg = MIMEMultipart()
     msg['Subject'] = f"Security Alert: {name} Detected!"
     msg['From'] = sender_email
-    msg['To'] = ", ".join(receiver_email)
+    msg['To'] = ", ".join(receiver_emails)
     
     body = f"""
     <html>
