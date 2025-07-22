@@ -37,26 +37,44 @@ This project is a Real-Time Security Screening System utilizing face recognition
 ```
 project/
 │
+├── alarms/
+│   └── threat.wav
+│   └── safe.wav
+│
 ├── data/
 │   └── [Person Name]/
 │        └── image1.jpg
 │        └── image2.png
 │
-├── main.py
-├── message.py
-├── README.md
-└── learn.md
+├── main.py                
+├── message.py             
+├── requirements.txt       
+├── .gitignore             
+├── .env.example           
+├── README.md              
+├── learn.md 
+└── codeofConduct.md             
 ```
 
-data/: Contains subfolders for each individual, filled with multiple images for accurate recognition.
+alarms/: Contains audio files used for alerts (threat_alarm and safe_alarm), triggered from main.py.
 
-main.py: Main execution file handling face detection, recognition, alarms, and notifications.
+data/: Each subfolder represents an individual, containing multiple images to improve recognition accuracy.
 
-message.py: Handles email sending functionality (not provided here).
+.env.example: Template for required environment variables. Actual sensitive .env file is ignored via .gitignore.
+
+.gitignore: Ensures sensitive and unnecessary files like .env, venv/ __pycache__/, are never committed to the repository.
+
+requirements.txt: Defines the Python dependencies needed to run the project.
+
+main.py: Central application logic (face detection, alarm triggers, notification handling).
+
+message.py: Handles email notifications using credentials from the .env file.
 
 README.md: Original project description.
 
 learn.md: This learning and documentation guide.
+
+codeofConduct.md: Ethical and moral guidelines to be followed while working on the project by all the respective members.
 
 # Project Setup
 
@@ -66,12 +84,14 @@ learn.md: This learning and documentation guide.
     1. Inside the data/ folder, create subfolders for each individual (named after the person). The subfolder with contain the individual's images.
     2. Add multiple images of each person in their respective subfolder to improve recognition accuracy.
 
-4. 1. Copy `.env.example` to `.env`
-   2. Replace placeholder values with your actual credentials
+4. Environment Configuration:
+    1. Copy `.env.example` to a `.env` file.
+    2. Replace placeholder values with your actual credentials.
 
 5. Configure Email Settings
-    1. Edit message.py to set your SMTP server details and credentials.
+    1. Ensure message.py loads email settings from the .env file.
     2. Ensure the send_email() function can send emails from your desired account.
+    3. Verify SMTP server details are correctly handled (`smtp.gmail.com` and port `587` for Gmail).
 
 6. Run the Project
     run the main file 
@@ -139,12 +159,14 @@ learn.md: This learning and documentation guide.
 
 2. Email Setup and testing:
     1. Normal testing: (Production-based: sends real emails)
-        1. Configure Emails in message.py:
-            Replace placeholder values with your credentials:
+        1.  Configure Emails in message.py:
+            Instead of hardcoding credentials, store them in a .env file:
+            Example .env:
+            
             ```
-            sender_email = 'your_email@gmail.com'
-            sender_password = 'your_app_password'
-            receiver_email = 'receiver_email@example.com'
+                SENDER_EMAIL=your_email@gmail.com
+                SENDER_PASSWORD=your_email_password
+                RECEIVER_EMAIL=admin1@example.com,admin2@example.com,admin3@example.com,admin4@example.com
             ```
         3. Secure Authentication Setup:
         4. Google may block apps using your main password. To avoid this:
@@ -154,7 +176,7 @@ learn.md: This learning and documentation guide.
         7. Generate a new App Password (choose "Mail" as the app).
         8. Use this App Password in:
             ```
-            sender_password = 'your_app_password'
+            SENDER_PASSWORD=your_app_password
             ```
 
         9. Test the System:
