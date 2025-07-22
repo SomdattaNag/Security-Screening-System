@@ -8,11 +8,11 @@ import time
 
 #alarm if a match is found
 def threat_alarm():
-    playsound("threat.wav")
+    playsound("alarms/threat.wav")
 
 #alarm if no match found
 def safe_alarm():
-    playsound("safe.wav")
+    playsound("alarms/safe.wav")
 
 data_path = "data/"
 face_encode = []
