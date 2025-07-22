@@ -16,7 +16,8 @@ def location():
 
 sender_email='user_email'
 sender_password='user_email_password'
-receiver_email='admin_email'
+receiver_email=['admin_1_email','admin_2_email','admin_3_email','admin_4_email']
+
 
 def send_email(name,frame):
 
@@ -30,7 +31,7 @@ def send_email(name,frame):
     msg = MIMEMultipart()
     msg['Subject'] = f"Security Alert: {name} Detected!"
     msg['From'] = sender_email
-    msg['To'] = receiver_email
+    msg['To'] = ", ".join(receiver_email)
     
     body = f"""
     <html>
