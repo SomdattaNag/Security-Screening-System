@@ -4,9 +4,6 @@ Traditional security checkpoints (e.g., airports, hotels, event venues) rely hea
 # Proposed Solution
 A real-time security screening system, using face recognition with OpenCV. The system aims to scan individuals via a webcam at check- points (e.g., hotels, airports). If a person’s face matches an entry in the system’s dataset of known threats, runaway criminals or wanted individuals, the system triggers a threat alarm and sends an email alert to authorities. Otherwise, a safe alarm is triggered, allowing them to proceed.
 
-# Tech Stack:
-Python, OpenCV, Face Recognition, SMTPLib, Winsound
-
 # Contributors and Learning Resources
 As of July 2025, this project is a part of GirlScript Summer of Code 2025. Please read the Readme File carefully for understanding the  project workflow. For contribution tips and extended documentation, see the [Learn Guide](./learn.md).
 Only the issue with the label gssoc25 are open for gssoc contributors right now.
