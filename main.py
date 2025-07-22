@@ -2,21 +2,17 @@ import cv2
 import numpy as np
 import os
 import face_recognition
-import winsound
+from playsound import playsound
 from message import send_email
 import time
 
 #alarm if a match is found
 def threat_alarm():
-    duration = 10000  
-    frequency = 1000  
-    winsound.Beep(frequency, duration)  
+    playsound("threat.wav")
 
 #alarm if no match found
 def safe_alarm():
-    duration= 500
-    frequency=1000
-    winsound.Beep(frequency,duration)
+    playsound("safe.wav")
 
 data_path = "data/"
 face_encode = []
