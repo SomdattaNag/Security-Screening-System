@@ -38,9 +38,12 @@ for person_name in os.listdir(data_path):
                     face_encode.append(face_encodings[0])  
                     face_name.append(person_name)  
 
-face_cap = cv2.VideoCapture(0)
-if not face_cap.isOpened():
-    print("❌ Error: Could not access the webcam. Please check if it's connected, or if it's being used by another application.")
+try:
+    face_cap = cv2.VideoCapture(0)
+    if not face_cap.isOpened():
+        raise RuntimeError("❌ Error: Could not access the webcam. Please check if it's connected, or if it's being used by another application.")
+except Exception as e:
+    print(str(e))
     sys.exit()
 detection_time = {}  
 last_alarmed = {}    
