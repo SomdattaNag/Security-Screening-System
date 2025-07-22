@@ -56,25 +56,25 @@ project/
 └── codeofConduct.md             
 ```
 
-alarms/: Contains audio files used for alerts (threat_alarm and safe_alarm), triggered from main.py.
+__alarms/__: Contains audio files used for alerts (threat_alarm and safe_alarm), triggered from main.py.
 
-data/: Each subfolder represents an individual, containing multiple images to improve recognition accuracy.
+__data/__: Each subfolder represents an individual, containing multiple images to improve recognition accuracy.
 
-.env.example: Template for required environment variables. Actual sensitive .env file is ignored via .gitignore.
+__.env.example__: Template for required environment variables. Actual sensitive .env file is ignored via .gitignore.
 
-.gitignore: Ensures sensitive and unnecessary files like .env, venv/ __pycache__/, are never committed to the repository.
+__.gitignore__: Ensures sensitive and unnecessary files like .env, venv/ __pycache__/, are never committed to the repository.
 
-requirements.txt: Defines the Python dependencies needed to run the project.
+__requirements.txt__: Defines the Python dependencies needed to run the project.
 
-main.py: Central application logic (face detection, alarm triggers, notification handling).
+__main.py__: Central application logic (face detection, alarm triggers, notification handling).
 
-message.py: Handles email notifications using credentials from the .env file.
+__message.py__: Handles email notifications using credentials from the .env file.
 
-README.md: Original project description.
+__README.md__: Original project description.
 
-learn.md: This learning and documentation guide.
+__learn.md__: This learning and documentation guide.
 
-codeofConduct.md: Ethical and moral guidelines to be followed while working on the project by all the respective members.
+__codeofConduct.md__: Ethical and moral guidelines to be followed while working on the project by all the respective members.
 
 # Project Setup
 
