@@ -9,6 +9,7 @@ Python, OpenCV, Face Recognition, SMTPLib, Winsound
 
 # Contributors and Learning Resources
 As of July 2025, this project is a part of GirlScript Summer of Code 2025. Please read the Readme File carefully for understanding the  project workflow. For contribution tips and extended documentation, see the [Learn Guide](./learn.md).
+Only the issue with the label gssoc25 are open for gssoc contributors right now.
 
 # Features:
 1. The system scans individuals and detects faces.
