@@ -119,7 +119,7 @@ try:
             if scan_time>= 10 and (curr_time - last_alarmed.get(name, 0)) >= 30:
                 if name!="No match":
                     threat_alarm()
-                    send_email(name,frame)
+                    send_email(name,frame,confidence)
                 else:
                     safe_alarm()
                 last_alarmed[name] = curr_time
