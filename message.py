@@ -19,10 +19,7 @@ def is_valid_password(password):
     if not password:
         return False
     clean = password.replace(" ", "")
-    return len(clean) == 16 and clean.isalpha()
-
-
-
+    return len(clean) == 16
 
 
 def location():
