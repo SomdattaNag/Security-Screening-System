@@ -6,6 +6,7 @@ import face_recognition
 from playsound import playsound
 from message import send_email
 import time
+last_confidence = None  # Global variable to hold latest confidence score
 
 prev_time = 0
 
@@ -119,6 +120,7 @@ try:
             if scan_time>= 10 and (curr_time - last_alarmed.get(name, 0)) >= 30:
                 if name!="No match":
                     threat_alarm()
+                    last_confidence = confidence  # Set before calling send_email
                     send_email(name,frame)
                 else:
                     safe_alarm()
