@@ -42,23 +42,64 @@ def send_email(name,frame):
     
     body = f"""
     <html>
-      <body>
-        <p>Emergency! A match was detected:</p>
-        <p style="color: #666; font-size: 0.8em;">
-            <i>Disclaimer: This alert indicates facial similarity to a registered individual.
-            Verify identity through official channels before taking action.</i>
-        </p>
-        <ul>
-          <li>Name: {name}</li>
-          <li>Time: {datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")}</li>
-          <li>City: {locate[0]}</li>
-          <li>Region: {locate[1]}</li>
-          <li>Location: <a href="{googlemaps_link}">IP Location</a></li>
-        </ul>
-        <p>See attached image.</p>
-      </body>
+    <head>
+        <style>
+            .container {{
+                font-family: Arial, sans-serif;
+                padding: 20px;
+                background-color: #f9f9f9;
+                border: 1px solid #ddd;
+                border-radius: 10px;
+                width: 90%;
+                max-width: 600px;
+                margin: auto;
+            }}
+            .header {{
+                background-color: #f44336;
+                color: white;
+                padding: 10px;
+                border-radius: 10px 10px 0 0;
+                font-size: 20px;
+                text-align: center;
+            }}
+            .content {{
+                background-color: white;
+                padding: 20px;
+                border-radius: 0 0 10px 10px;
+            }}
+            .footer {{
+                font-size: 12px;
+                color: #777;
+                margin-top: 15px;
+                font-style: italic;
+            }}
+            a {{
+                color: #007bff;
+            }}
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="header">🚨 Security Alert: {name} Detected</div>
+            <div class="content">
+                <p><strong>Emergency!</strong> A face match has been detected.</p>
+                <ul>
+                    <li><strong>Name:</strong> {name}</li>
+                    <li><strong>Time:</strong> {datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")}</li>
+                    <li><strong>City:</strong> {locate[0]}</li>
+                    <li><strong>Region:</strong> {locate[1]}</li>
+                    <li><strong>Location:</strong> <a href="{googlemaps_link}" target="_blank">View on Map</a></li>
+                </ul>
+                <p>Attached is the detected face image.</p>
+                <div class="footer">
+                    Disclaimer: This alert is based on facial similarity. Always verify identity before action.
+                </div>
+            </div>
+        </div>
+    </body>
     </html>
     """
+
     msg.attach(MIMEText(body, 'html'))
 
     # Attach face image
