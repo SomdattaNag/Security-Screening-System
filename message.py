@@ -8,6 +8,7 @@ import os
 import re
 import requests
 from dotenv import load_dotenv
+import main  # Import the main module to access last_confidence
 
 load_dotenv()
 
@@ -52,7 +53,8 @@ def send_email(name,frame):
     _, img_encoded = cv2.imencode('.jpg', frame)
     img_data = img_encoded.tobytes()
     msg = MIMEMultipart()
-    msg['Subject'] = f"Security Alert: {name} Detected!"
+    confidence = main.last_confidence  # Get the latest confidence score
+    msg['Subject'] = f"Security Alert: {name} Detected"
     msg['From'] = sender_email
     msg['To'] = ", ".join(receiver_emails)
     
@@ -101,6 +103,7 @@ def send_email(name,frame):
                 <p><strong>Emergency!</strong> A face match has been detected.</p>
                 <ul>
                     <li><strong>Name:</strong> {name}</li>
+                    <li><strong>Confidence Score:</strong> {confidence:.2f}%</li>
                     <li><strong>Time:</strong> {datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")}</li>
                     <li><strong>City:</strong> {locate[0]}</li>
                     <li><strong>Region:</strong> {locate[1]}</li>
