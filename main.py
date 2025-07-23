@@ -80,12 +80,19 @@ try:
             name = "No match"
             if face_distances[best_match_index] < 0.4:
                 name = face_name[best_match_index]
+                confidence = (1 - face_distances[best_match_index]) * 100
+                confidence = max(0, min(confidence, 100))
+                confidence_text = f"{confidence:.2f}%"
+            else:
+                confidence_text = f"{(1 - face_distances[best_match_index]) * 100:.2f}%"
+
             curr_names.append(name)
 
             top, right, bottom, left =[coord * 4 for coord in face_location]
             color = (0, 255, 0) if name!= "No match" else (0, 0, 255)
             cv2.rectangle(frame, (left, top), (right, bottom), color, 2)
             cv2.putText(frame, name, (left, top - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
+            cv2.putText(frame, confidence_text, (right, top - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
 
             #added: a countdown timer for each detected face
             if name in detection_time:
