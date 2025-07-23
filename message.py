@@ -5,10 +5,24 @@ from email.mime.image import MIMEImage
 import datetime
 import cv2
 import os
+import re
 import requests
 from dotenv import load_dotenv
 
 load_dotenv()
+
+def is_valid_email(email):
+    pattern = r'^[\w\.-]+@[\w\.-]+\.\w+$'
+    return re.match(pattern, email) is not None
+
+def is_valid_password(password):
+    if not password:
+        return False
+    clean = password.replace(" ", "")
+    return len(clean) == 16 and clean.isalpha()
+
+
+
 
 
 def location():
@@ -23,6 +37,11 @@ sender_email = os.getenv('SENDER_EMAIL')
 sender_password = os.getenv('SENDER_PASSWORD')
 receiver_emails = os.getenv('RECEIVER_EMAIL', '').split(',')
 
+if not all(is_valid_email(email) for email in receiver_emails + [sender_email]):
+    raise ValueError("One or more email addresses are invalid.")
+
+if not is_valid_password(sender_password):
+    raise ValueError("Invalid Gmail app password format. It should be 16 alphabetic characters (with or without spaces).")
 
 
 
