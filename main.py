@@ -118,6 +118,7 @@ try:
         for name in detected_now:
             scan_time= curr_time - detection_time[name]
             if scan_time>= 10 and (curr_time - last_alarmed.get(name, 0)) >= 30:
+                global last_confidence
                 if name!="No match":
                     threat_alarm()
                     last_confidence = confidence  # Set before calling send_email
