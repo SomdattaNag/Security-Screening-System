@@ -42,7 +42,7 @@ if not is_valid_password(sender_password):
 
 
 
-def send_email(name,frame):
+def send_email(name,frame,confidence):
 
     locate, coordinates = location()
     latitude, longitude = map(float, coordinates.split(','))
@@ -101,6 +101,7 @@ def send_email(name,frame):
                 <p><strong>Emergency!</strong> A face match has been detected.</p>
                 <ul>
                     <li><strong>Name:</strong> {name}</li>
+                    <li><strong>Confidence:</strong> {int(confidence)}%</li>
                     <li><strong>Time:</strong> {datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")}</li>
                     <li><strong>City:</strong> {locate[0]}</li>
                     <li><strong>Region:</strong> {locate[1]}</li>
