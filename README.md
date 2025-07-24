@@ -35,3 +35,7 @@ Only the issue with the label __gssoc25__ are open for gssoc contributors right 
 1. This is a functional prototype designed for a security checkpoint use case. It demonstrates the core facial recognition and threat-detection logic of a real-time screening system. The project is modular and can be extended to integrate with IoT hardware or GUI interfaces as needed.
 2. Due to a deliberately lower matching threshold to reduce false positives, the system might produce false negatives in few cases.
 3. To improve accuracy and reliability, it is recommended to use a larger number of diverse images per individual in the dataset.
+
+# License
+This project is licensed under the [MIT License](LICENSE).
+
