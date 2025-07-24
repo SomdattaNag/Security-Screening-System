@@ -46,6 +46,9 @@ project/
 │        └── image1.jpg
 │        └── image2.png
 │
+├── gui/
+│   └── gui.py
+│   
 ├── main.py                
 ├── message.py             
 ├── requirements.txt       
@@ -53,12 +56,15 @@ project/
 ├── .env.example           
 ├── README.md              
 ├── learn.md 
-└── codeofConduct.md             
+├── codeofConduct.md  
+└── LICENSE         
 ```
 
 __alarms/__: Contains audio files used for alerts (threat_alarm and safe_alarm), triggered from main.py.
 
 __data/__: Each subfolder represents an individual, containing multiple images to improve recognition accuracy.
+
+__gui/__: Contains files used for displaying the graphical user interface.
 
 __.env.example__: Template for required environment variables. Actual sensitive .env file is ignored via .gitignore.
 
@@ -75,6 +81,8 @@ __README.md__: Original project description.
 __learn.md__: This learning and documentation guide.
 
 __codeofConduct.md__: Ethical and moral guidelines to be followed while working on the project by all the respective members.
+
+__LICENSE__: This project is licensed under the [MIT License].
 
 # Project Setup
 
