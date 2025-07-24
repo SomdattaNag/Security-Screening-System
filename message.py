@@ -8,6 +8,8 @@ import os
 import re
 import requests
 from dotenv import load_dotenv
+from twilio.rest import Client
+
 
 load_dotenv()
 
@@ -34,12 +36,47 @@ sender_email = os.getenv('SENDER_EMAIL')
 sender_password = os.getenv('SENDER_PASSWORD')
 receiver_emails = os.getenv('RECEIVER_EMAIL', '').split(',')
 
+twilio_sid = os.getenv("TWILIO_ACCOUNT_SID")
+twilio_token = os.getenv("TWILIO_AUTH_TOKEN")
+twilio_phone = os.getenv("TWILIO_PHONE_NUMBER")
+alert_phones = os.getenv("ALERT_PHONE_NUMBERS", "").split(",")
+client = Client(twilio_sid, twilio_token)
+
 if not all(is_valid_email(email) for email in receiver_emails + [sender_email]):
     raise ValueError("One or more email addresses are invalid.")
 
 if not is_valid_password(sender_password):
     raise ValueError("Invalid Gmail app password format. It should be 16 alphabetic characters (with or without spaces).")
 
+def send_sms(name, confidence): 
+     #city, region, googlemaps_link
+    locate, coordinates = location()
+    latitude, longitude = map(float, coordinates.split(','))
+    googlemaps_link = f"https://www.google.com/maps?q={latitude},{longitude}"
+    city=locate[0]
+    region=locate[1]
+
+    
+    try:
+
+        time_now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        message_body = (
+            f"🚨 Security Alert!\n"
+            f"Name: {name}\n"
+            f"Confidence: {int(confidence)}%\n"
+            f"Time: {time_now}\n"
+            f"Location: {city}, {region}\n"
+            f"Map: {googlemaps_link}"
+        )
+        for number in alert_phones:
+            client.messages.create(
+                body=message_body,
+                from_=twilio_phone,
+                to=number.strip()
+            )
+        print("SMS alert sent successfully.")
+    except Exception as e:
+        print(f"SMS sending failed: {e}")
 
 
 def send_email(name,frame,confidence):
@@ -128,3 +165,6 @@ def send_email(name,frame,confidence):
         server.login(sender_email, sender_password)
         server.send_message(msg)
     print('Email sent successfully.')
+
+
+

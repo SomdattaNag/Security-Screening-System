@@ -30,6 +30,9 @@ Only the issue with the label __gssoc25__ are open for gssoc contributors right 
 
 5. Email Notification: If a threat is identified and threat_alarm is trigerred an email is sent to authorities including the name, photo, time and Ip location of the individual. The authorities can be the organisation security, admin, police authorities, local authorities, public safety etc.
 
+6. SMS Notification:
+If a threat is identified and threat_alarm is triggered, an SMS alert is sent to the concerned authorities. The message includes key details such as the individual's name, time of detection and Ip location of the individual.
+
 
 # Note:
 1. This is a functional prototype designed for a security checkpoint use case. It demonstrates the core facial recognition and threat-detection logic of a real-time screening system. The project is modular and can be extended to integrate with IoT hardware or GUI interfaces as needed.
