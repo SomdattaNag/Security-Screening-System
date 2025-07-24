@@ -20,7 +20,7 @@ This project is a Real-Time Security Screening System utilizing face recognition
 4. Distinct alarms:
     1. Threat Alarm: If a known individual is detected.
     2. Safe Alarm: If no match is found.
-5. Email notifications sent to authorities with suspect details when a threat is detected.
+5. Email and SMS notifications sent to authorities with suspect details when a threat is detected.
 6. Modular and extendable prototype suitable for further integrations (IoT hardware, GUI, etc.).
 
 # Usage Instructions
@@ -28,7 +28,7 @@ This project is a Real-Time Security Screening System utilizing face recognition
 1. The system uses your webcam to detect and analyze faces.
 2. It continuously compares detected faces to the dataset.
 3. On identification:
-4. Threat detected → Threat alarm triggers + Email sent.
+4. Threat detected → Threat alarm triggers + Email & SMS sent.
 5. No match found → Safe alarm triggers.
 6. Press 'q' or close the webcam window to exit. 
 
@@ -46,9 +46,6 @@ project/
 │        └── image1.jpg
 │        └── image2.png
 │
-├── gui/
-│   └── gui.py
-│   
 ├── main.py                
 ├── message.py             
 ├── requirements.txt       
@@ -56,15 +53,12 @@ project/
 ├── .env.example           
 ├── README.md              
 ├── learn.md 
-├── codeofConduct.md  
-└── LICENSE         
+└── codeofConduct.md
 ```
 
 __alarms/__: Contains audio files used for alerts (threat_alarm and safe_alarm), triggered from main.py.
 
 __data/__: Each subfolder represents an individual, containing multiple images to improve recognition accuracy.
-
-__gui/__: Contains files used for displaying the graphical user interface.
 
 __.env.example__: Template for required environment variables. Actual sensitive .env file is ignored via .gitignore.
 
@@ -82,8 +76,6 @@ __learn.md__: This learning and documentation guide.
 
 __codeofConduct.md__: Ethical and moral guidelines to be followed while working on the project by all the respective members.
 
-__LICENSE__: This project is licensed under the MIT License.
-
 # Project Setup
 
 1. Clone the Repository as mentioned in the contribution guidelines.
@@ -93,18 +85,22 @@ __LICENSE__: This project is licensed under the MIT License.
     2. Add multiple images of each person in their respective subfolder to improve recognition accuracy.
 
 4. Environment Configuration:
-    1. Copy `.env.example` to a `.env` file.
+    1. Copy .env.example to a .env file.
     2. Replace placeholder values with your actual credentials.
 
 5. Configure Email Settings
     1. Ensure message.py loads email settings from the .env file.
     2. Ensure the send_email() function can send emails from your desired account.
-    3. Verify SMTP server details are correctly handled (`smtp.gmail.com` and port `587` for Gmail).
+    3. Verify SMTP server details are correctly handled (smtp.gmail.com and port 587 for Gmail).
 
-6. Run the Project
+6. Configure SMS Settings
+    1. Ensure message.py loads SMS settings (TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_PHONE_NUMBER, ALERT_PHONE_NUMBERS) from the .env file.
+    2. Set up a free Twilio account, obtain your credentials from the dashboard, and verify your test phone numbers.
+
+7. Run the Project
     run the main file 
         python main.py
-7. Stop the System
+8. Stop the System
     Press 'q' in the webcam window or close the window to stop.
 
 # Contribution Guidelines:
@@ -114,8 +110,8 @@ __LICENSE__: This project is licensed under the MIT License.
     ```
     git clone <your-fork-url>
     cd <cloned-project-folder-name>
-    
     ```
+
 
 2. Set Up a Virtual Environment (Optional):
     
@@ -123,13 +119,13 @@ __LICENSE__: This project is licensed under the MIT License.
     python -m venv venv
     source venv/bin/activate #for linux
     venv\Scripts\activate #for windows
-    
     ```
+
 
 3. Install Dependencies
     Dependencies are listed in requirements.txt. Install them with:
     ```
-    pip install -r requirements.txt 
+    pip install -r requirements.txt
     ```
 
 4. Work on a Feature or Fix
@@ -160,12 +156,12 @@ __LICENSE__: This project is licensed under the MIT License.
 
 # For testing and development
 
-1. Preparing dataset:
+1. __Preparing dataset__:
     1. The data folder will contain subfolders for each individual, named after them. The subfolders will contain their images.
     2. For now sample stock images are used. Use your own personal images for testing.
     3. Use clear, bright, reliable images. The threshold is intentionally set lower (0.4 from 0.6) to reduce false positives since it can lead to harassment. Use multiple reliable images for each folder to improve precision if any problem persists.
 
-2. Email Setup and testing:
+2. __Email Setup and testing__:
     1. Normal testing: (Production-based: sends real emails)
         1.  Configure Emails in message.py:
             Instead of hardcoding credentials, store them in a .env file:
@@ -176,6 +172,7 @@ __LICENSE__: This project is licensed under the MIT License.
                 SENDER_PASSWORD=your_email_password
                 RECEIVER_EMAIL=admin1@example.com,admin2@example.com,admin3@example.com,admin4@example.com
             ```
+
         3. Secure Authentication Setup:
         4. Google may block apps using your main password. To avoid this:
         5. Enable Two-Factor Authentication (2FA) on your Google account.
@@ -186,6 +183,7 @@ __LICENSE__: This project is licensed under the MIT License.
             ```
             SENDER_PASSWORD=your_app_password
             ```
+
 
         9. Test the System:
         10. Run the project.
@@ -202,18 +200,20 @@ __LICENSE__: This project is licensed under the MIT License.
         1. Edit message.py:
             Replace email server configuration:
             
-            ```
+                ```
                 smtp_server = 'localhost'
                 smtp_port = 1025
                 sender_email = 'test@example.com'
                 receiver_email = 'debug@example.com'
-            ```
+                ```
+
 
         2. Start a Local Debug SMTP Server:
             In a separate terminal window, run:
             ```
                 python -m smtpd -c DebuggingServer -n localhost:1025
             ```
+
 
             This will simulate an SMTP server and print email details directly to the terminal.
         3. Optional: Save Emails as Files
@@ -230,6 +230,30 @@ __LICENSE__: This project is licensed under the MIT License.
             4. Any SMTP errors, if applicable.
         7. Troubleshooting Local Server:
             If you see a connection error like Connection refused, ensure your SMTP Debug Server is running.
+3. __Twilio SMS Setup and Testing__:
+    Send real-time SMS alerts when a threat is detected (match found). Useful when email monitoring is delayed.
+    1. Requirements:
+        1. Free Twilio account
+        2. Verified sender and receiver phone numbers (trial accounts)
+        3. Internet access during runtime
+    2. Twilio Account Setup:
+        1. Create a Free Twilio Account: Go to https://www.twilio.com/try-twilio and sign up.
+        2. Verify Your Phone Number.
+        3. During signup, Twilio will ask you to verify a phone number. This will be used as the receiver during testing.
+        4. Access Console Dashboard: After login, go to your Twilio Console. There, you will find:
+            1. Account SID (e.g., ACXXXXXXXXXXXXXXXXXXXXXXXXXXXX)
+            2. Auth Token (click "View" to reveal it)
+            3. Trial Phone Number (usually starts with +1)
+    3. Set up credentials in Code:
+        1. Copy the Credentials to Your .env File:
+        ```
+            TWILIO_ACCOUNT_SID=your_twilio_sid
+            TWILIO_AUTH_TOKEN=your_twilio_auth_token
+            TWILIO_PHONE_NUMBER=your_twilio_trial_number
+            ALERT_PHONE_NUMBERS=+91XXXXXXXXXX,+91YYYYYYYYYY
+        ```
+
+        ⚠️ Note: In a Twilio trial account, the alert phone numbers must be verified in the console.
 
 # Additional tip
-Never commit personal data (like your images, email credentials, or passwords) in the project repository. Only use test data for development and local testing.
+Never commit personal data (like your images, email & SMS credentials, or passwords) in the project repository. Only use test data for development and local testing.
