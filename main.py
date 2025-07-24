@@ -6,9 +6,13 @@ from playsound import playsound
 from message import send_email, send_sms
 import time
 import sys
-from gui.gui import guiwindow  
+from gui.gui import guiwindow
+import datetime
+
 
 prev_time = 0
+LOG_DIR = "logs"
+
 
 # Alarms
 def threat_alarm():
@@ -113,6 +117,10 @@ def get_frame():
                 threat_alarm()
                 send_email(name, frame, confidence)
                 send_sms(name,confidence)
+                timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+                filename = f"{name}_{timestamp}.jpg"
+                filepath = os.path.join(LOG_DIR, filename)
+                cv2.imwrite(filepath, frame)
             else:
                 safe_alarm()
             last_alarmed[name] = curr_time
