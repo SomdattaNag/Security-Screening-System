@@ -82,7 +82,7 @@ __learn.md__: This learning and documentation guide.
 
 __codeofConduct.md__: Ethical and moral guidelines to be followed while working on the project by all the respective members.
 
-__LICENSE__: This project is licensed under the [MIT License].
+__LICENSE__: This project is licensed under the MIT License.
 
 # Project Setup
 
