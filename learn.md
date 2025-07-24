@@ -21,14 +21,15 @@ This project is a Real-Time Security Screening System utilizing face recognition
     1. Threat Alarm: If a known individual is detected.
     2. Safe Alarm: If no match is found.
 5. Email and SMS notifications sent to authorities with suspect details when a threat is detected.
-6. Modular and extendable prototype suitable for further integrations (IoT hardware, GUI, etc.).
+6. If a match is found, the individual's image is automatically logged in the system for future verification and other legal procedures.
+7. Modular and extendable prototype suitable for further integrations (IoT hardware, GUI, etc.).
 
 # Usage Instructions
 
 1. The system uses your webcam to detect and analyze faces.
 2. It continuously compares detected faces to the dataset.
 3. On identification:
-4. Threat detected → Threat alarm triggers + Email & SMS sent.
+4. Threat detected → Threat alarm triggers + Email & SMS sent + image logged in.
 5. No match found → Safe alarm triggers.
 6. Press 'q' or close the webcam window to exit. 
 
@@ -46,6 +47,10 @@ project/
 │        └── image1.jpg
 │        └── image2.png
 │
+├── gui/
+│   └── gui.py
+├── logs/
+│   └── matched_individual_image.jpg
 ├── main.py                
 ├── message.py             
 ├── requirements.txt       
@@ -53,12 +58,17 @@ project/
 ├── .env.example           
 ├── README.md              
 ├── learn.md 
+├── LICENCE
 └── codeofConduct.md
 ```
 
 __alarms/__: Contains audio files used for alerts (threat_alarm and safe_alarm), triggered from main.py.
 
 __data/__: Each subfolder represents an individual, containing multiple images to improve recognition accuracy.
+
+__gui/__: Logic for the graphical User Inerface of the System.
+
+__log/__: If a match is found, the individual's image is automatically logged here.If it doesn't exist, created automatically.
 
 __.env.example__: Template for required environment variables. Actual sensitive .env file is ignored via .gitignore.
 
@@ -73,6 +83,8 @@ __message.py__: Handles email notifications using credentials from the .env file
 __README.md__: Original project description.
 
 __learn.md__: This learning and documentation guide.
+
+__LICENSE__: This project is licensed under the [MIT License](LICENSE).
 
 __codeofConduct.md__: Ethical and moral guidelines to be followed while working on the project by all the respective members.
 

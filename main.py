@@ -13,6 +13,10 @@ import datetime
 prev_time = 0
 LOG_DIR = "logs"
 
+#create log if it doesn't exist
+if not os.path.exists(LOG_DIR):
+    os.makedirs(LOG_DIR)
+    
 
 # Alarms
 def threat_alarm():
