@@ -19,6 +19,8 @@ Only the issue with the label __gssoc25__ are open for gssoc contributors right 
 
 5. If a match is found a threat_alarm is triggered and an email is sent directly to the authorities notifying them of the potential threat.
 
+6. if a match is found, the individual's image is automatically logged in the system for future verification and other legal procedures.
+
 # Workflow:
 1. Dataset: The dataset contains folders for each wanted individual. The folder contains images of that individual. Larger the no. of images, better the precision of the system. The system has been tested with personal images. For now, sample stock images are used to fill the folder.
 
@@ -33,6 +35,7 @@ Only the issue with the label __gssoc25__ are open for gssoc contributors right 
 6. SMS Notification:
 If a threat is identified and threat_alarm is triggered, an SMS alert is sent to the concerned authorities. The message includes key details such as the individual's name, time of detection and Ip location of the individual.
 
+7. Logging Matched faces: if a match is found, the individual's image is automatically logged in the system for future verification and other legal procedures.
 
 # Note:
 1. This is a functional prototype designed for a security checkpoint use case. It demonstrates the core facial recognition and threat-detection logic of a real-time screening system. The project is modular and can be extended to integrate with IoT hardware or GUI interfaces as needed.
