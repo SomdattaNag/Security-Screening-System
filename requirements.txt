@@ -3,5 +3,6 @@ face-recognition
 numpy
 requests
 playsound==1.2.2
+Pillow
 python-dotenv
 twilio
