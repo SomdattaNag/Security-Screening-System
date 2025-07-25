@@ -269,3 +269,10 @@ __codeofConduct.md__: Ethical and moral guidelines to be followed while working 
 
 # Additional tip
 Never commit personal data (like your images, email & SMS credentials, or passwords) in the project repository. Only use test data for development and local testing.
+# Troubleshooting tip
+If you’re on Windows and face errors while installing the face-recognition library (often related to dlib), follow these steps:
+```
+pip install cmake
+pip install dlib
+pip install face-recognition
+```
