@@ -1,5 +1,6 @@
 import cv2
 import sys
+from PIL import Image
 import numpy as np
 import os
 import face_recognition
@@ -31,8 +32,14 @@ for person_name in os.listdir(data_path):
             if file.lower().endswith(("jpg", "jpeg", "png")):  
                 img_path = os.path.join(person_folder, file)
                 
-                img = face_recognition.load_image_file(img_path)
-                face_encodings = face_recognition.face_encodings(img)
+                pil_image = Image.open(img_path).convert("RGB")
+                
+                # Convert to numpy array
+                rgb_image = np.array(pil_image)
+                
+                
+                # img = face_recognition.load_image_file(img_path)
+                face_encodings = face_recognition.face_encodings(rgb_image)
 
                 if face_encodings:  
                     face_encode.append(face_encodings[0])  
@@ -72,6 +79,8 @@ try:
 
         curr_names = []
         curr_time = time.time() 
+
+        status_message = "Scanning for face..." 
         
         for face_encoding, face_location in zip(face_encodings, face_locations):
             face_distances =face_recognition.face_distance(face_encode, face_encoding)
@@ -87,6 +96,11 @@ try:
                 confidence_text = f"{(1 - face_distances[best_match_index]) * 100:.2f}%"
 
             curr_names.append(name)
+            if name != "No match":
+                status_message = f"Match found: {name}"
+            else:
+                status_message = "No match detected. You are safe to go."
+
 
             top, right, bottom, left =[coord * 4 for coord in face_location]
             color = (0, 255, 0) if name!= "No match" else (0, 0, 255)
@@ -94,12 +108,17 @@ try:
             cv2.putText(frame, name, (left, top - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
             cv2.putText(frame, confidence_text, (right, top - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
 
-            #added: a countdown timer for each detected face
             if name in detection_time:
                 scan_time = curr_time - detection_time[name]
                 remaining_time = max(0, 10 - int(scan_time))
-                timer_text = f"{remaining_time:.1f}s"
+
+                if remaining_time > 0:
+                    timer_text = f"Please stand still for {remaining_time}s"
+                else:
+                     timer_text = "Verifying..."
+
                 cv2.putText(frame, timer_text, (left, top + 20), cv2.FONT_HERSHEY_COMPLEX, 0.5, color, 2)
+
                 
         #starting timer
         
@@ -128,6 +147,7 @@ try:
             if name not in detected_now:
                 del detection_time[name]
         
+        cv2.putText(frame, status_message, (30, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.8, (0, 255, 255), 2)
         cv2.imshow("Face Recognition", frame)
         
         if cv2.waitKey(1) & 0xFF == ord('q'):

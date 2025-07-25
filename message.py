@@ -7,9 +7,9 @@ import cv2
 import os
 import re
 import requests
-from dotenv import load_dotenv
+# from dotenv import load_dotenv
 
-load_dotenv()
+# load_dotenv()
 
 def is_valid_email(email):
     pattern = r'^[\w\.-]+@[\w\.-]+\.\w+$'
@@ -30,15 +30,18 @@ def location():
         locate=[city,region]
         return locate, coords
 
-sender_email = os.getenv('SENDER_EMAIL')
-sender_password = os.getenv('SENDER_PASSWORD')
-receiver_emails = os.getenv('RECEIVER_EMAIL', '').split(',')
+# sender_email = os.getenv('SENDER_EMAIL')
+# sender_password = os.getenv('SENDER_PASSWORD')
+# receiver_emails = os.getenv('RECEIVER_EMAIL', '').split(',')
 
-if not all(is_valid_email(email) for email in receiver_emails + [sender_email]):
-    raise ValueError("One or more email addresses are invalid.")
+# if not all(is_valid_email(email) for email in receiver_emails + [sender_email]):
+#     raise ValueError("One or more email addresses are invalid.")
 
-if not is_valid_password(sender_password):
-    raise ValueError("Invalid Gmail app password format. It should be 16 alphabetic characters (with or without spaces).")
+# if not is_valid_password(sender_password):
+#     raise ValueError("Invalid Gmail app password format. It should be 16 alphabetic characters (with or without spaces).")
+sender_email = 'test@example.com'
+receiver_emails = ['debug@example.com']
+sender_password = 'dummy_password'  
 
 
 
@@ -47,8 +50,8 @@ def send_email(name,frame,confidence):
     locate, coordinates = location()
     latitude, longitude = map(float, coordinates.split(','))
     googlemaps_link = f"https://www.google.com/maps?q={latitude},{longitude}"
-    smtp_server = 'smtp.gmail.com'
-    smtp_port = 587
+    smtp_server = 'localhost'
+    smtp_port = 1025
     _, img_encoded = cv2.imencode('.jpg', frame)
     img_data = img_encoded.tobytes()
     msg = MIMEMultipart()
@@ -125,6 +128,6 @@ def send_email(name,frame,confidence):
     
     with smtplib.SMTP(smtp_server, smtp_port) as server:
         server.starttls()
-        server.login(sender_email, sender_password)
+        # server.login(sender_email, sender_password)
         server.send_message(msg)
     print('Email sent successfully.')
