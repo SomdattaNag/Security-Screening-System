@@ -16,13 +16,14 @@ This project is a Real-Time Security Screening System utilizing face recognition
 
 1. Real-time face detection using OpenCV.
 2. Facial encoding and matching using the face_recognition library.
-3. 10-second continuous match confirmation to avoid false triggers.
-4. Distinct alarms:
+3. Advanced data augmentation for more diverse images.
+4. 10-second continuous match confirmation to avoid false triggers.
+5. Distinct alarms:
     1. Threat Alarm: If a known individual is detected.
     2. Safe Alarm: If no match is found.
-5. Email and SMS notifications sent to authorities with suspect details when a threat is detected.
-6. If a match is found, the individual's image is automatically logged in the system for future verification and other legal procedures.
-7. Modular and extendable prototype suitable for further integrations (IoT hardware, GUI, etc.).
+6. Email and SMS notifications sent to authorities with suspect details when a threat is detected.
+7. If a match is found, the individual's image is automatically logged in the system for future verification and other legal procedures.
+8. Modular and extendable prototype suitable for further integrations (IoT hardware, GUI, etc.).
 
 # Usage Instructions
 
@@ -51,6 +52,11 @@ project/
 │   └── gui.py
 ├── logs/
 │   └── matched_individual_image.jpg
+├── encoding/
+│   └── face_encodings.pkl
+├── saveencodings
+├── Data_Augmentation.py
+│   
 ├── main.py                
 ├── message.py             
 ├── requirements.txt       
@@ -69,6 +75,12 @@ __data/__: Each subfolder represents an individual, containing multiple images t
 __gui/__: Logic for the graphical User Inerface of the System.
 
 __log/__: If a match is found, the individual's image is automatically logged here.If it doesn't exist, created automatically.
+
+__encodings.pkl__: A binary file storing the precomputed face encodings and names, used to speed up face recognition in the main application.
+
+__saveencodings__: A script that scans the dataset, extracts facial encodings for each image, and saves them with corresponding names.
+
+__Data_Augmentation__:A script that applies random transformations (e.g., rotation, occlusion, blur) to images to generate additional training data and improve model robustness.
 
 __.env.example__: Template for required environment variables. Actual sensitive .env file is ignored via .gitignore.
 
@@ -96,23 +108,27 @@ __codeofConduct.md__: Ethical and moral guidelines to be followed while working 
     1. Inside the data/ folder, create subfolders for each individual (named after the person). The subfolder with contain the individual's images.
     2. Add multiple images of each person in their respective subfolder to improve recognition accuracy.
 
-4. Environment Configuration:
+4. Data Augmentation: Run the Data_Augmentation.py script to add more diverse images for each individual in the dataset.
+
+5. Environment Configuration:
     1. Copy .env.example to a .env file.
     2. Replace placeholder values with your actual credentials.
 
-5. Configure Email Settings
+6. Configure Email Settings
     1. Ensure message.py loads email settings from the .env file.
     2. Ensure the send_email() function can send emails from your desired account.
     3. Verify SMTP server details are correctly handled (smtp.gmail.com and port 587 for Gmail).
 
-6. Configure SMS Settings
+7. Configure SMS Settings
     1. Ensure message.py loads SMS settings (TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_PHONE_NUMBER, ALERT_PHONE_NUMBERS) from the .env file.
     2. Set up a free Twilio account, obtain your credentials from the dashboard, and verify your test phone numbers.
 
-7. Run the Project
-    run the main file 
+8. Run the Project
+    1. run the saveencodings file to save face encoding for the individual once before starting the project.
+        python saveencodings.py
+    2. run the main file 
         python main.py
-8. Stop the System
+9. Stop the System
     Press 'q' in the webcam window or close the window to stop.
 
 # Contribution Guidelines:
@@ -173,7 +189,11 @@ __codeofConduct.md__: Ethical and moral guidelines to be followed while working 
     2. For now sample stock images are used. Use your own personal images for testing.
     3. Use clear, bright, reliable images. The threshold is intentionally set lower (0.4 from 0.6) to reduce false positives since it can lead to harassment. Use multiple reliable images for each folder to improve precision if any problem persists.
 
-2. __Email Setup and testing__:
+2. __Data Augmentation__: Advanced data augmentation: Everytime an image is added, run the data augmentation.py script to add more diverse set images for each person.
+
+3. __Face encoding__: Run the saveencodings file to save face encoding for the individual once before starting the project.
+
+4. __Email Setup and testing__:
     1. Normal testing: (Production-based: sends real emails)
         1.  Configure Emails in message.py:
             Instead of hardcoding credentials, store them in a .env file:
@@ -242,7 +262,7 @@ __codeofConduct.md__: Ethical and moral guidelines to be followed while working 
             4. Any SMTP errors, if applicable.
         7. Troubleshooting Local Server:
             If you see a connection error like Connection refused, ensure your SMTP Debug Server is running.
-3. __Twilio SMS Setup and Testing__:
+5. __Twilio SMS Setup and Testing__:
     Send real-time SMS alerts when a threat is detected (match found). Useful when email monitoring is delayed.
     1. Requirements:
         1. Free Twilio account
