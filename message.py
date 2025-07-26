@@ -65,6 +65,27 @@ if not all(is_valid_email(email) for email in receiver_emails + [sender_email]):
 if not is_valid_password(sender_password):
     raise ValueError("Invalid Gmail app password format. It should be 16 alphabetic characters (with or without spaces).")
 
+def saving_failed_sms(name, confidence, number):
+    locate, coordinates = location()
+    latitude, longitude = map(float, coordinates.split(','))    
+    googlemaps_link = f"https://www.google.com/maps?q={latitude},{longitude}"
+    # Save the failed SMS alert details to a file
+    with open("failed_sms_alerts.txt", "a") as f:
+        f.write(
+            f"Name: {name}, Confidence: {confidence}, Time: {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}, "
+            f"City: {locate[0]}, Region: {locate[1]}, Phone: {number}, Map: {googlemaps_link}\n"
+        )
+
+def saving_failed_email(name, confidence):
+    locate, coordinates = location()
+    latitude, longitude = map(float, coordinates.split(','))
+    googlemaps_link = f"https://www.google.com/maps?q={latitude},{longitude}"
+    # Save the failed email alert details to a file
+    with open("failed_email_alerts.txt", "a") as f:
+        f.write(
+            f"Name: {name}, Confidence: {confidence}, Time: {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}, "
+            f"City: {locate[0]}, Region: {locate[1]}, Map: {googlemaps_link}, Receivers: {receiver_emails}\n"
+        )
 def send_sms(name, confidence): 
      #city, region, googlemaps_link
     locate, coordinates = location()
