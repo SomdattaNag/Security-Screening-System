@@ -27,12 +27,16 @@ def is_valid_password(password):
 
 
 def location():
-        response = requests.get('https://ipinfo.io/json').json()
-        city = response.get('city', 'Unknown City')
-        region = response.get('region', 'Unknown Region')
-        coords = response.get('loc', '0,0') 
-        locate=[city,region]
-        return locate, coords
+    try:
+        response = requests.get('https://ipinfo.io/json', timeout=5)
+        data = response.json()
+        city = data.get('city', 'Unknown City')
+        region = data.get('region', 'Unknown Region')
+        coords = data.get('loc', '0,0') 
+        return [city, region], coords
+    except Exception as e:
+        print(f"[Location Error] {e}")
+        return ['Unknown City', 'Unknown Region'], '0,0'
 
 sender_email = os.getenv('SENDER_EMAIL')
 sender_password = os.getenv('SENDER_PASSWORD')
@@ -83,9 +87,9 @@ def send_sms(name, confidence):
             f"Location: {city}, {region}\n"
             f"Map: {googlemaps_link}"
         )
-    maxitterations=3
+    max_iterations=3
     for number in alert_phones:
-        for i in range (maxitterations):
+        for i in range (max_iterations):
             try:
                 client.messages.create(
                     body=message_body,
@@ -94,8 +98,8 @@ def send_sms(name, confidence):
                 )
             except Exception as e:
                     print(f"SMS sending failed:{number} attempt:{i} {e}")
-                    if i==maxitterations-1:
-                        print(f"Failed to send SMS to {number} after {maxitterations} attempts.")
+                    if i==max_iterations-1:
+                        print(f"Failed to send SMS to {number} after {max_iterations} attempts.")
             else:
                 print(f"SMS alert sent successfully to {number}.")
                 break
@@ -182,6 +186,8 @@ def send_email(name,frame,confidence):
 
     msg.attach(MIMEText(body, 'html'))
 
+    
+
     # Attach face image
     image = MIMEImage(img_data, name="detected_face.jpg")
     msg.attach(image)
@@ -192,13 +198,19 @@ def send_email(name,frame,confidence):
                 server.starttls()
                 server.login(sender_email, sender_password)
                 server.send_message(msg)
+        except smtplib.SMTPAuthenticationError:
+            raise ValueError("Failed to authenticate with the SMTP server. Check your email and password.")
+        except smtplib.SMTPConnectError:
+            print(f"Attempt {i+1}: Connection to SMTP server failed.")
         except Exception as e:
-            print(f"Email sending failed:attempt : {i} {e}")
+            print(f"Attempt {i+1}: Email sending failed: {e}")
             if i == max_retries - 1:
                 print("Failed to send email after multiple attempts.")
         else:
             print("Email alert sent successfully.")
             break
+
+
 
 
 
