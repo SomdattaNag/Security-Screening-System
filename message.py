@@ -180,11 +180,16 @@ def send_email(name,frame,confidence):
     image = MIMEImage(img_data, name="detected_face.jpg")
     msg.attach(image)
     
-    with smtplib.SMTP(smtp_server, smtp_port) as server:
-        server.starttls()
-        server.login(sender_email, sender_password)
-        server.send_message(msg)
-    print('Email sent successfully.')
-
-
-
+    try:
+        with smtplib.SMTP(smtp_server, smtp_port) as server:
+            server.starttls()
+            server.login(sender_email, sender_password)
+            server.send_message(msg)
+        print('Email sent successfully.')
+    except smtplib.SMTPAuthenticationError:
+        raise ValueError("Failed to authenticate with the SMTP server. Check your email and password.")
+    except smtplib.SMTPConnectError:
+        print("Connection to SMTP server failed.")
+    except Exception as e:
+        print(f"Email sending failed: {e}")
+        
