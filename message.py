@@ -86,7 +86,10 @@ def send_email(name,frame,confidence):
     googlemaps_link = f"https://www.google.com/maps?q={latitude},{longitude}"
     smtp_server = 'smtp.gmail.com'
     smtp_port = 587
-    _, img_encoded = cv2.imencode('.jpg', frame)
+    success, img_encoded = cv2.imencode('.jpg', frame)
+    if not success:
+        raise ValueError("Failed to encode the image for email attachment.")
+
     img_data = img_encoded.tobytes()
     msg = MIMEMultipart()
     msg['Subject'] = f"Security Alert: {name} Detected!"
