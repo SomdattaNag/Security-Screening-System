@@ -8,6 +8,8 @@ import time
 import sys
 from gui.gui import guiwindow
 import datetime
+import pickle
+
 
 
 prev_time = 0
@@ -25,22 +27,19 @@ def threat_alarm():
 def safe_alarm():
     playsound("alarms/safe.wav")
 
-# Face encodings
-data_path = "data/"
-face_encode = []
-face_name = []
 
-for person_name in os.listdir(data_path):  
-    person_folder = os.path.join(data_path, person_name)
-    if os.path.isdir(person_folder):  
-        for file in os.listdir(person_folder):  
-            if file.lower().endswith(("jpg", "jpeg", "png")):  
-                img_path = os.path.join(person_folder, file)
-                img = face_recognition.load_image_file(img_path)
-                encodings = face_recognition.face_encodings(img)
-                if encodings:
-                    face_encode.append(encodings[0])  
-                    face_name.append(person_name)  
+
+
+encodings_path = "encodings/face_encodings.pkl"
+
+if os.path.exists(encodings_path):
+    with open(encodings_path, "rb") as f:
+        face_encode, face_name = pickle.load(f)
+else:
+    raise FileNotFoundError("❌ Face encodings not found. Please run `save_encodings.py` first.")
+
+
+
 
 try:
     face_cap = cv2.VideoCapture(0)
