@@ -74,10 +74,8 @@ def send_sms(name, confidence):
     region=locate[1]
 
     
-    try:
-
-        time_now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-        message_body = (
+    time_now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    message_body = (
             f"🚨 Security Alert!\n"
             f"Name: {name}\n"
             f"Confidence: {int(confidence)}%\n"
@@ -85,15 +83,23 @@ def send_sms(name, confidence):
             f"Location: {city}, {region}\n"
             f"Map: {googlemaps_link}"
         )
-        for number in alert_phones:
-            client.messages.create(
-                body=message_body,
-                from_=twilio_phone,
-                to=number.strip()
-            )
-        print("SMS alert sent successfully.")
-    except Exception as e:
-        print(f"SMS sending failed: {e}")
+    maxitterations=3
+    for number in alert_phones:
+        for i in range (maxitterations):
+            try:
+                client.messages.create(
+                    body=message_body,
+                    from_=twilio_phone,
+                    to=number.strip()
+                )
+            except Exception as e:
+                    print(f"SMS sending failed:{number} attempt:{i} {e}")
+                    if i==maxitterations-1:
+                        print(f"Failed to send SMS to {number} after {maxitterations} attempts.")
+            else:
+                print(f"SMS alert sent successfully to {number}.")
+                break
+
 
 
 def send_email(name,frame,confidence):
@@ -179,12 +185,20 @@ def send_email(name,frame,confidence):
     # Attach face image
     image = MIMEImage(img_data, name="detected_face.jpg")
     msg.attach(image)
-    
-    with smtplib.SMTP(smtp_server, smtp_port) as server:
-        server.starttls()
-        server.login(sender_email, sender_password)
-        server.send_message(msg)
-    print('Email sent successfully.')
+    max_retries=3
+    for i in range(max_retries):
+        try:
+            with smtplib.SMTP(smtp_server, smtp_port) as server:
+                server.starttls()
+                server.login(sender_email, sender_password)
+                server.send_message(msg)
+        except Exception as e:
+            print(f"Email sending failed:attempt : {i} {e}")
+            if i == max_retries - 1:
+                print("Failed to send email after multiple attempts.")
+        else:
+            print("Email alert sent successfully.")
+            break
 
 
 
