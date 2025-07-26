@@ -42,6 +42,21 @@ twilio_phone = os.getenv("TWILIO_PHONE_NUMBER")
 alert_phones = os.getenv("ALERT_PHONE_NUMBERS", "").split(",")
 client = Client(twilio_sid, twilio_token)
 
+values = {
+    "SENDER_EMAIL": sender_email,
+    "SENDER_PASSWORD": sender_password,
+    "RECEIVER_EMAILS": receiver_emails,
+    "TWILIO_SID": twilio_sid,
+    "TWILIO_TOKEN": twilio_token,
+    "TWILIO_PHONE": twilio_phone,
+    "ALERT_PHONES": alert_phones
+}
+
+for name, value in values.items():
+    if not value:
+        raise ValueError(f"Missing `{name}` in .env file")
+
+
 if not all(is_valid_email(email) for email in receiver_emails + [sender_email]):
     raise ValueError("One or more email addresses are invalid.")
 
