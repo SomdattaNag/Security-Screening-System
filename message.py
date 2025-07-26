@@ -13,6 +13,8 @@ from twilio.rest import Client
 
 load_dotenv()
 
+
+
 def is_valid_email(email):
     pattern = r'^[\w\.-]+@[\w\.-]+\.\w+$'
     return re.match(pattern, email) is not None
@@ -21,7 +23,7 @@ def is_valid_password(password):
     if not password:
         return False
     clean = password.replace(" ", "")
-    return len(clean) == 16
+    return bool(re.fullmatch(r"[a-zA-Z0-9]{16}", clean))
 
 
 def location():
@@ -62,28 +64,7 @@ if not all(is_valid_email(email) for email in receiver_emails + [sender_email]):
 
 if not is_valid_password(sender_password):
     raise ValueError("Invalid Gmail app password format. It should be 16 alphabetic characters (with or without spaces).")
-def saving_failed_sms(name,confidence,number):
-    Locate,coordinates = location()
-    latitude , longitude = map(float, coordinates.split(','))
-    googlemaps_link=f"https://www.google.com/maps?q={latitude},{longitude}"
-    city=Locate[0]
-    region=Locate[1]
-    time_now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    with open ("failed_sms_alerts.txt", "a") as f:
-        f.write(
-            f"number: {number}, "
-            f"Name: {name}, Confidence: {confidence}, Time: {time_now}, "
-            f"City: {city}, Region: {region}, Phone: {alert_phones}, Map: {googlemaps_link}\n"
-        )
-def saving_failed_email(name,confidence):
-    Locate, coordinates = location()
-    latitude, longitude = map(float, coordinates.split(','))
-    googlemaps_link = f"https://www.google.com/maps?q={latitude},{longitude}"
-    with open("failed_email_alerts.txt", "a") as f:
-        f.write(
-            f"Name: {name}, Confidence: {confidence}, Time: {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}, "
-            f"City: {Locate[0]}, Region: {Locate[1]}, Map: {googlemaps_link}, Receivers: {receiver_emails}\n"
-        )
+
 def send_sms(name, confidence): 
      #city, region, googlemaps_link
     locate, coordinates = location()
