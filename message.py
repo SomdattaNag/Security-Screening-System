@@ -91,8 +91,6 @@ def send_sms(name, confidence):
     googlemaps_link = f"https://www.google.com/maps?q={latitude},{longitude}"
     city=locate[0]
     region=locate[1]
-
-    
     time_now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     message_body = (
             f"🚨 Security Alert!\n"
@@ -120,8 +118,6 @@ def send_sms(name, confidence):
                 print(f"SMS alert sent successfully to {number}.")
                 break
              
-
-
 def send_email(name,frame,confidence):
 
     locate, coordinates = location()
