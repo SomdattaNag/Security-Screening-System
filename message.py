@@ -16,6 +16,37 @@ from twilio.rest import Client
 load_dotenv()
 
 
+def send_call(name, confidence):
+    print("📞 Sending call alert...")
+    locate, coordinates = location()
+    latitude, longitude = map(float, coordinates.split(','))
+    city = locate[0]
+    region = locate[1]
+    time_now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    
+    message_text = (
+        f"Alert! Security threat detected. "
+        f"Name: {name}. Confidence: {int(confidence)} percent. "
+        f"Location: {city}, {region}. "
+        f"Time: {time_now}. "
+        "Please check your security system immediately."
+    )
+    
+    twiml_message = f'<Response><Say voice="alice">{message_text}</Say></Response>'
+    print(f"📞 Call message: {message_text}")
+    
+    for number in alert_phones:
+        print(f"📞 Calling {number}...")
+        try:
+            call = client.calls.create(
+                twiml=twiml_message,
+                to=number.strip(),
+                from_=twilio_phone
+            )
+            print(f"📞 Call alert sent to {number}. Call SID: {call.sid}")
+        except Exception as e:
+            print(f"❌ Failed to make call to {number} - {e}")
+
 
 def is_valid_email(email):
     pattern = r'^[\w\.-]+@[\w\.-]+\.\w+$'

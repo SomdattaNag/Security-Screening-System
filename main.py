@@ -3,7 +3,7 @@ import numpy as np
 import os
 import face_recognition
 from playsound import playsound
-from message import send_email, send_sms
+from message import send_call, send_email, send_sms
 import time
 import sys
 from gui.gui import guiwindow
@@ -151,6 +151,9 @@ def get_frame():
                 threat_alarm()
                 send_email(name, frame, confidence)
                 send_sms(name, confidence)
+                if confidence > 90:
+                    send_call(name, confidence)
+                
                 timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
                 filename = f"{name}_{timestamp}.jpg"
                 filepath = os.path.join(LOG_DIR, filename)
