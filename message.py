@@ -122,9 +122,6 @@ def send_sms(name, confidence):
                         print(f"Failed to send SMS to {number} after {max_iterations} attempts.")
                         saving_failed_sms(name, confidence, number)
 
-                    if i==max_iterations-1:
-                        print(f"Failed to send SMS to {number} after {max_iterations} attempts.")
-
             else:
                 print(f"SMS alert sent successfully to {number}.")
                 break
