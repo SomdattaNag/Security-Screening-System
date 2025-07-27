@@ -10,12 +10,14 @@ from gui.gui import guiwindow
 import datetime
 import pickle
 
-
-
+# --- Pause/Resume global state ---
+is_paused = False
+pause_start_time = None
+paused_names_time = {}
+last_frame = None  # To freeze video while paused
 
 prev_time = 0
 LOG_DIR = "logs"
-
 
 #create log if it doesn't exist
 if not os.path.exists(LOG_DIR):
@@ -60,8 +62,8 @@ current_status = "System ready - Please position yourself in front of the camera
 status_color = '#00ff00'  # Green for ready state
 
 def get_frame():
-    global prev_time, current_status, status_color
-
+    global prev_time, current_status, status_color, is_paused, pause_start_time, paused_names_time, last_frame
+    # Read frame from camera
     ret, frame = face_cap.read()
     if not ret:
         current_status = " Camera error - Please check camera connection"
@@ -77,6 +79,19 @@ def get_frame():
     prev_time = curr_time
 
     cv2.putText(frame, f"FPS: {int(fps)}", (520,250), cv2.FONT_HERSHEY_SIMPLEX, 1.2, (0, 255, 255), 3)
+
+    # ------------- Pause Handling -----------------
+    if is_paused:
+        current_status = "⏸️ Detection Paused. Click Resume to continue."
+        status_color = '#888888'
+        # Return last frame to freeze the GUI
+        if last_frame is not None:
+            return last_frame
+        else:
+            last_frame = frame.copy()
+            return last_frame
+    else:
+        last_frame = frame.copy()
 
     small_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
     rgb_small_frame = cv2.cvtColor(small_frame, cv2.COLOR_BGR2RGB)
@@ -172,7 +187,29 @@ def get_status():
     """Return current status message and color for GUI"""
     return current_status, status_color
 
+# ------------- Add Pause/Resume Attribute Interface for GUI -----------
+def set_pause_vars(
+    get_is_paused, set_is_paused,
+    get_pause_start_time, set_pause_start_time,
+    get_paused_names_time, set_paused_names_time,
+):
+    global is_paused, pause_start_time, paused_names_time
+    # Not strictly needed with globals (optional if handling state in one file), but included for clarity & future-proofing
+
 # Start GUI
 
 video_app = guiwindow(get_frame_callback=get_frame, status_callback=get_status)
+
+# Set pause state references for bidirectional access
+video_app.set_pause_vars(
+    lambda: is_paused,
+    lambda v: globals().__setitem__('is_paused', v),
+    lambda: pause_start_time,
+    lambda v: globals().__setitem__('pause_start_time', v),
+    lambda: paused_names_time,
+    lambda v: globals().__setitem__('paused_names_time', v),
+    lambda: detection_time 
+)
+
+
 video_app.run()
