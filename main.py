@@ -171,18 +171,6 @@ def get_status():
     return current_status, status_color
 
 # Start GUI
-print("")
-print("🎉 Security Screening System - FULL FUNCTIONALITY")
-print("✅ Status Message System: ACTIVE (Enhanced user feedback)")
-print("✅ Face Recognition: face_recognition library with real confidence scores")
-print("✅ Identity Matching: Real similarity scores from face encodings")
-print("✅ Real-time Status Updates: Working with accurate detection data")
-print("✅ Professional GUI: Enhanced with status message area")
-print("✅ Email/SMS Alerts: Full notification system")
-print("✅ Security Logging: Identity-specific detection and logging")
-print("")
-print("All original functionality preserved + enhanced user experience!")
-print("")
 
 video_app = guiwindow(get_frame_callback=get_frame, status_callback=get_status)
 video_app.run()
