@@ -16,13 +16,6 @@ import logging
 prev_time = 0
 LOG_DIR = "logs"
 
-logging.basicConfig(
-    filename=os.path.join(LOG_DIR, "security_system.log"),
-    level=logging.INFO,
-    format='%(asctime)s [%(levelname)s] %(message)s',
-    datefmt='%Y-%m-%d %H:%M:%S'
-)
-
 
 #create log if it doesn't exist
 if not os.path.exists(LOG_DIR):
@@ -47,10 +40,10 @@ if os.path.exists(encodings_path):
 else:
     raise FileNotFoundError("❌ Face encodings not found. Please run `save_encodings.py` first.")
 
-logging.info("🔧 Security Screening System - Full Face Recognition Mode")
-logging.info("📋 Status Messages Feature: ✅ Active")
-logging.info("🔍 Face Recognition: ✅ Using face_recognition library")
-logging.info("🎯 Identity Matching: ✅ Real confidence scores from face encodings")
+print("🔧 Security Screening System - Full Face Recognition Mode")
+print("📋 Status Messages Feature: ✅ Active")
+print("🔍 Face Recognition: ✅ Using face_recognition library")
+print("🎯 Identity Matching: ✅ Real confidence scores from face encodings")
 
 
 try:
@@ -58,7 +51,7 @@ try:
     if not face_cap.isOpened():
         raise RuntimeError(" Error: Could not access the webcam. Please check if it's connected, or if it's being used by another application.")
 except Exception as e:
-    logging.error(f"Webcam access error: {e}")
+    print(f"Webcam access error: {e}")
     sys.exit()
 
 detection_time = {}
@@ -73,7 +66,7 @@ def get_frame():
     if not ret:
         current_status = " Camera error - Please check camera connection"
         status_color = '#ff0000'  # Red for error
-        logging.error("❌ Camera read failed.")
+        print("❌ Camera read failed.")
         return None
 
     frame = cv2.flip(frame, 1)
