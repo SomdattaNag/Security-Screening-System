@@ -52,6 +52,14 @@ except Exception as e:
 detection_time = {}
 last_alarmed = {}
 
+def log_event(event_type,name, confidence):
+    timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    log_entry = f"{timestamp},{event_type} ,{name}, {confidence}\n"
+    file_exist=os.path.isfile(os.path.join(LOG_DIR, "detection_alerts.csv"))
+    with open(os.path.join(LOG_DIR, "detection_alerts.csv"), "a") as log_file:
+        if not file_exist:
+            log_file.write("Timestamp,Event Type ,Name, Confidence\n")
+        log_file.write(log_entry)
 def get_frame():
     global prev_time
 
@@ -124,10 +132,11 @@ def get_frame():
                 filename = f"{name}_{timestamp}.jpg"
                 filepath = os.path.join(LOG_DIR, filename)
                 cv2.imwrite(filepath, frame)
+                log_event("THREAT",name, confidence)
             else:
                 safe_alarm()
             last_alarmed[name] = curr_time
-
+            log_event("SAFE", name, confidence)
     for name in list(detection_time.keys()):
         if name not in detected_now:
             del detection_time[name]

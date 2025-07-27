@@ -2,7 +2,8 @@
 import tkinter as tk
 from PIL import Image, ImageTk
 import cv2
-
+import shutil
+import os
 class guiwindow:
     def __init__(self, get_frame_callback):
         self.root = tk.Tk()
@@ -16,7 +17,22 @@ class guiwindow:
         self.paused = False
         self.paused_button = tk.Button(self.root, text="Pause", command=self.toggle_pause)
         self.paused_button.pack(pady=9)
+        self.export= tk.Button(self.root, text="Export logs", command=self.export_logs)
+        self.export.pack(pady=9)
         self.update_frame()
+
+    def export_logs(self):
+        log_path ="logs/detection_alerts.csv"
+        if not os.path.exists(log_path):
+            tk.messagebox.showerror("Error", "No logs found to export.")
+            return
+        export_path =tk.filedialog.asksaveasfilename(defaultextention=".csv", title="save logs", filetypes=[("CSV files", "*.csv")])
+        if export_path:
+            try:
+                shutil.copy(log_path, export_path)
+                tk.messagebox.showinfo("Success", "Logs exported successfully.")
+            except Exception as e:
+                tk.messagebox.showerror("Error", f"Failed to export logs: {e}")
     def toggle_pause(self):
         self.paused = not self.paused
         if self.paused:
