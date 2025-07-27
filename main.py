@@ -9,7 +9,7 @@ import sys
 from gui.gui import guiwindow
 import datetime
 import pickle
-import logging
+
 
 
 
