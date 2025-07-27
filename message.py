@@ -9,6 +9,8 @@ import re
 import requests
 from dotenv import load_dotenv
 from twilio.rest import Client
+import logging
+
 
 
 load_dotenv()
@@ -35,7 +37,7 @@ def location():
         coords = data.get('loc', '0,0') 
         return [city, region], coords
     except Exception as e:
-        print(f"[Location Error] {e}")
+        logging.error(f"[Location Error] {e}")
         return ['Unknown City', 'Unknown Region'], '0,0'
 
 sender_email = os.getenv('SENDER_EMAIL')
@@ -116,14 +118,16 @@ def send_sms(name, confidence):
                     to=number.strip()
                 )
             except Exception as e:
-                    print(f"SMS sending failed:{number} attempt:{i} {e}")
+                    logging.warning(f"SMS sending failed: {number}, attempt {i+1} - {e}")
 
                     if i==max_iterations-1:
-                        print(f"Failed to send SMS to {number} after {max_iterations} attempts.")
+                        logging.error(f"Failed to send SMS to {number} after {max_iterations} attempts.")
+
                         saving_failed_sms(name, confidence, number)
 
             else:
-                print(f"SMS alert sent successfully to {number}.")
+                logging.info(f"✅ SMS alert sent successfully to {number}.")
+
                 break
              
 def send_email(name,frame,confidence):
@@ -221,14 +225,14 @@ def send_email(name,frame,confidence):
         except smtplib.SMTPAuthenticationError:
             raise ValueError("Failed to authenticate with the SMTP server. Check your email and password.")
         except smtplib.SMTPConnectError:
-            print(f"Attempt {i+1}: Connection to SMTP server failed.")
+            logging.warning(f"⚠️ Attempt {i+1}: Connection to SMTP server failed.")
         except Exception as e:
-            print(f"Attempt {i+1}: Email sending failed: {e}")
+            logging.error(f"⚠️ Attempt {i+1}: Email sending failed: {e}")
             if i == max_retries - 1:
-                print("Failed to send email after multiple attempts.")
+                logging.error("❌ Failed to send email after multiple attempts.")
                 saving_failed_email(name, confidence)
         else:
-            print("Email alert sent successfully.")
+            logging.info("✅ Email alert sent successfully.")
             break
 
 
