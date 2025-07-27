@@ -60,9 +60,10 @@ def log_event(event_type,name, confidence):
         if not file_exist:
             log_file.write("Timestamp,Event Type ,Name, Confidence\n")
         log_file.write(log_entry)
-def get_frame():
+def get_frame(paused):
     global prev_time
-
+    if paused:
+        return None
     ret, frame = face_cap.read()
     if not ret:
         return None

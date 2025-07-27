@@ -42,7 +42,7 @@ class guiwindow:
         self.update_frame()
     def update_frame(self):
         if not self.paused:
-            frame = self.get_frame()
+            frame = self.get_frame(self.paused)
             if frame is not None:
                 frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
                 img = Image.fromarray(frame)
