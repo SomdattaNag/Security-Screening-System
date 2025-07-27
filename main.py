@@ -54,16 +54,16 @@ last_alarmed = {}
 
 def log_event(event_type,name, confidence):
     timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    log_entry = f"{timestamp},{event_type} ,{name}, {confidence}\n"
+    log_entry = f"{timestamp},{event_type},{name},{confidence}\n"
     file_exist=os.path.isfile(os.path.join(LOG_DIR, "detection_alerts.csv"))
     with open(os.path.join(LOG_DIR, "detection_alerts.csv"), "a") as log_file:
         if not file_exist:
-            log_file.write("Timestamp,Event Type ,Name, Confidence\n")
+            log_file.write("Timestamp,Event Type,Name,Confidence\n")
         log_file.write(log_entry)
 def get_frame(paused):
-    global prev_time
+    global prev_time , last_frame
     if paused:
-        return None
+        return last_frame
     ret, frame = face_cap.read()
     if not ret:
         return None
@@ -136,12 +136,13 @@ def get_frame(paused):
                 log_event("THREAT",name, confidence)
             else:
                 safe_alarm()
+                log_event("SAFE", name, confidence)
             last_alarmed[name] = curr_time
-            log_event("SAFE", name, confidence)
+            
     for name in list(detection_time.keys()):
         if name not in detected_now:
             del detection_time[name]
-
+    last_frame = frame.copy()
     return frame
 
 # Start GUI
