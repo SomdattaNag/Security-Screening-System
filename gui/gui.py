@@ -13,16 +13,26 @@ class guiwindow:
         self.label = tk.Label(self.root)
         self.label.pack()
         self.get_frame = get_frame_callback
+        self.paused = False
+        self.paused_button = tk.Button(self.root, text="Pause", command=self.toggle_pause)
+        self.paused_button.pack(pady=9)
         self.update_frame()
-
+    def toggle_pause(self):
+        self.paused = not self.paused
+        if self.paused:
+            self.paused_button.config(text="Resume")
+        else:
+            self.paused_button.config(text="Pause")
+        self.update_frame()
     def update_frame(self):
-        frame = self.get_frame()
-        if frame is not None:
-            frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-            img = Image.fromarray(frame)
-            imgtk = ImageTk.PhotoImage(image=img)
-            self.label.imgtk = imgtk
-            self.label.config(image=imgtk)
+        if not self.paused:
+            frame = self.get_frame()
+            if frame is not None:
+                frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+                img = Image.fromarray(frame)
+                imgtk = ImageTk.PhotoImage(image=img)
+                self.label.imgtk = imgtk
+                self.label.config(image=imgtk)
         self.root.after(10, self.update_frame)
 
     def run(self):
