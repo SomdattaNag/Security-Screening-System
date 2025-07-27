@@ -63,7 +63,7 @@ if not all(is_valid_email(email) for email in receiver_emails + [sender_email]):
     raise ValueError("One or more email addresses are invalid.")
 
 if not is_valid_password(sender_password):
-    raise ValueError("Invalid Gmail app password format. It should be 16 alphabetic characters (with or without spaces).")
+    raise ValueError("Invalid Gmail app password format")
 
 def saving_failed_sms(name, confidence, number):
     locate, coordinates = location()
