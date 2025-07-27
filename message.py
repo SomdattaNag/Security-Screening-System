@@ -69,6 +69,27 @@ if not all(is_valid_email(email) for email in receiver_emails + [sender_email]):
 if not is_valid_password(sender_password):
     raise ValueError("Invalid Gmail app password format")
 
+def saving_failed_sms(name, confidence, number):
+    locate, coordinates = location()
+    latitude, longitude = map(float, coordinates.split(','))    
+    googlemaps_link = f"https://www.google.com/maps?q={latitude},{longitude}"
+    # Save the failed SMS alert details to a file
+    with open("failed_sms_alerts.txt", "a") as f:
+        f.write(
+            f"Name: {name}, Confidence: {confidence}, Time: {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}, "
+            f"City: {locate[0]}, Region: {locate[1]}, Phone: {number}, Map: {googlemaps_link}\n"
+        )
+
+def saving_failed_email(name, confidence):
+    locate, coordinates = location()
+    latitude, longitude = map(float, coordinates.split(','))
+    googlemaps_link = f"https://www.google.com/maps?q={latitude},{longitude}"
+    # Save the failed email alert details to a file
+    with open("failed_email_alerts.txt", "a") as f:
+        f.write(
+            f"Name: {name}, Confidence: {confidence}, Time: {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}, "
+            f"City: {locate[0]}, Region: {locate[1]}, Map: {googlemaps_link}, Receivers: {receiver_emails}\n"
+        )
 def send_sms(name, confidence): 
      #city, region, googlemaps_link
     locate, coordinates = location()
@@ -76,8 +97,6 @@ def send_sms(name, confidence):
     googlemaps_link = f"https://www.google.com/maps?q={latitude},{longitude}"
     city=locate[0]
     region=locate[1]
-
-    
     time_now = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     message_body = (
             f"🚨 Security Alert!\n"
@@ -98,14 +117,18 @@ def send_sms(name, confidence):
                 )
             except Exception as e:
                     print(f"SMS sending failed:{number} attempt:{i} {e}")
+
                     if i==max_iterations-1:
                         print(f"Failed to send SMS to {number} after {max_iterations} attempts.")
+                        saving_failed_sms(name, confidence, number)
+
+                    if i==max_iterations-1:
+                        print(f"Failed to send SMS to {number} after {max_iterations} attempts.")
+
             else:
                 print(f"SMS alert sent successfully to {number}.")
                 break
-
-
-
+             
 def send_email(name,frame,confidence):
 
     locate, coordinates = location()
@@ -206,6 +229,7 @@ def send_email(name,frame,confidence):
             print(f"Attempt {i+1}: Email sending failed: {e}")
             if i == max_retries - 1:
                 print("Failed to send email after multiple attempts.")
+                saving_failed_email(name, confidence)
         else:
             print("Email alert sent successfully.")
             break
