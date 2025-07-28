@@ -1,9 +1,11 @@
 # gui/video_window.py
 import tkinter as tk
+from tkinter import filedialog
 from PIL import Image, ImageTk
 import cv2
 import time
-
+import os
+Log_DIR = "logs"
 class guiwindow:
     def __init__(self, get_frame_callback, status_callback=None):
         self.root = tk.Tk()
@@ -52,8 +54,38 @@ class guiwindow:
             command=self.toggle_pause, bg="#ffaa00", fg="#222"
         )
         self.pause_button.grid(row=0, column=0, padx=5, pady=5)
+        self.export_log_button = tk.Button(
+            self.button_frame, text="📊 Export Log", font=("Arial", 12, "bold"), width=10,
+            command=self.export_log, bg="#00aaff", fg="#222"
+        )
+        self.export_log_button.grid(row=0, column=1, padx=5, pady=5)
         self.update_frame()
-
+    def export_log(self):
+        log_file = os.path.join(Log_DIR, "security_log.csv")
+        if os.path.exists(log_file):
+            # Open a file dialog for the user to choose the export location
+            root = tk.Tk()
+            root.withdraw()  # Hide the main Tk window
+            export_file = filedialog.asksaveasfilename(
+                defaultextension=".csv",
+                filetypes=[("CSV Files", "*.csv")],
+                initialfile="exported_log.csv",
+                title="Choose Export Location"
+            )
+            root.destroy()
+            if export_file:  # If the user did not cancel
+                try:
+                    with open(log_file, "r", encoding="utf-8") as f:
+                        content = f.read()
+                    with open(export_file, "w", encoding="utf-8") as ef:
+                        ef.write(content)
+                    self.update_status(f"Log exported successfully to {export_file}!", color='#00ff00')
+                except Exception as e:
+                    self.update_status(f"Export failed: {e}", color='#ff0000')
+            else:
+                self.update_status("Export cancelled by user.", color='#ffaa00')
+        else:
+            self.update_status("No log file found!", color='#ff0000')
     def set_pause_vars(
         self,
         get_is_paused, set_is_paused,
