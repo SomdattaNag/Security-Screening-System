@@ -5,7 +5,7 @@ from PIL import Image, ImageTk
 import cv2
 import time
 import os
-Log_DIR = "logs"
+Log_DIR = "csv_logs"
 class guiwindow:
     def __init__(self, get_frame_callback, status_callback=None):
         self.root = tk.Tk()
