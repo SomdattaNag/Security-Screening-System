@@ -15,6 +15,12 @@ pause_start_time = None
 paused_names_time = {}
 last_frame = None  # To freeze video while paused
 
+# for start camera
+face_cap = None
+camera_started = False
+camera_error = None
+
+
 prev_time = 0
 IMAGE_LOG_DIR = "image_logs"
 CSV_LOG_DIR = "csv_logs"
@@ -49,14 +55,6 @@ print("🔍 Face Recognition: ✅ Using face_recognition library")
 print("🎯 Identity Matching: ✅ Real confidence scores from face encodings")
 
 
-try:
-    face_cap = cv2.VideoCapture(0)
-    if not face_cap.isOpened():
-        raise RuntimeError(" Error: Could not access the webcam. Please check if it's connected, or if it's being used by another application.")
-except Exception as e:
-    print(f"Webcam access error: {e}")
-    sys.exit()
-
 detection_time = {}
 last_alarmed = {}
 current_status = "System ready - Please position yourself in front of the camera"
@@ -71,6 +69,16 @@ def log_event(event,name, confidence):
 
 def get_frame():
     global prev_time, current_status, status_color, is_paused, pause_start_time, paused_names_time, last_frame
+    # Check if camera is started and opened
+    if not camera_started or face_cap is None or not face_cap.isOpened():
+        blank = np.zeros((480, 640, 3), dtype=np.uint8)
+        msg = "Camera not started" if not camera_error else f"Camera error: {camera_error}"
+        cv2.putText(blank, msg, (90, 250), cv2.FONT_HERSHEY_SIMPLEX, 1, (170, 100, 100), 2)
+        current_status = msg
+        status_color = "#888888" if not camera_error else "#ff0000"
+        return blank
+
+    
     # Read frame from camera
     ret, frame = face_cap.read()
     if not ret:
@@ -211,6 +219,32 @@ def get_frame():
 
     return frame
 
+def start_camera():
+    """
+    Initializes the webcam only when called (e.g., from GUI's Start button).
+    Prevents re-initialization and sets status messages.
+    """
+    global face_cap, current_status, status_color, camera_error, camera_started
+    if camera_started:
+        current_status = "Camera already started"
+        status_color = "#28ce5a"
+        return
+    try:
+        face_cap = cv2.VideoCapture(0)
+        if not face_cap.isOpened():
+            raise RuntimeError("Could not access the webcam.")
+        current_status = "Camera started"
+        camera_started = True
+        status_color = "#00ff00"
+        camera_error = None
+    except Exception as e:
+        current_status = f"Camera error: {e}"
+        camera_error = str(e)
+        status_color = "#ff0000"
+        face_cap = None
+        camera_started = False
+
+
 def get_status():
     """Return current status message and color for GUI"""
     return current_status, status_color
@@ -226,7 +260,11 @@ def set_pause_vars(
 
 # Start GUI
 
-video_app = guiwindow(get_frame_callback=get_frame, status_callback=get_status)
+video_app = guiwindow(
+    get_frame_callback=get_frame,
+    status_callback=get_status,
+    start_camera_callback=start_camera 
+)
 
 # Set pause state references for bidirectional access
 video_app.set_pause_vars(
