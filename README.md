@@ -2,7 +2,7 @@
 Traditional security checkpoints (e.g., airports, hotels, event venues) rely heavily on manual ID verification and human surveillance, which are time-consuming and prone to human error, vulnerable to identity fraud, forged documents, and look-alikes, inefficient in detecting wanted, banned, or high-risk individuals in real-time. Given the increasing need for automated, intelligent surveillance systems, there is a strong demand for a non-intrusive, reliable, and scalable solution to screen individuals based on biometric identity especially facial recognition without interrupting regular flow.
 
 # Proposed Solution
-A real-time security screening system, using face recognition with OpenCV. The system aims to scan individuals via a webcam at check- points (e.g., hotels, airports). If a person’s face matches an entry in the system’s dataset of known threats, runaway criminals or wanted individuals, the system triggers a threat alarm and sends message & phone alert to authorities based on the level of threat. Otherwise, a safe alarm is triggered, allowing them to proceed.
+A real-time security screening system, using face recognition with OpenCV. The system aims to scan individuals via a webcam at check- points (e.g., hotels, airports). If a person’s face matches an entry in the system’s dataset of known threats, runaway criminals or wanted individuals, the system triggers a threat alarm and sends messages & phone alert to authorities based on the level of threat. Otherwise, a safe alarm is triggered, allowing them to proceed.
 
 # Contributors and Learning Resources
 As of July 2025, this project is a part of GirlScript Summer of Code 2025. Please read the Readme File carefully for understanding the  project workflow. For contribution tips and extended documentation, see the [Learn Guide](./learn.md).
@@ -17,9 +17,9 @@ Only the issue with the label __gssoc25__ are open for gssoc contributors right 
 
 4. If no match is found a safe_alarm is triggered indicating the person is harmless and safe to go.
 
-5. If a match is found a threat_alarm is triggered and an email is sent directly to the authorities notifying them of the potential threat.
+5. If a match is found a threat_alarm is triggered and email/SMS messages is sent directly to the authorities, based on the level of threat (low/medium/high) notifying them of the potential threat.If the threat is classified as major — with a confidence level exceeding 90% — a call alert is also triggered, ensuring immediate action in cases where the individual is almost certainly a known or wanted person.
 
-6. if a match is found, the individual's image is automatically logged in the system for future verification and other legal procedures.
+6. if a match is found, the individual's image is automatically logged in the system for future verification and other legal procedures. Their data is logged in the system in a csv file.
 
 7. Advanced data augmentation: Everytime an image is added, run the data augmentation.py script to add more diverse set images for each person.
 
@@ -37,7 +37,9 @@ Only the issue with the label __gssoc25__ are open for gssoc contributors right 
 6. SMS Notification:
 If a threat is identified and threat_alarm is triggered, an SMS alert is sent to the concerned authorities. The message includes key details such as the individual's name, time of detection and Ip location of the individual.
 
-7. Logging Matched faces: if a match is found, the individual's image is automatically logged in the system for future verification and other legal procedures.
+7. Call alert: If the threat is classified as major — with a confidence level exceeding 90% — a call alert is also triggered, ensuring immediate action in cases where the individual is almost certainly a known or wanted person.
+
+7. Logging Matched faces: if a match is found, the individual's image is automatically logged in the system for future verification and other legal procedures. Their data is also logged in a csv file for further legal verification process.
 
 8. Advanced data augmentation: Everytime an image is added, run the data augmentation.py script to add more diverse set images for each person.
 
@@ -45,6 +47,7 @@ If a threat is identified and threat_alarm is triggered, an SMS alert is sent to
 1. This is a functional prototype designed for a security checkpoint use case. It demonstrates the core facial recognition and threat-detection logic of a real-time screening system. The project is modular and can be extended to integrate with IoT hardware or GUI interfaces as needed.
 2. Due to a deliberately lower matching threshold to reduce false positives, the system might produce false negatives in few cases.
 3. To improve accuracy and reliability, it is recommended to use a larger number of diverse images per individual in the dataset.
+4. Only the data of individuals identified as potential threats or confirmed matches is temporarily stored in the system for legal verification purposes. We prioritize civilian privacy and, as such, the system does not store any data for non-matching or safe individuals. All data retention is limited to potential threats only and handled with strict confidentiality.
 
 # License
 This project is licensed under the [MIT License](LICENSE).

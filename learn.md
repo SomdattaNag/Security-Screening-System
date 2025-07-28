@@ -21,8 +21,8 @@ This project is a Real-Time Security Screening System utilizing face recognition
 5. Distinct alarms:
     1. Threat Alarm: If a known individual is detected.
     2. Safe Alarm: If no match is found.
-6. Email and SMS notifications sent to authorities with suspect details when a threat is detected.
-7. If a match is found, the individual's image is automatically logged in the system for future verification and other legal procedures.
+6. Email and SMS notifications are automatically sent to authorities when a potential threat is detected, containing the suspect's details and threat level. If the threat is classified as major — with a confidence level exceeding 90% — a call alert is also triggered, ensuring immediate action in cases where the individual is almost certainly a known or wanted person.
+7. If a match is found, the individual's image is automatically logged in the system for future verification and other legal procedures. Their data is also logged in a csv file for further legal verification process.
 8. Modular and extendable prototype suitable for further integrations (IoT hardware, GUI, etc.).
 
 # Usage Instructions
@@ -50,8 +50,10 @@ project/
 │
 ├── gui/
 │   └── gui.py
-├── logs/
+├── image_logs/
 │   └── matched_individual_image.jpg
+├── csv_logs/
+│   └──security_log.csv
 ├── encoding/
 │   └── face_encodings.pkl
 ├── saveencodings
@@ -74,7 +76,9 @@ __data/__: Each subfolder represents an individual, containing multiple images t
 
 __gui/__: Logic for the graphical User Inerface of the System.
 
-__log/__: If a match is found, the individual's image is automatically logged here.If it doesn't exist, created automatically.
+__image_log/__: If a match is found, the individual's image is automatically logged here.If it doesn't exist, created automatically.
+
+__csv_log/__: If a match is found, the individual's data is automatically logged here in a csv file.If it doesn't exist, created automatically. The gui has a 'export logs' button to export and download this file when needed.
 
 __encodings.pkl__: A binary file storing the precomputed face encodings and names, used to speed up face recognition in the main application.
 
@@ -262,7 +266,7 @@ __codeofConduct.md__: Ethical and moral guidelines to be followed while working 
             4. Any SMTP errors, if applicable.
         7. Troubleshooting Local Server:
             If you see a connection error like Connection refused, ensure your SMTP Debug Server is running.
-5. __Twilio SMS Setup and Testing__:
+5. __Twilio SMS and Call alert Setup and Testing__:
     Send real-time SMS alerts when a threat is detected (match found). Useful when email monitoring is delayed.
     1. Requirements:
         1. Free Twilio account
