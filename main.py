@@ -164,8 +164,18 @@ def get_frame():
                 current_status = f"🚨 THREAT DETECTED: {name} - Security alert triggered!"
                 status_color = '#ff0000'  # Red for threat
                 threat_alarm()
-                send_email(name, frame, confidence)
-                send_sms(name, confidence)
+                if confidence >80:
+                    send_email(name, frame, confidence)
+                    send_sms(name, confidence)
+                    current_status = f"🚨 HIGH THREAT DETECTED: {name} - Security alert triggered! Email and SMS sent."
+                    status_color = '#ff0000'  # Red for high threat
+                elif confidence >70:
+                    send_email(name, frame, confidence)
+                    current_status = f"🚨 MEDIUM THREAT DETECTED: {name} - Security alert triggered! Email sent."
+                    status_color = '#ff8800'  # Orange for medium threat
+                elif confidence > 60:
+                    current_status = f"🚨 LOW THREAT DETECTED: {name} - Security alert triggered!"
+                    status_color = '#ffaa00'
                 timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
                 filename = f"{name}_{timestamp}.jpg"
                 filepath = os.path.join(LOG_DIR, filename)
