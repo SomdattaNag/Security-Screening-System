@@ -9,7 +9,6 @@ import sys
 from gui.gui import guiwindow
 import datetime
 import pickle
-
 # --- Pause/Resume global state ---
 is_paused = False
 pause_start_time = None
@@ -17,11 +16,13 @@ paused_names_time = {}
 last_frame = None  # To freeze video while paused
 
 prev_time = 0
-LOG_DIR = "logs"
+IMAGE_LOG_DIR = "image_logs"
+CSV_LOG_DIR = "csv_logs"
 
 #create log if it doesn't exist
-if not os.path.exists(LOG_DIR):
-    os.makedirs(LOG_DIR)
+for directory in [IMAGE_LOG_DIR, CSV_LOG_DIR]:
+    if not os.path.exists(directory):
+        os.makedirs(directory)
 
 
 # Alarms
@@ -60,6 +61,13 @@ detection_time = {}
 last_alarmed = {}
 current_status = "System ready - Please position yourself in front of the camera"
 status_color = '#00ff00'  # Green for ready state
+
+def log_event(event,name, confidence):
+    timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    log_entry = f"{timestamp}, {event}, {name}, {confidence}\n"
+    log_file = os.path.join(CSV_LOG_DIR, "security_log.csv")
+    with open(log_file, "a") as f:
+        f.write(log_entry)
 
 def get_frame():
     global prev_time, current_status, status_color, is_paused, pause_start_time, paused_names_time, last_frame
@@ -169,30 +177,32 @@ def get_frame():
                     send_sms(name, confidence)
                     current_status = f"🚨 Very HIGH THREAT DETECTED: {name} - Security alert triggered! Call and SMS sent."
                     status_color = '#8B0000' #Crimson for very high alert
-                
-
+                    log_event("Very High Threat", name, confidence)
                 elif confidence >80:
                     send_email(name, frame, confidence)
                     send_sms(name, confidence)
                     current_status = f"🚨 HIGH THREAT DETECTED: {name} - Security alert triggered! Email and SMS sent."
                     status_color = '#ff0000'  # Red for high threat
+                    log_event("High Threat", name, confidence)
                 elif confidence >70:
                     send_email(name, frame, confidence)
                     current_status = f"🚨 MEDIUM THREAT DETECTED: {name} - Security alert triggered! Email sent."
                     status_color = '#ff8800'  # Orange for medium threat
+                    log_event("Medium Threat", name, confidence)
                 elif confidence > 60:
                     current_status = f"🚨 LOW THREAT DETECTED: {name} - Security alert triggered!"
                     status_color = '#ffaa00'
+                    log_event("Low Threat", name, confidence)
 
                 timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
                 filename = f"{name}_{timestamp}.jpg"
-                filepath = os.path.join(LOG_DIR, filename)
+                filepath = os.path.join(IMAGE_LOG_DIR, filename)
                 cv2.imwrite(filepath, frame)
             else:
                 current_status = "✅ SCAN COMPLETE: No match detected - You are safe to proceed"
                 status_color = '#00ff00'  # Green for safe
                 safe_alarm()
-                
+
             last_alarmed[name] = curr_time
 
     for name in list(detection_time.keys()):
