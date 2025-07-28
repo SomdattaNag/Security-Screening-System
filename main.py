@@ -171,7 +171,7 @@ def get_frame():
                     status_color = '#8B0000' #Crimson for very high alert
                 
 
-                if confidence >80:
+                elif confidence >80:
                     send_email(name, frame, confidence)
                     send_sms(name, confidence)
                     current_status = f"🚨 HIGH THREAT DETECTED: {name} - Security alert triggered! Email and SMS sent."
