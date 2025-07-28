@@ -9,7 +9,6 @@ import sys
 from gui.gui import guiwindow
 import datetime
 import pickle
-import csv
 # --- Pause/Resume global state ---
 is_paused = False
 pause_start_time = None
