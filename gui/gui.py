@@ -153,7 +153,7 @@ class guiwindow:
             if self.start_camera_callback:
                 self.start_camera_callback()
             self.camera_started = True
-            # self.start_button.config(state="disabled")
+            self.start_button.config(state="disabled")
             self.pause_button.config(state="normal")
             self.export_log_button.config(state="normal")
             self.update_status("Camera starting...", "#00ff00")
