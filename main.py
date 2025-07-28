@@ -16,11 +16,13 @@ paused_names_time = {}
 last_frame = None  # To freeze video while paused
 
 prev_time = 0
-LOG_DIR = "logs"
+IMAGE_LOG_DIR = "image_logs"
+CSV_LOG_DIR = "csv_logs"
 
 #create log if it doesn't exist
-if not os.path.exists(LOG_DIR):
-    os.makedirs(LOG_DIR)
+for directory in [IMAGE_LOG_DIR, CSV_LOG_DIR]:
+    if not os.path.exists(directory):
+        os.makedirs(directory)
 
 
 # Alarms
@@ -63,7 +65,7 @@ status_color = '#00ff00'  # Green for ready state
 def log_event(event,name, confidence):
     timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     log_entry = f"{timestamp}, {event}, {name}, {confidence}\n"
-    log_file = os.path.join(LOG_DIR, "security_log.csv")
+    log_file = os.path.join(CSV_LOG_DIR, "security_log.csv")
     with open(log_file, "a") as f:
         f.write(log_entry)
 
@@ -194,14 +196,13 @@ def get_frame():
 
                 timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
                 filename = f"{name}_{timestamp}.jpg"
-                filepath = os.path.join(LOG_DIR, filename)
+                filepath = os.path.join(IMAGE_LOG_DIR, filename)
                 cv2.imwrite(filepath, frame)
             else:
                 current_status = "✅ SCAN COMPLETE: No match detected - You are safe to proceed"
                 status_color = '#00ff00'  # Green for safe
                 safe_alarm()
-                log_event("Safe Scan", '', '')
-                
+
             last_alarmed[name] = curr_time
 
     for name in list(detection_time.keys()):
