@@ -164,9 +164,11 @@ def get_frame():
                 current_status = f"🚨 THREAT DETECTED: {name} - Security alert triggered!"
                 status_color = '#ff0000'  # Red for threat
                 threat_alarm()
-
                 if confidence > 90:
                     send_call(name, confidence)
+                    send_sms(name, confidence)
+                    current_status = f"🚨 Very HIGH THREAT DETECTED: {name} - Security alert triggered! Call and SMS sent."
+                    status_color = '#8B0000' #Crimson for very high alert
                 
 
                 if confidence >80:
