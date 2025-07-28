@@ -3,7 +3,7 @@ import numpy as np
 import os
 import face_recognition
 from playsound import playsound
-from message import send_email, send_sms
+from message import send_call, send_email, send_sms
 import time
 import sys
 from gui.gui import guiwindow
@@ -164,7 +164,14 @@ def get_frame():
                 current_status = f"🚨 THREAT DETECTED: {name} - Security alert triggered!"
                 status_color = '#ff0000'  # Red for threat
                 threat_alarm()
-                if confidence >80:
+                if confidence > 90:
+                    send_call(name, confidence)
+                    send_sms(name, confidence)
+                    current_status = f"🚨 Very HIGH THREAT DETECTED: {name} - Security alert triggered! Call and SMS sent."
+                    status_color = '#8B0000' #Crimson for very high alert
+                
+
+                elif confidence >80:
                     send_email(name, frame, confidence)
                     send_sms(name, confidence)
                     current_status = f"🚨 HIGH THREAT DETECTED: {name} - Security alert triggered! Email and SMS sent."
@@ -176,6 +183,7 @@ def get_frame():
                 elif confidence > 60:
                     current_status = f"🚨 LOW THREAT DETECTED: {name} - Security alert triggered!"
                     status_color = '#ffaa00'
+
                 timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
                 filename = f"{name}_{timestamp}.jpg"
                 filepath = os.path.join(LOG_DIR, filename)
