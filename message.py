@@ -6,11 +6,12 @@ import datetime
 import cv2
 import os
 import re
-import requests
 from dotenv import load_dotenv
 from twilio.rest import Client
 import phonenumbers
 from phonenumbers import geocoder, carrier
+import requests
+import logging
 
 
 
@@ -41,18 +42,38 @@ def is_valid_number(number, region="IN"):
         return False
 
 
-
 def location():
     try:
         response = requests.get('https://ipinfo.io/json', timeout=5)
+        response.raise_for_status()
         data = response.json()
+
+        if 'city' not in data or 'region' not in data:
+            logging.warning("Location data missing expected fields.")
+            return ['Unknown City', 'Unknown Region'], '0,0'
+
         city = data.get('city', 'Unknown City')
         region = data.get('region', 'Unknown Region')
-        coords = data.get('loc', '0,0') 
+        coords = data.get('loc', '0,0')
         return [city, region], coords
+
+    except requests.exceptions.Timeout:
+        logging.error("[Location Error] Request timed out.")
+    except requests.exceptions.HTTPError as http_err:
+        if response.status_code == 429:
+            logging.error("[Location Error] Rate limit exceeded (HTTP 429).")
+        elif response.status_code == 503:
+            logging.error("[Location Error] Service unavailable (HTTP 503).")
+        else:
+            logging.error(f"[Location Error] HTTP error occurred: {http_err}")
+    except requests.exceptions.RequestException as req_err:
+        logging.error(f"[Location Error] Network-related error: {req_err}")
+    except ValueError as json_err:
+        logging.error(f"[Location Error] Failed to parse JSON: {json_err}")
     except Exception as e:
-        print(f"[Location Error] {e}")
-        return ['Unknown City', 'Unknown Region'], '0,0'
+        logging.exception(f"[Location Error] Unexpected error: {e}")
+
+    return ['Unknown City', 'Unknown Region'], '0,0'
 
 sender_email = os.getenv('SENDER_EMAIL')
 sender_password = os.getenv('SENDER_PASSWORD')
