@@ -24,7 +24,7 @@ Only the issue with the label __gssoc25__ are open for gssoc contributors right 
 7. Advanced data augmentation: Everytime an image is added, run the data augmentation.py script to add more diverse set images for each person.
 
 # Workflow:
-1. Dataset: The dataset contains folders for each wanted individual. The folder contains images of that individual. Larger the no. of images, better the precision of the system. The system has been tested with personal images. For now, sample stock images are used to fill the folder.
+1. Dataset: The dataset contains folders for each wanted individual. The folder contains images of that individual. Larger the no. of images, better the precision of the system. The system has been tested with personal images. For now, sample images are used to fill the folder.
 
 2. Face Encoding & Labeling: The system loads all images, extracts facial features using the face_recognition model , and encodes them into numerical vectors.It then assigns each encoding to the person’s name based on the folder structure.
 
