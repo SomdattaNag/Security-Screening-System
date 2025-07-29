@@ -9,6 +9,8 @@ import sys
 from gui.gui import guiwindow
 import datetime
 import pickle
+import winsound
+
 # --- Pause/Resume global state ---
 is_paused = False
 pause_start_time = None
@@ -30,7 +32,11 @@ def threat_alarm():
     playsound("alarms/threat.wav")
 
 def safe_alarm():
-    playsound("alarms/safe.wav")
+    print("[SAFE ALARM] Beep for safe detection")
+    frequency = 1000  # Hz
+    duration = 300    # milliseconds (0.3 sec)
+    winsound.Beep(frequency, duration)
+
 
 
 
