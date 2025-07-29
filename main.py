@@ -9,6 +9,7 @@ import sys
 from gui.gui import guiwindow
 import datetime
 import pickle
+import threading
 # --- Pause/Resume global state ---
 is_paused = False
 pause_start_time = None
@@ -33,10 +34,10 @@ for directory in [IMAGE_LOG_DIR, CSV_LOG_DIR]:
 
 # Alarms
 def threat_alarm():
-    playsound("alarms/threat.wav")
+    threading.Thread(target=playsound, args=("alarms/threat.wav",), daemon=True).start()
 
 def safe_alarm():
-    playsound("alarms/safe.wav")
+    threading.Thread(target=playsound, args=("alarms/safe.wav",), daemon=True).start()
 
 
 
