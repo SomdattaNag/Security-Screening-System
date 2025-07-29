@@ -9,11 +9,19 @@ import re
 import requests
 from dotenv import load_dotenv
 from twilio.rest import Client
+import phonenumbers
+from phonenumbers import geocoder, carrier
 
 
 
 
 load_dotenv()
+
+def is_valid_twilio_sid(sid):
+    # Must start with 'AC' and have 32 hex characters after that
+    pattern = r"^AC[a-fA-F0-9]{32}$"
+    return bool(re.match(pattern, sid))
+
 
 def is_valid_email(email):
     pattern = r'^[\w\.-]+@[\w\.-]+\.\w+$'
@@ -24,6 +32,14 @@ def is_valid_password(password):
         return False
     clean = password.replace(" ", "")
     return bool(re.fullmatch(r"[a-zA-Z0-9]{16}", clean))
+
+def is_valid_number(number, region="IN"):
+    try:
+        parsed = phonenumbers.parse(number, region)
+        return phonenumbers.is_valid_number(parsed)
+    except phonenumbers.NumberParseException:
+        return False
+
 
 
 def location():
@@ -45,8 +61,23 @@ receiver_emails = os.getenv('RECEIVER_EMAIL', '').split(',')
 twilio_sid = os.getenv("TWILIO_ACCOUNT_SID")
 twilio_token = os.getenv("TWILIO_AUTH_TOKEN")
 twilio_phone = os.getenv("TWILIO_PHONE_NUMBER")
+
 alert_phones = os.getenv("ALERT_PHONE_NUMBERS", "").split(",")
 client = Client(twilio_sid, twilio_token)
+
+if not is_valid_number(twilio_phone):
+    raise ValueError(f"Invalid Twilio phone number: {twilio_phone}")
+
+for num in alert_phones:
+    num = num.strip()
+    if not is_valid_number(num):
+        raise ValueError(f"Invalid alert phone number: {num}")
+    
+
+if not is_valid_twilio_sid(twilio_sid):
+    raise ValueError(f"Invalid Twilio SID format: {twilio_sid}")
+else:
+    print("Twilio SID format is valid.")
 
 values = {
     "SENDER_EMAIL": sender_email,
