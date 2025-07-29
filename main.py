@@ -21,6 +21,10 @@ face_cap = None
 camera_started = False
 camera_error = None
 
+# for tamper detection
+tamper_detected = False
+tamper_last_check = 0
+tamper_alert_sent = False
 
 prev_time = 0
 IMAGE_LOG_DIR = "image_logs"
@@ -39,7 +43,8 @@ def threat_alarm():
 def safe_alarm():
     threading.Thread(target=playsound, args=("alarms/safe.wav",), daemon=True).start()
 
-
+def run_in_background(func, *args, **kwargs):
+    threading.Thread(target=func, args=args, kwargs=kwargs, daemon=True).start()
 
 
 encodings_path = "encodings/face_encodings.pkl"
@@ -68,8 +73,39 @@ def log_event(event,name, confidence):
     with open(log_file, "a") as f:
         f.write(log_entry)
 
+def is_frame_suspicious(frame, gray_thresh=15, color_var_thresh=30, edge_thresh=25):
+    """
+    Detects suspicious frames: black/white/gray, or low-texture plain color frames with slight gradient.
+    """
+    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    gray_mean = np.mean(gray)
+    gray_var = np.var(gray)
+
+    # Color channel variances
+    b_var = np.var(frame[:, :, 0])
+    g_var = np.var(frame[:, :, 1])
+    r_var = np.var(frame[:, :, 2])
+    color_var_avg = (b_var + g_var + r_var) / 3
+
+    # Laplacian edge variance
+    laplacian_var = cv2.Laplacian(gray, cv2.CV_64F).var()
+
+    # 1. Too dark/bright with low variance
+    if (gray_mean < 10 or gray_mean > 245) and gray_var < gray_thresh:
+        return True
+
+    # 2. Very flat grayscale
+    if gray_var < gray_thresh:
+        return True
+
+    # 3. Plain color frame (even with slight gradient)
+    if color_var_avg < color_var_thresh and laplacian_var < edge_thresh:
+        return True
+
+    return False
+
 def get_frame():
-    global prev_time, current_status, status_color, is_paused, pause_start_time, paused_names_time, last_frame
+    global prev_time, current_status, status_color, is_paused, pause_start_time, paused_names_time, last_frame,tamper_detected,tamper_last_check,tamper_alert_sent
     # Check if camera is started and opened
     if not camera_started or face_cap is None or not face_cap.isOpened():
         blank = np.zeros((480, 640, 3), dtype=np.uint8)
@@ -87,6 +123,47 @@ def get_frame():
         status_color = '#ff0000'  # Red for error
         print("❌ Camera read failed.")
         return None
+    
+    # Detect tamper every 3 seconds
+    if time.time() - tamper_last_check > 3:
+        if is_frame_suspicious(frame):
+            if not tamper_detected:
+                tamper_detected = True
+                print("[Tamper] Suspicious frame started")
+            
+            if not tamper_alert_sent:
+                current_status = "⚠️ Possible tampering detected - Low visual content"
+                status_color = '#ff0000'
+                print("[Tamper Alert] Alerting authorities...")
+                run_in_background(send_sms, "Camera Tampering", 100)
+                run_in_background(send_email, "Camera Tampering", frame, 100)
+                tamper_alert_sent = True
+
+                # Update status panel
+                if 'video_app' in globals() and hasattr(video_app, 'update_status'):
+                    video_app.update_status(current_status, status_color)
+
+        else:
+            if tamper_detected:
+                print("[Tamper] Tampering ended")
+                current_status = "✅ Camera recovered from tampering"
+                status_color = "#00ff00"
+                run_in_background(send_sms, "Camera Recovered", 100)
+                run_in_background(send_email, "Camera Recovered", frame, 100)
+
+
+                # Update GUI immediately
+                if 'video_app' in globals() and hasattr(video_app, 'update_status'):
+                    video_app.update_status(current_status, status_color)
+            tamper_detected = False
+            tamper_alert_sent = False
+
+        tamper_last_check = time.time()
+
+    if tamper_detected:
+        cv2.putText(frame, "⚠️ CAMERA TAMPERING DETECTED", (40, 460), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 3)
+        return frame  # Just show the suspicious frame but skip detection
+
 
     frame = cv2.flip(frame, 1)
     curr_time = time.time()
