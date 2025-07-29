@@ -6,7 +6,6 @@ import datetime
 import cv2
 import os
 import re
-import requests
 from dotenv import load_dotenv
 from twilio.rest import Client
 import phonenumbers
