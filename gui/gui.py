@@ -177,6 +177,9 @@ class guiwindow:
 
         self.root.after(10, self.update_frame)
 
+    def show_tamper_alert(self):
+        self.update_status("⚠️ Tampering detected! Please check the camera.", "#ff0000")
+    
     def update_status(self, message, color='#ffffff'):
         """Update the status message with optional color"""
         self.status_label.config(text=message, fg=color)
