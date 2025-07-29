@@ -9,6 +9,7 @@ import sys
 from gui.gui import guiwindow
 import datetime
 import pickle
+import threading  # Added for non-blocking audio playback
 
 
 
@@ -20,12 +21,54 @@ if not os.path.exists(LOG_DIR):
     os.makedirs(LOG_DIR)
 
 
-# Alarms
+# Alarms - Fixed: Non-blocking audio playback to prevent screen freeze
 def threat_alarm():
-    playsound("alarms/threat.wav")
+    """Play threat alarm sound in background thread to avoid blocking video feed"""
+    global audio_playing, last_audio_time
+
+    # Prevent audio overlap - only play if not already playing
+    current_time = time.time()
+    if audio_playing or (current_time - last_audio_time) < 2:  # 2 second cooldown
+        return
+
+    def play_sound():
+        global audio_playing, last_audio_time
+        audio_playing = True
+        try:
+            playsound("alarms/threat.wav", block=False)
+        except Exception as e:
+            print(f"⚠️ Audio alarm error: {e}")
+        finally:
+            audio_playing = False
+            last_audio_time = time.time()
+
+    # Run audio in separate thread to prevent blocking
+    audio_thread = threading.Thread(target=play_sound, daemon=True)
+    audio_thread.start()
 
 def safe_alarm():
-    playsound("alarms/safe.wav")
+    """Play safe alarm sound in background thread to avoid blocking video feed"""
+    global audio_playing, last_audio_time
+
+    # Prevent audio overlap - only play if not already playing
+    current_time = time.time()
+    if audio_playing or (current_time - last_audio_time) < 2:  # 2 second cooldown
+        return
+
+    def play_sound():
+        global audio_playing, last_audio_time
+        audio_playing = True
+        try:
+            playsound("alarms/safe.wav", block=False)
+        except Exception as e:
+            print(f"⚠️ Audio alarm error: {e}")
+        finally:
+            audio_playing = False
+            last_audio_time = time.time()
+
+    # Run audio in separate thread to prevent blocking
+    audio_thread = threading.Thread(target=play_sound, daemon=True)
+    audio_thread.start()
 
 
 
@@ -58,6 +101,10 @@ detection_time = {}
 last_alarmed = {}
 current_status = "System ready - Please position yourself in front of the camera"
 status_color = '#00ff00'  # Green for ready state
+
+# Audio control - Prevent overlapping sounds
+audio_playing = False
+last_audio_time = 0
 
 def get_frame():
     global prev_time, current_status, status_color
@@ -145,9 +192,9 @@ def get_frame():
         scan_time = curr_time - detection_time[name]
         if scan_time >= 10 and (curr_time - last_alarmed.get(name, 0)) >= 30:
             if name != "No match":
-                current_status = f"🚨 THREAT DETECTED: {name} - Security alert triggered!"
+                current_status = f"🚨 THREAT DETECTED: {name} - Security alert triggered! 🔊"
                 status_color = '#ff0000'  # Red for threat
-                threat_alarm()
+                threat_alarm()  # Now non-blocking - won't freeze screen
                 send_email(name, frame, confidence)
                 send_sms(name, confidence)
                 timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
@@ -155,9 +202,9 @@ def get_frame():
                 filepath = os.path.join(LOG_DIR, filename)
                 cv2.imwrite(filepath, frame)
             else:
-                current_status = "✅ SCAN COMPLETE: No match detected - You are safe to proceed"
+                current_status = "✅ SCAN COMPLETE: No match detected - You are safe to proceed 🔊"
                 status_color = '#00ff00'  # Green for safe
-                safe_alarm()
+                safe_alarm()  # Now non-blocking - won't freeze screen
             last_alarmed[name] = curr_time
 
     for name in list(detection_time.keys()):

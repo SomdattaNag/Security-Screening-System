@@ -11,6 +11,7 @@ import time
 import sys
 from gui.gui import guiwindow
 import datetime
+import threading  # Added for non-blocking operations
 
 # Simple version without face_recognition library - uses OpenCV for basic face detection
 
@@ -56,10 +57,10 @@ def get_frame():
 
     # Convert to grayscale for face detection
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-    
+
     # Detect faces using OpenCV
     faces = face_cascade.detectMultiScale(gray, 1.1, 4)
-    
+
     # Update status based on face detection
     if len(faces) == 0:
         current_status = "👁️ Scanning for faces... Please position yourself in front of the camera"
@@ -72,24 +73,24 @@ def get_frame():
         status_color = '#00aaff'  # Blue for basic mode
 
     curr_names = []
-    
+
     for (x, y, w, h) in faces:
         # For demo purposes, we'll just call it "Unknown Person"
         name = "Unknown Person"
         curr_names.append(name)
-        
+
         # Draw rectangle around face
         color = (255, 165, 0)  # Orange color for unknown faces
         cv2.rectangle(frame, (x, y), (x+w, y+h), color, 2)
         cv2.putText(frame, name, (x, y-10), cv2.FONT_HERSHEY_SIMPLEX, 0.6, color, 2)
         cv2.putText(frame, "Basic Detection", (x+w-100, y-10), cv2.FONT_HERSHEY_SIMPLEX, 0.4, color, 1)
-        
+
         # Countdown timer for detected face
         if name in detection_time:
             scan_time = curr_time - detection_time[name]
             remaining_time = max(0, 10 - int(scan_time))
             cv2.putText(frame, f"{remaining_time:.1f}s", (x, y+h+20), cv2.FONT_HERSHEY_COMPLEX, 0.5, color, 2)
-            
+
             # Update status during countdown
             if remaining_time > 0:
                 current_status = f"⏱️ Please stand still for {remaining_time:.0f} seconds - Processing..."
@@ -107,14 +108,14 @@ def get_frame():
         if scan_time >= 10 and (curr_time - last_alarmed.get(name, 0)) >= 30:
             current_status = "✅ SCAN COMPLETE: Basic face detection completed - Install face-recognition for full security features"
             status_color = '#00ff00'  # Green for completion
-            
+
             # Save image log
             timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
             filename = f"detection_{timestamp}.jpg"
             filepath = os.path.join(LOG_DIR, filename)
             cv2.imwrite(filepath, frame)
             print(f"Detection saved: {filepath}")
-            
+
             last_alarmed[name] = curr_time
 
     # Clean up old detections
