@@ -17,6 +17,12 @@ from phonenumbers import geocoder, carrier
 
 load_dotenv()
 
+def is_valid_twilio_sid(sid):
+    # Must start with 'AC' and have 32 hex characters after that
+    pattern = r"^AC[a-fA-F0-9]{32}$"
+    return bool(re.match(pattern, sid))
+
+
 def is_valid_email(email):
     pattern = r'^[\w\.-]+@[\w\.-]+\.\w+$'
     return re.match(pattern, email) is not None
@@ -66,6 +72,12 @@ for num in alert_phones:
     num = num.strip()
     if not is_valid_number(num):
         raise ValueError(f"Invalid alert phone number: {num}")
+    
+
+if not is_valid_twilio_sid(twilio_sid):
+    raise ValueError(f"Invalid Twilio SID format: {twilio_sid}")
+else:
+    print("Twilio SID format is valid.")
 
 values = {
     "SENDER_EMAIL": sender_email,
