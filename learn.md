@@ -10,6 +10,7 @@
 - [Additional Tip](#additional-tip)
 
 # Project Overview
+
 This project is a Real-Time Security Screening System utilizing face recognition technology to identify potential threats at security checkpoints such as airports, hotels, or event venues. The system scans individuals via webcam, compares faces against a dataset of known individuals, and triggers alarms with notifications when a threat is detected.
 
 # Features
@@ -18,21 +19,21 @@ This project is a Real-Time Security Screening System utilizing face recognition
 2. Facial encoding and matching using the face_recognition library.
 3. Advanced data augmentation for more diverse images.
 4. 10-second continuous match confirmation to avoid false triggers.
-5. Distinct alarms:
-    1. Threat Alarm: If a known individual is detected.
-    2. Safe Alarm: If no match is found.
+5. Threat & Safe Alarms:
+    1. Threat Alarm: When a known individual is detected
+    2. Safe Alarm: When no match is found
 6. Email and SMS notifications are automatically sent to authorities when a potential threat is detected, containing the suspect's details and threat level. If the threat is classified as major — with a confidence level exceeding 90% — a call alert is also triggered, ensuring immediate action in cases where the individual is almost certainly a known or wanted person.
 7. If a match is found, the individual's image is automatically logged in the system for future verification and other legal procedures. Their data is also logged in a csv file for further legal verification process.
 8. Modular and extendable prototype suitable for further integrations (IoT hardware, GUI, etc.).
 
 # Usage Instructions
 
-1. The system uses your webcam to detect and analyze faces.
-2. It continuously compares detected faces to the dataset.
-3. On identification:
-4. Threat detected → Threat alarm triggers + Email & SMS sent + image logged in.
-5. No match found → Safe alarm triggers.
-6. Press 'q' or close the webcam window to exit. 
+1. Webcam is activated to scan faces.
+2. Matches are checked in real-time against known dataset.
+3. System triggers one of the following:
+    Threat Detected → Threat Alarm + Email/SMS + Logs created
+    No Match Found → Safe Alarm
+4. Exit the program by pressing 'q' or closing the webcam window
 
 # Folder Structure
 
@@ -111,22 +112,17 @@ __codeofConduct.md__: Ethical and moral guidelines to be followed while working 
 3. Prepare the Dataset
     1. Inside the data/ folder, create subfolders for each individual (named after the person). The subfolder with contain the individual's images.
     2. Add multiple images of each person in their respective subfolder to improve recognition accuracy.
-
 4. Data Augmentation: Run the Data_Augmentation.py script to add more diverse images for each individual in the dataset.
-
 5. Environment Configuration:
     1. Copy .env.example to a .env file.
     2. Replace placeholder values with your actual credentials.
-
 6. Configure Email Settings
     1. Ensure message.py loads email settings from the .env file.
     2. Ensure the send_email() function can send emails from your desired account.
     3. Verify SMTP server details are correctly handled (smtp.gmail.com and port 587 for Gmail).
-
 7. Configure SMS Settings
     1. Ensure message.py loads SMS settings (TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN, TWILIO_PHONE_NUMBER, ALERT_PHONE_NUMBERS) from the .env file.
     2. Set up a free Twilio account, obtain your credentials from the dashboard, and verify your test phone numbers.
-
 8. Run the Project
     1. run the saveencodings file to save face encoding for the individual once before starting the project.
         python saveencodings.py
@@ -183,8 +179,8 @@ __codeofConduct.md__: Ethical and moral guidelines to be followed while working 
     
 
 8. Submit a PR (pull request)
-    1. Go to your fork on GitHub and click Compare & pull request
-    2. Clearly explain what you’ve changed or added.
+    1. Go to your fork on GitHub and click Compare & pull request.
+    2. Provide a clear explanation of your changes.
 
 # For testing and development
 
@@ -292,11 +288,24 @@ __codeofConduct.md__: Ethical and moral guidelines to be followed while working 
         ⚠️ Note: In a Twilio trial account, the alert phone numbers must be verified in the console.
 
 # Additional tip
-Never commit personal data (like your images, email & SMS credentials, or passwords) in the project repository. Only use test data for development and local testing.
+
+    1. Keep your .env and private data uncommitted.
+    2. Only use sample data/images in public repositories.
+    3. Always test locally before pushing.
+
 # Troubleshooting tip
-If you’re on Windows and face errors while installing the face-recognition library (often related to dlib), follow these steps:
+
+If you're facing issues with installing face-recognition:
 ```
 pip install cmake
 pip install dlib
 pip install face-recognition
 ```
+# GSSoC Notes and Contributors
+
+This project is actively maintained under GSSoC 2025. Contributions are welcome via issues and PRs.
+
+Ethical Reminder: This system is designed for responsible use. Do not deploy in real-world environments without proper legal permissions and privacy compliance.
+
+🚫 Never store or share real user images or credentials publicly.
+
