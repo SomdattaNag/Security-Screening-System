@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="image_logs/banner.png" alt="Real-Time Security Screening System" width="100%">
+  <img src="Readme_images/banner.png" alt="Real-Time Security Screening System" width="100%">
 </p>
 
 <p align="center">
@@ -24,10 +24,11 @@ We welcome contributions from everyone! If you’re participating in **GirlScrip
 ## 📌 How to Contribute
 
 1. **Check Open Issues**  
-   Browse the [Issues section](https://github.com/SomdattaNag/Security-Screening-System/issues) and look for ones labeled `gssoc25`, `good first issue`, or `help wanted`.
+   Browse the [Issues section](https://github.com/SomdattaNag/Security-Screening-System/issues) and look for ones labeled `gssoc25`, `level1`,`level2` or `level3`.
 
 2. **Get Assigned**  
-   Before working on an issue, comment on it and wait to be officially assigned by a maintainer.
+   Before working on an issue, comment on it and wait to be officially assigned by a maintainer. We follow a FCFS policy, contributors who are waiting in line for an issue, will only get assigned if the first assignee doesn't complete their task.
+
 
 3. **Fork the Repository**  
    Click the `Fork` button at the top-right corner and clone your forked repo:

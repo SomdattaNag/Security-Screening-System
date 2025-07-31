@@ -133,7 +133,11 @@ __codeofConduct.md__: Ethical and moral guidelines to be followed while working 
 
 # Contribution Guidelines:
 
-1. Fork the Repository: Click the Fork button on GitHub to create your own copy of the repository.
+1. Check Open Issues or Open a new issue: Browse the [Issues section](https://github.com/SomdattaNag/Security-Screening-System/issues) and look for ones labeled `gssoc25`, `level1`,`level2` or `level3`. If you want to implement a new feature or enhance an existing feature, first open a new issue and wait for it to get labeled by mentor. Only the labeled issues will be considered to be availaible for contribution.
+
+2. Get Assigned: Before working on an issue, comment on it and wait to be officially assigned by a maintainer. We follow a FCFS policy, contributors who are waiting in line for an issue, will only get assigned if the first assignee doesn't complete their task.
+
+3. Fork the Repository: Click the Fork button on GitHub to create your own copy of the repository.
     Clone Your Fork Locally
     ```
     git clone <your-fork-url>
@@ -141,7 +145,7 @@ __codeofConduct.md__: Ethical and moral guidelines to be followed while working 
     ```
 
 
-2. Set Up a Virtual Environment (Optional):
+4. Set Up a Virtual Environment (Optional):
     
     ```
     python -m venv venv
@@ -150,26 +154,26 @@ __codeofConduct.md__: Ethical and moral guidelines to be followed while working 
     ```
 
 
-3. Install Dependencies
+5. Install Dependencies
     Dependencies are listed in requirements.txt. Install them with:
     ```
     pip install -r requirements.txt
     ```
 
-4. Work on a Feature or Fix
+6. Work on a Feature or Fix
 
-5. Create a new branch:
+7. Create a new branch:
     
     ```
     git checkout -b feature/your-feature-name
     ```
 
-6. Follow Best Practices:
+8. Follow Best Practices:
     1. Keep code modular and readable.
     2. Add comments where needed.
     3. Test your changes before committing.
 
-7. Commit Changes and Push
+9. Commit Changes and Push
     
     ```
     git add .
@@ -178,7 +182,7 @@ __codeofConduct.md__: Ethical and moral guidelines to be followed while working 
     ```
     
 
-8. Submit a PR (pull request)
+10. Submit a PR (pull request)
     1. Go to your fork on GitHub and click Compare & pull request.
     2. Provide a clear explanation of your changes.
 
