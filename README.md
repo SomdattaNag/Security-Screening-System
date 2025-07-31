@@ -17,39 +17,6 @@
 - [Note](#note)
 - [License](#license)
 
-# 🤝 Contribution Guidelines
-
-We welcome contributions from everyone! If you’re participating in **GirlScript Summer of Code 2025 (GSSoC'25)** or just exploring open source — you're welcome here!
-
-## 📌 How to Contribute
-
-1. **Check Open Issues**  
-   Browse the [Issues section](https://github.com/SomdattaNag/Security-Screening-System/issues) and look for ones labeled `gssoc25`, `level1`,`level2` or `level3`.
-
-2. **Get Assigned**  
-   Before working on an issue, comment on it and wait to be officially assigned by a maintainer. We follow a FCFS policy, contributors who are waiting in line for an issue, will only get assigned if the first assignee doesn't complete their task.
-
-
-3. **Fork the Repository**  
-   Click the `Fork` button at the top-right corner and clone your forked repo:
-   ```bash
-   git clone https://github.com/YOUR-USERNAME/Security-Screening-System.git
-
-4. **Create a New Branch**
-    Use a meaningful branch name like:
-    git checkout -b fix/readme-formatting
-
-5. **Make Your Changes**
-    Implement your fix or feature. Follow the coding style and comment where necessary.
-
-6. **Commit Changes**
-    Write clear, descriptive commit messages like:
-    git commit -m "Improved README formatting"
-
-7. **Push and Create Pull Request (PR)**
-    git push origin your-branch-name
-    Then go to your fork on GitHub and click "Compare & Pull Request".
-    
 
 ## 🧩 Problem Statement
 Traditional security checkpoints (e.g., airports, hotels, event venues) rely heavily on manual ID verification and human surveillance, which are time-consuming and prone to human error, vulnerable to identity fraud, forged documents, and look-alikes, inefficient in detecting wanted, banned, or high-risk individuals in real-time. Given the increasing need for automated, intelligent surveillance systems, there is a strong demand for a non-intrusive, reliable, and scalable solution to screen individuals based on biometric identity especially facial recognition without interrupting regular flow.
