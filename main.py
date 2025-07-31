@@ -16,6 +16,9 @@ pause_start_time = None
 paused_names_time = {}
 last_frame = None  # To freeze video while paused
 
+# for night mode
+night_mode_active = False  # Tracks if night mode is currently active
+
 # for start camera
 face_cap = None
 camera_started = False
@@ -73,6 +76,18 @@ def log_event(event,name, confidence):
     with open(log_file, "a") as f:
         f.write(log_entry)
 
+def is_low_light(frame, brightness_threshold=60):
+    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    return np.mean(gray) < brightness_threshold
+
+def enhance_for_low_light(frame):
+    lab = cv2.cvtColor(frame, cv2.COLOR_BGR2LAB)
+    l, a, b = cv2.split(lab)
+    l = cv2.equalizeHist(l)
+    enhanced = cv2.merge((l, a, b))
+    return cv2.cvtColor(enhanced, cv2.COLOR_LAB2BGR)
+
+
 def is_frame_suspicious(frame, gray_thresh=15, color_var_thresh=30, edge_thresh=25):
     """
     Detects suspicious frames: black/white/gray, or low-texture plain color frames with slight gradient.
@@ -125,6 +140,15 @@ def get_frame():
         return None
     
     # Detect tamper every 3 seconds
+    global night_mode_active
+    suspicious = is_frame_suspicious(frame)
+
+    if not suspicious and is_low_light(frame):
+        night_mode_active = True
+        frame = enhance_for_low_light(frame)
+    else:
+        night_mode_active = False
+    
     if time.time() - tamper_last_check > 3:
         if is_frame_suspicious(frame):
             if not tamper_detected:
@@ -294,6 +318,9 @@ def get_frame():
     for name in list(detection_time.keys()):
         if name not in detected_now:
             del detection_time[name]
+            
+    if night_mode_active:
+        cv2.putText(frame, "🌙 Night Mode", (10, 25), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (180, 180, 255), 1)
 
     return frame
 
