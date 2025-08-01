@@ -354,15 +354,6 @@ def get_status():
     """Return current status message and color for GUI"""
     return current_status, status_color
 
-# ------------- Add Pause/Resume Attribute Interface for GUI -----------
-def set_pause_vars(
-    get_is_paused, set_is_paused,
-    get_pause_start_time, set_pause_start_time,
-    get_paused_names_time, set_paused_names_time,
-):
-    global is_paused, pause_start_time, paused_names_time
-    # Not strictly needed with globals (optional if handling state in one file), but included for clarity & future-proofing
-
 # Start GUI
 
 video_app = guiwindow(
@@ -371,16 +362,7 @@ video_app = guiwindow(
     start_camera_callback=start_camera 
 )
 
-# Set pause state references for bidirectional access
-video_app.set_pause_vars(
-    lambda: is_paused,
-    lambda v: globals().__setitem__('is_paused', v),
-    lambda: pause_start_time,
-    lambda v: globals().__setitem__('pause_start_time', v),
-    lambda: paused_names_time,
-    lambda v: globals().__setitem__('paused_names_time', v),
-    lambda: detection_time 
-)
-
-
 video_app.run()
+
+
+
