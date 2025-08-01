@@ -17,6 +17,54 @@
 - [Note](#note)
 - [License](#license)
 
+Security-Screening-System/
+│
+├── alarms/                        # Alert sounds
+│   ├── safe.wav                   # Safe event audio
+│   └── threat.wav                 # Threat detection audio
+│
+├── csv_logs/                      # CSV logs of security events
+│   └── security_log.csv
+│
+├── data/Sample_image/            # Sample images for testing
+│   └── <uuid>.jpg                # Unique user image samples
+│
+├── encodings/                     # Saved face encodings
+│   └── face_encodings.pkl
+│
+├── gui/                           # GUI module
+│   └── gui.py
+│
+├── image_logs/                    # Captured images from detections
+│   └── Sample_image_<timestamp>.jpg
+│
+├── Readme_images/                 # Images used in documentation
+│   └── banner.png
+│
+├── .env.example                   # Sample environment config
+├── .gitignore                     # Git ignored files
+├── codeofConduct.md               # Community guidelines
+├── Data_Augmentation.py           # Data augmentation script
+├── learn.md                       # Training workflow details
+├── LICENSE                        # MIT License
+├── main.py                        # Main execution script
+├── message.py                     # Alert messaging logic
+├── README.md                      # Project documentation
+├── requirements.txt               # Python dependencies
+└── save_encodings.py              # Generate and save face encodings
+
+🛠️ Tech Stack
+Python – Core programming language
+
+OpenCV – For image processing and video stream handling
+
+Face Recognition – For facial encoding and identification
+
+SMTPLib – For sending email alerts on threats
+
+Winsound – For playing alert sounds (Windows only)
+
+
 
 ## 🧩 Problem Statement
 Traditional security checkpoints (e.g., airports, hotels, event venues) rely heavily on manual ID verification and human surveillance, which are time-consuming and prone to human error, vulnerable to identity fraud, forged documents, and look-alikes, inefficient in detecting wanted, banned, or high-risk individuals in real-time. Given the increasing need for automated, intelligent surveillance systems, there is a strong demand for a non-intrusive, reliable, and scalable solution to screen individuals based on biometric identity especially facial recognition without interrupting regular flow.
@@ -24,9 +72,104 @@ Traditional security checkpoints (e.g., airports, hotels, event venues) rely hea
 ## 💡 Proposed Solution
 A real-time security screening system, using face recognition with OpenCV. The system aims to scan individuals via a webcam at checkpoints (e.g., hotels, airports). If a person’s face matches an entry in the system’s dataset of known threats, runaway criminals or wanted individuals, the system triggers a threat alarm and sends messages and phone alerts to authorities based on the level of threat. Otherwise, a safe alarm is triggered, allowing them to proceed.
 
-## 👥 Contributors and Learning Resources
-As of July 2025, this project is a part of GirlScript Summer of Code 2025. Please read the README file carefully to understand the project workflow. For contribution tips and extended documentation, see the [Learn Guide](./learn.md).
-Only the issue with the label __gssoc25__ are open for GSSoC contributors right now.
+⚙️ Installation & Setup
+To run the Security Screening System locally, follow these steps:
+
+🚀 1. Fork the Repository (if contributing)
+If you plan to collaborate or contribute:
+
+Click on the Fork button at the top right of this repo
+
+Clone your forked repo:
+
+bash
+Copy
+Edit
+git clone https://github.com/<your-username>/Security-Screening-System.git
+cd Security-Screening-System
+Otherwise, to only run the project locally:
+
+bash
+Copy
+Edit
+git clone https://github.com/SomdattaNag/Security-Screening-System.git
+cd Security-Screening-System
+📦 2. Set Up a Virtual Environment (Optional but Recommended)
+bash
+Copy
+Edit
+# Create virtual environment
+python -m venv venv
+
+# Activate the environment
+# On Windows:
+venv\Scripts\activate
+# On Mac/Linux:
+source venv/bin/activate
+📚 3. Install Dependencies
+Make sure you have Python 3.8+ installed. Then run:
+
+bash
+Copy
+Edit
+pip install -r requirements.txt
+If face_recognition gives issues on Windows, try:
+
+bash
+Copy
+Edit
+pip install cmake
+pip install dlib
+pip install face_recognition
+🔐 4. Configure Environment Variables
+Duplicate the .env.example and rename it to .env. Fill in your email credentials (used to send alerts):
+
+ini
+Copy
+Edit
+EMAIL_SENDER=youremail@gmail.com
+EMAIL_PASSWORD=yourpassword
+EMAIL_RECEIVER=securityteam@example.com
+⚠️ Important: For Gmail, you may need to allow "Less Secure Apps" or use an App Password.
+
+🖥️ 5. Run the Application
+bash
+Copy
+Edit
+python main.py
+Optional:
+
+bash
+Copy
+Edit
+python save_encodings.py        # Save encodings for new faces
+python Data_Augmentation.py     # If you want to train with more data
+🤝 Contribution Guidelines
+We welcome contributions! To contribute:
+
+Fork the repository
+
+Create a new branch:
+
+bash
+Copy
+Edit
+git checkout -b feature/YourFeatureName
+Commit your changes:
+
+bash
+Copy
+Edit
+git commit -m "Add: Your message"
+Push to the branch:
+
+bash
+Copy
+Edit
+git push origin feature/YourFeatureName
+Open a Pull Request 🛠️
+
+Please follow our Code of Conduct and ensure your changes are well-documented.
 
 ## ✨ Features
 1. The system scans individuals and detects faces.
