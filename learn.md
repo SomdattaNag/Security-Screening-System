@@ -133,7 +133,7 @@ __codeofConduct.md__: Ethical and moral guidelines to be followed while working 
 
 # Contribution Guidelines:
 
-1. Check Open Issues or Open a new issue: Browse the [Issues section](https://github.com/SomdattaNag/Security-Screening-System/issues) and look for ones labeled `gssoc25`, `level1`,`level2` or `level3`. If you want to implement a new feature or enhance an existing feature, first open a new issue and wait for it to get labeled by mentor. Only the labeled issues will be considered to be availaible for contribution.
+1. Check Open Issues or Open a new issue: Browse the [Issues section](https://github.com/SomdattaNag/Security-Screening-System/issues) and look for ones labeled `gssoc25`, `level1`,`level2` or `level3`. If you want to implement a new feature or enhance an existing feature, first open a new issue and wait for it to get labeled. Only the labeled issues will be considered to be availaible for contribution.
 
 2. Get Assigned: Before working on an issue, comment on it and wait to be officially assigned by a maintainer. We follow a FCFS policy, contributors who are waiting in line for an issue, will only get assigned if the first assignee doesn't complete their task.
 
