@@ -64,7 +64,7 @@ Matched faces and related data (name, time, confidence) are saved to a .csv file
 
 <h2>Technology Used🚀</h2>
 
-Python, OpenCV,  Face Recognition, SMTPLib, Winsound.
+Python, OpenCV,  Face Recognition, SMTPLib, playsound, Pytorch, Tkinter, Twilio, Pillow.
 
 
 <h2>Getting Started</h2>
@@ -114,7 +114,7 @@ git merge upstream/main
 
 **8.** Stage your changes and commit them:
 
-⚠️ **Make sure** not to commit `package.json` or `package-lock.json` file
+⚠️ **Make sure** not to commit sensitive files like .env or any files listed in .gitignore.
 
 ⚠️ **Make sure** not to run the commands `git add .` or `git add *`. Instead, stage your changes for each file/folder
 
