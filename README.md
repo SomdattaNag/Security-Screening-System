@@ -64,7 +64,7 @@ Matched faces and related data (name, time, confidence) are saved to a .csv file
 
 <h2>Technology Used🚀</h2>
 
-Python, OpenCV,  Face Recognition, SMTPLib, playsound, Pytorch, Tkinter, Twilio, Pillow.
+Python, OpenCV,  Face Recognition, SMTPLib, playsound, PyTorch, Tkinter, Twilio, Pillow.
 
 
 <h2>Getting Started</h2>
