@@ -19,55 +19,133 @@
 
 
 ## 🧩 Problem Statement
-Traditional security checkpoints (e.g., airports, hotels, event venues) rely heavily on manual ID verification and human surveillance, which are time-consuming and prone to human error, vulnerable to identity fraud, forged documents, and look-alikes, inefficient in detecting wanted, banned, or high-risk individuals in real-time. Given the increasing need for automated, intelligent surveillance systems, there is a strong demand for a non-intrusive, reliable, and scalable solution to screen individuals based on biometric identity especially facial recognition without interrupting regular flow.
+
+In places like airports, hotels, and event venues, security checks are usually done by humans. They check ID cards and watch people manually. But this process takes a lot of time and can have many mistakes. For example, someone might use a fake ID, or look very similar to another person, and the security team might not notice. It’s also hard for them to quickly find people who are dangerous or not allowed to enter.
+Because of this, there is a growing need for a better system. We need a smart, automatic solution that can check people’s identities using their face (facial recognition). This system should work smoothly without stopping the normal flow of people. It should also be safe, accurate, and easy to use in many places.
+
 
 ## 💡 Proposed Solution
-A real-time security screening system, using face recognition with OpenCV. The system aims to scan individuals via a webcam at checkpoints (e.g., hotels, airports). If a person’s face matches an entry in the system’s dataset of known threats, runaway criminals or wanted individuals, the system triggers a threat alarm and sends messages and phone alerts to authorities based on the level of threat. Otherwise, a safe alarm is triggered, allowing them to proceed.
+
+We are creating a smart security system that uses facial recognition with the help of OpenCV. This system will work in real-time using a webcam at places like airports or hotels.
+When a person walks in front of the camera, the system will scan their face and compare it with a database of known criminals, wanted people, or other threats.
+If it finds a match, it will quickly raise a threat alert and send warning messages or phone alerts to the authorities, depending on how serious the threat is.
+If there’s no match and the person is safe, a safe signal will be shown, and they can move ahead without any issues.This makes security faster, smarter, and more reliable.
+
 
 ## 👥 Contributors and Learning Resources
+
 As of July 2025, this project is a part of GirlScript Summer of Code 2025. Please read the README file carefully to understand the project workflow. For contribution tips and extended documentation, see the [Learn Guide](./learn.md).
 Only the issue with the label __gssoc25__ are open for GSSoC contributors right now.
 
+
 ## ✨ Features
-1. The system scans individuals and detects faces.
 
-2. Compares detected faces against a dataset of wanted/banned/runaway individuals.
+1. The system uses a webcam to scan each person and detect their face.
+2. Once a face is detected, it checks the system’s database to see if the person is on a list of wanted, banned, or runaway individuals.
+3. The system takes around 10 seconds to carefully analyze the face and decide if it matches someone in the database.
+4. If the person is not in the database, a safe signal is shown, and they can continue without any problem.
+5. If the system does find a match:
+   A threat alert is activated.
+   An email or SMS is sent to the authorities based on how serious the threat is (low, medium, or high).
+   If the match is very strong (over 90% confidence), a call alert is also triggered for urgent action.
+6. The system automatically saves the image and details of the matched person for legal and verification records.
+7. To improve accuracy, the system supports data augmentation. You can run a file called `data_augmentation.py` after adding new images to make the face recognition work better.
 
-3. The system takes 10 seconds to analyze and confirm the match before coming to a conclusion.
-
-4. If no match is found a safe_alarm is triggered indicating the person is harmless and safe to go.
-
-5. If a match is found a threat_alarm is triggered and email/SMS messages are sent directly to the authorities, based on the level of threat (low/medium/high) notifying them of the potential threat.If the threat is classified as major — with a confidence level exceeding 90% — a call alert is also triggered, ensuring immediate action in cases where the individual is almost certainly a known or wanted person.
-
-6. Matched individuals' images and details are automatically logged into the system for verification and legal tracking purposes.
-
-7. Includes data augmentation support — run `data_augmentation.py` after adding new images to improve face recognition accuracy.
 
 ## 🔁 Workflow
-1. Dataset: The dataset contains folders for each wanted individual. The folder contains images of that individual. The larger the number of images, the better the precision of the system. The system has been tested with personal images. For now, sample images are used to fill the folder.
 
-2. Face Encoding & Labeling: The system loads all images, extracts facial features using the face_recognition model, and encodes them into numerical vectors.It then assigns each encoding to the person’s name based on the folder structure.
+The system starts by organizing images into folders—one for each wanted person. More images improve accuracy. These images are then encoded using the face_recognition library, converting facial features into numerical values and labeling them based on folder names.
 
-3. Real time face recognition: Scans the individual's face using OpenCV. Detects and extracts faces in real time. Compares detected faces against stored encodings using distance metrics. If similarity is below a certain threshold (< 0.4), the person is identified. The threshold is intentionally set lower in order to avoid false positives. While false negatives can be handled with additional procedures, false positives can cause serious harassment and authority disturbances and are therefore minimized.
+During real-time scanning with OpenCV, the webcam detects and extracts faces, which are then compared with stored encodings. If the similarity is below 0.4, the person is considered a match. The system waits 10 seconds to confirm identity and avoids duplicate alerts within 30 seconds.
 
-4. Identity Confirmation: The system takes 10 seconds to analyze and confirm the match. If the match remains consistent for 10 seconds and the alarm has not been triggered for the last 30 seconds, it triggers the alarm based on the match type: safe_alarm for "No match" and threat_alarm for "match".
+If no match is found, a safe_alarm is triggered. If a match is found, a threat_alarm is activated, followed by email and SMS alerts containing the individual’s name, photo, time, and IP location. If the threat is major (confidence > 90%), a call alert is also triggered.
 
-5. Email Notification: If a threat is identified and threat_alarm is triggered an email is sent to authorities including the name, photo, time and IP location of the individual. The authorities can be the organisation's security, admin, police authorities, local authorities, public safety etc.
+Matched faces and related data (name, time, confidence) are saved to a .csv file for tracking and verification. To improve recognition accuracy, users can run data_augmentation.py after adding new images.
 
-6. SMS Notification:
-If a threat is identified and threat_alarm is triggered, an SMS alert is sent to the concerned authorities. The message includes key details such as the individual's name, time of detection and IP location of the individual.
+<h2>Technology Used🚀</h2>
 
-7. Call alert: If the threat is classified as major — with a confidence level exceeding 90% — a call alert is also triggered, ensuring immediate action in cases where the individual is almost certainly a known or wanted suspect.
+Python, OpenCV,  Face Recognition, SMTPLib, Winsound.
 
-8. Logging Matched faces: When a match is detected, the system automatically saves the individual’s face image and logs associated data (like name, timestamp, confidence level) into a `.csv` file for legal and verification purposes.
 
-9. Advanced data augmentation: Every time an image is added, run the `data_augmentation.py` script to add more diverse set images for each person.
+<h2>Getting Started</h2>
+**1.** Start by forking the [**Security-Screening-System**](https://github.com/SomdattaNag/Security-Screening-System) repository. 
+**2.** Clone your forked repository:
+
+```bash
+git clone https://github.com/<your-github-username>/Security-Screening-System
+```
+**3.** Navigate to the new project directory:
+
+```bash
+cd Security-Screening-System
+```
+**4.** Set upstream command:
+
+```bash
+git remote add upstream https://github.com/SomdattaNag/Security-Screening-System
+```
+**5.** Create a new branch:
+
+```bash
+git checkout -b YourBranchName
+```
+
+<i>or</i>
+
+```bash
+git branch YourBranchName
+git switch YourBranchName
+```
+**6.** Sync your fork or local repository with the origin repository:
+
+In your forked repository, click on the `Fetch upstream` button.
+Then select `Fetch and merge` to sync changes from the original repo.
+
+###  Alternatively, use Git CLI to sync with the original repository:
+
+```bash
+git fetch upstream
+```
+
+```bash
+git merge upstream/main
+```
+**7.** After syncing, go ahead and make your changes in the codebase.
+
+**8.** Stage your changes and commit them:
+
+⚠️ **Make sure** not to commit `package.json` or `package-lock.json` file
+
+⚠️ **Make sure** not to run the commands `git add .` or `git add *`. Instead, stage your changes for each file/folder
+
+```bash
+git add file/folder
+```
+
+```bash
+git commit -m "<your_commit_message>"
+```
+
+**9.** Push your changes to GitHub:
+Use the command below to push your branch to your GitHub repository:
+
+```bash
+git push origin YourBranchName
+```
+**10.** Create a Pull Request!
+
+ **🎉 Congratulations! You've successfully made your first contribution!**
+
 
 ## 📝 Note
-1. This is a functional prototype designed for a security checkpoint use case. It demonstrates the core facial recognition and threat-detection logic of a real-time screening system. The project is modular and can be extended to integrate with IoT hardware or GUI modules as needed.
-2. Due to a deliberately lower matching threshold to reduce false positives, the system might produce false negatives in a few cases.
-3. To improve accuracy and reliability, it is recommended to use a larger number of diverse images of each individual in the dataset.
-4. Only the data of individuals identified as potential threats or confirmed matches is temporarily stored in the system for legal verification purposes. We prioritize civilian privacy and, as such, the system does not store any data of non-matching or safe individuals. All data retention is limited to potential threats only handled with strict confidentiality.
+
+1. This project is a working prototype built for security checkpoint scenarios. It showcases the core logic of real-time facial recognition and threat detection. The system is modular and can be expanded with IoT devices or a GUI if needed.
+
+2. The matching threshold is set lower to avoid false positives. As a result, a few false negatives may occur.
+
+3. For better accuracy, it's advised to include a large and diverse set of images for each individual in the dataset.
+
+4. The system only stores data of individuals flagged as threats or confirmed matches for legal verification. No data is stored for safe or non-matching individuals, ensuring user privacy. All stored data is handled with strict confidentiality.
 
 ## 📄 License
 This project is licensed under the [MIT License](LICENSE).
