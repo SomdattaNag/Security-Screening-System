@@ -24,7 +24,8 @@ This project is a Real-Time Security Screening System utilizing face recognition
     2. Safe Alarm: When no match is found
 6. Email and SMS notifications are automatically sent to authorities when a potential threat is detected, containing the suspect's details and threat level. If the threat is classified as major — with a confidence level exceeding 90% — a call alert is also triggered, ensuring immediate action in cases where the individual is almost certainly a known or wanted person.
 7. If a match is found, the individual's image is automatically logged in the system for future verification and other legal procedures. Their data is also logged in a csv file for further legal verification process.
-8. Modular and extendable prototype suitable for further integrations (IoT hardware, GUI, etc.).
+8. Clean and interactive GUI for user interaction.
+9. Modular and extendable prototype suitable for further integrations (IoT hardware etc.).
 
 # Usage Instructions
 
