@@ -48,7 +48,8 @@ project/
 │   └── [Person Name]/
 │        └── image1.jpg
 │        └── image2.png
-│
+├── Readme_images/
+│   └── banner.jpg
 ├── gui/
 │   └── gui.py
 ├── image_logs/
@@ -80,6 +81,8 @@ __gui/__: Logic for the graphical User Inerface of the System.
 __image_log/__: If a match is found, the individual's image is automatically logged here.If it doesn't exist, created automatically.
 
 __csv_log/__: If a match is found, the individual's data is automatically logged here in a csv file.If it doesn't exist, created automatically. The gui has a 'export logs' button to export and download this file when needed.
+
+__Readme_images__/: Stores images used in documentation.
 
 __encodings.pkl__: A binary file storing the precomputed face encodings and names, used to speed up face recognition in the main application.
 
