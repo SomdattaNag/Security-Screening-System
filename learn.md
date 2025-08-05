@@ -6,6 +6,7 @@
 - [Folder Structure](#folder-structure)
 - [Project Setup](#project-setup)
 - [Contribution Guidelines](#contribution-guidelines)
+- [Rules for Contributors](#rules-for-contributors)
 - [For Testing and Development](#for-testing-and-development)
 - [Additional Tip](#additional-tip)
 
@@ -189,6 +190,16 @@ __codeofConduct.md__: Ethical and moral guidelines to be followed while working 
 10. Submit a PR (pull request)
     1. Go to your fork on GitHub and click Compare & pull request.
     2. Provide a clear explanation of your changes.
+
+# Rules for Contributors
+
+**1.** Assignement to contributors is on a FCFS ( First Come First Serve basis), whoever comments first gets assigned first.
+**2.** The contributors who comes next, gets assigned if the previous assignee doesn't complete their task.
+**3.** General deadline for each level of assignment:
+       1. level 1: maximum 2-3 days
+       2. level 2: maximum 5-6 days
+       3. level 3: maximum 7-8 days
+**4.** If contributors want more days to work, deadline can be extended.
 
 # For testing and development
 
