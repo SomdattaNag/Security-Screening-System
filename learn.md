@@ -130,9 +130,9 @@ __codeofConduct.md__: Ethical and moral guidelines to be followed while working 
     2. Set up a free Twilio account, obtain your credentials from the dashboard, and verify your test phone numbers.
 8. Run the Project
     1. run the saveencodings file to save face encoding for the individual once before starting the project.
-        python saveencodings.py
+        ```python saveencodings.py```
     2. run the main file 
-        python main.py
+        ```python main.py```
 9. Stop the System
     Press 'q' in the webcam window or close the window to stop.
 
