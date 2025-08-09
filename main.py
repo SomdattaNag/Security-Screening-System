@@ -187,11 +187,9 @@ def get_frame():
                 print("[Tamper] Suspicious frame started")
             
             if not tamper_alert_sent:
-                current_status = "⚠️ Possible tampering detected - Low visual content"
+                current_status = "⚠️ Possible tampering detected - Low visual content. Please review the camera device"
                 status_color = '#ff0000'
-                print("[Tamper Alert] Alerting authorities...")
-                run_in_background(send_sms, "Camera Tampering", 100)
-                run_in_background(send_email, "Camera Tampering", frame, 100)
+                print("[Tamper Alert] Visual anomaly Detected. Please review the camera device")
                 tamper_alert_sent = True
 
                 # Update status panel
@@ -203,9 +201,6 @@ def get_frame():
                 print("[Tamper] Tampering ended")
                 current_status = "✅ Camera recovered from tampering"
                 status_color = "#00ff00"
-                run_in_background(send_sms, "Camera Recovered", 100)
-                run_in_background(send_email, "Camera Recovered", frame, 100)
-
 
                 # Update GUI immediately
                 if 'video_app' in globals() and hasattr(video_app, 'update_status'):
