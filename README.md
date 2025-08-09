@@ -41,15 +41,20 @@ Only the issue with the label __gssoc25__ are open for GSSoC contributors right 
 ## ✨ Features
 
 1. The system uses a webcam to scan each person and detect their face.
-2. Once a face is detected, it checks the system’s database to see if the person is on a list of wanted, banned, or runaway individuals.
-3. The system takes around 10 seconds to carefully analyze the face and decide if it matches someone in the database.
-4. If the person is not in the database, a safe signal is shown, and they can continue without any problem.
-5. If the system does find a match:
+2. Before running face recognition, the system now uses a YOLOv5-based **Accessory Detection Module** to check if the person is wearing any **mask, sunglasses, or cap**.
+3. If any accessory is detected:
+   - A GUI warning is shown telling the individual to remove it.
+   - Face recognition is paused (frames keep running, no freezing).
+   - Once the accessory is removed for a few consecutive frames, normal face recognition resumes.
+4. Once a clear face is detected, it checks the system’s database to see if the person is on a list of wanted, banned, or runaway individuals.
+5. The system takes around 10 seconds to carefully analyze the face and decide if it matches someone in the database.
+6. If the person is not in the database, a safe signal is shown, and they can continue without any problem.
+7. If the system does find a match:
    A threat alert is activated.
    An email or SMS is sent to the authorities based on how serious the threat is (low, medium, or high).
    If the match is very strong (over 90% confidence), a call alert is also triggered for urgent action.
-6. The system automatically saves the image and details of the matched person for legal and verification records.
-7. To improve accuracy, the system supports data augmentation. You can run a file called `data_augmentation.py` after adding new images to make the face recognition work better.
+8. The system automatically saves the image and details of the matched person for legal and verification records.
+9. To improve accuracy, the system supports data augmentation. You can run a file called `data_augmentation.py` after adding new images to make the face recognition work better.
 
 
 ## 🔁 Workflow
@@ -112,7 +117,11 @@ git merge upstream/main
 ```
 **7.** After syncing, go ahead and make your changes in the codebase.
 
-**8.** Stage your changes and commit them:
+**8.** Before Running main.py, Install Requirements
+```bash
+pip install -r requirements.txt
+``` 
+**9.** Stage your changes and commit them:
 
 ⚠️ **Make sure** not to commit sensitive files like .env or any files listed in .gitignore.
 
@@ -126,13 +135,13 @@ git add file/folder
 git commit -m "<your_commit_message>"
 ```
 
-**9.** Push your changes to GitHub:
+**10.** Push your changes to GitHub:
 Use the command below to push your branch to your GitHub repository:
 
 ```bash
 git push origin YourBranchName
 ```
-**10.** Create a Pull Request!
+**11.** Create a Pull Request!
 
  **🎉 Congratulations! You've successfully made your first contribution!**
 
