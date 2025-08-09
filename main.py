@@ -11,6 +11,7 @@ import datetime
 import pickle
 import threading
 import torch
+import pathlib
 
 # --- Pause/Resume global state ---
 is_paused = False
@@ -124,9 +125,14 @@ def is_frame_suspicious(frame, gray_thresh=15, color_var_thresh=30, edge_thresh=
 
     return False
 
-# Load YOLOv5 model once
+# Load YOLOv5 model
+temp = pathlib.PosixPath
+
+if os.name == 'nt':
+    pathlib.PosixPath = pathlib.WindowsPath
 yolo_model = torch.hub.load('yolov5', 'custom', path='models/yolov5n_best.pt', source='local')
 ACCESSORY_CLASSES = ["mask", "sunglasses", "cap"]
+pathlib.PosixPath = temp
 
 def detect_accessories(frame, conf_threshold=0.7):
     results = yolo_model(frame)
@@ -137,7 +143,7 @@ def detect_accessories(frame, conf_threshold=0.7):
         label = str(row['name']).lower()
         conf = float(row['confidence'])
         if label in ACCESSORY_CLASSES :
-            if label == "mask" and conf >= 0.5:
+            if label == "mask":
                 accessories_found.append(label)
             elif conf>= conf_threshold:
                 accessories_found.append(label)
