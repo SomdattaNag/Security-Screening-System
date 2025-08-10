@@ -10,6 +10,9 @@ from gui.gui import guiwindow
 import datetime
 import pickle
 import threading
+import torch
+import pathlib
+
 # --- Pause/Resume global state ---
 is_paused = False
 pause_start_time = None
@@ -122,6 +125,31 @@ def is_frame_suspicious(frame, gray_thresh=15, color_var_thresh=30, edge_thresh=
 
     return False
 
+# Load YOLOv5 model
+temp = pathlib.PosixPath
+
+if os.name == 'nt':
+    pathlib.PosixPath = pathlib.WindowsPath
+yolo_model = torch.hub.load('yolov5', 'custom', path='models/yolov5n_best.pt', source='local')
+ACCESSORY_CLASSES = ["mask", "sunglasses", "cap", "scarf-kerchief"]
+pathlib.PosixPath = temp
+
+def detect_accessories(frame, conf_threshold=0.5):
+    results = yolo_model(frame)
+    detections = results.pandas().xyxy[0]
+    accessories_found = []
+
+    for _, row in detections.iterrows():
+        label = str(row['name']).lower()
+        conf = float(row['confidence'])
+        if label in ACCESSORY_CLASSES :
+            if label == "mask" and conf>=0.4:
+                accessories_found.append(label)
+            elif conf>= conf_threshold:
+                accessories_found.append(label)
+
+    return accessories_found
+
 def get_frame():
     global prev_time, current_status, status_color, is_paused, pause_start_time, paused_names_time, last_frame,tamper_detected,tamper_last_check,tamper_alert_sent
     # Check if camera is started and opened
@@ -208,6 +236,14 @@ def get_frame():
             return last_frame
     else:
         last_frame = frame.copy()
+
+    # -------------- Accessory Detection Before Face Recognition --------------
+    accessories = detect_accessories(frame)
+
+    if accessories:
+        current_status = f"⚠️ Please remove: {', '.join(accessories).title()}"
+        status_color = '#ff0000' 
+        return frame  # Skip face recognition while showing live frames
 
     small_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
     rgb_small_frame = cv2.cvtColor(small_frame, cv2.COLOR_BGR2RGB)
