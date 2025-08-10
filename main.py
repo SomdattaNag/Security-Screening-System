@@ -131,7 +131,7 @@ temp = pathlib.PosixPath
 if os.name == 'nt':
     pathlib.PosixPath = pathlib.WindowsPath
 yolo_model = torch.hub.load('yolov5', 'custom', path='models/yolov5n_best.pt', source='local')
-ACCESSORY_CLASSES = ["mask", "sunglasses", "cap"]
+ACCESSORY_CLASSES = ["mask", "sunglasses", "cap", "scarf-kerchief"]
 pathlib.PosixPath = temp
 
 def detect_accessories(frame, conf_threshold=0.7):
@@ -143,7 +143,7 @@ def detect_accessories(frame, conf_threshold=0.7):
         label = str(row['name']).lower()
         conf = float(row['confidence'])
         if label in ACCESSORY_CLASSES :
-            if label == "mask":
+            if label == "mask" and conf>=0.3:
                 accessories_found.append(label)
             elif conf>= conf_threshold:
                 accessories_found.append(label)
