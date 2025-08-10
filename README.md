@@ -15,7 +15,9 @@
 - [Features](#features)
 - [Workflow](#workflow)
 - [Note](#note)
+- [Acknowledgement](#acknowledgments)
 - [License](#license)
+- [Legal](#legal)
 
 
 ## 🧩 Problem Statement
@@ -165,6 +167,25 @@ git push origin YourBranchName
 
 4. The system only stores data of individuals flagged as threats or confirmed matches for legal verification. No data is stored for safe or non-matching individuals, ensuring user privacy. All stored data is handled with strict confidentiality.
 
+5. Because YOLOv5 is licensed under AGPL-3.0, any modifications or distribution of this project that include YOLOv5 must also comply with the same license terms. 
+
+## Acknowledgments
+- This project uses [Ultralytics YOLOv5](https://github.com/ultralytics/yolov5) (AGPL-3.0) for training an accessory-detection model.  
+- Dataset annotations were created using [RoboFlow](https://roboflow.com).  
+- The trained model weights (`yolov5n_best.pt`) are derived from YOLOv5’s pretrained `yolov5n.pt`.  
+- The folder yolov5 contains necessary files from `Ultralytics YOLOv5` needed to load model.
+
 ## 📄 License
-This project is licensed under the [MIT License](LICENSE).
+This project is licensed under the [GNU Affero General Public License v3.0 (AGPL-3.0)](https://www.gnu.org/licenses/agpl-3.0.html).
+
+The project includes code derived from the [YOLOv5](https://github.com/ultralytics/yolov5) repository, which is also licensed under AGPL-3.0.
+
+By using this project, you agree to comply with the terms of the AGPL-3.0 license.
+
+See the full license text in the [LICENSE](LICENSE) file.
+
+## Legal  
+- Uses [Ultralytics YOLOv5](https://github.com/ultralytics/yolov5) (**AGPL-3.0**).  
+- Custom weights (`yolov5n_best.pt`) trained via RoboFlow.  
+- **AGPL-3.0 applies to all derivative works.**  
 
