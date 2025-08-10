@@ -142,8 +142,11 @@ def detect_accessories(frame, conf_threshold=0.5):
     for _, row in detections.iterrows():
         label = str(row['name']).lower()
         conf = float(row['confidence'])
-        if label in ACCESSORY_CLASSES and conf>= conf_threshold:
-            accessories_found.append(label)
+        if label in ACCESSORY_CLASSES :
+            if label == "mask" and conf>=0.4:
+                accessories_found.append(label)
+            elif conf>= conf_threshold:
+                accessories_found.append(label)
 
     return accessories_found
 
