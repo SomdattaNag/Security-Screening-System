@@ -8,6 +8,7 @@
 - [Contribution Guidelines](#contribution-guidelines)
 - [Rules for Contributors](#rules-for-contributors)
 - [For Testing and Development](#for-testing-and-development)
+- [Notes on object detection- Yolov5](#notes-on-yolov5-custom-model--object-detection-inference-in-our-system)
 - [Additional Tip](#additional-tip)
 
 # Project Overview
@@ -26,7 +27,8 @@ This project is a Real-Time Security Screening System utilizing face recognition
 6. Email and SMS notifications are automatically sent to authorities when a potential threat is detected, containing the suspect's details and threat level. If the threat is classified as major — with a confidence level exceeding 90% — a call alert is also triggered, ensuring immediate action in cases where the individual is almost certainly a known or wanted person.
 7. If a match is found, the individual's image is automatically logged in the system for future verification and other legal procedures. Their data is also logged in a csv file for further legal verification process.
 8. Clean and interactive GUI for user interaction.
-9. Modular and extendable prototype suitable for further integrations (IoT hardware etc.).
+9. Real time object detection to warn users to remove any face accessory like cap, scarf, masks etc. that can hamper the face recognition scanning.
+10. Modular and extendable prototype suitable for further integrations (IoT hardware etc.).
 
 # Usage Instructions
 
@@ -36,6 +38,8 @@ This project is a Real-Time Security Screening System utilizing face recognition
     Threat Detected → Threat Alarm + Email/SMS + Logs created
     No Match Found → Safe Alarm
 4. Exit the program by pressing 'q' or closing the webcam window
+
+**Note**: The system optionally checks for face accessories that stop screening to ensure users cooperate with scanning without any obstruction. 
 
 # Folder Structure
 
@@ -52,14 +56,26 @@ project/
 │        └── image2.png
 ├── Readme_images/
 │   └── banner.jpg
+│
 ├── gui/
 │   └── gui.py
+│
 ├── image_logs/
 │   └── matched_individual_image.jpg
+│
 ├── csv_logs/
 │   └──security_log.csv
+│
 ├── encoding/
 │   └── face_encodings.pkl
+│
+├── models/
+│   └── data.yaml
+│   └── yolov5n_best.pt
+│
+├── yolov5/
+│   
+│
 ├── saveencodings
 ├── Data_Augmentation.py
 │   
@@ -86,6 +102,10 @@ __csv_log/__: If a match is found, the individual's data is automatically logged
 
 __Readme_images__/: Stores images used in documentation.
 
+__models/__: Contains the trained model weights (yolov5n_best.pt) and related configuration files (data.yaml) used for accessory detection.
+
+__yolov5/__: Includes a minimal set of files from the official Ultralytics YOLOv5 repository required to run inference with the custom-trained model.
+
 __encodings.pkl__: A binary file storing the precomputed face encodings and names, used to speed up face recognition in the main application.
 
 __saveencodings__: A script that scans the dataset, extracts facial encodings for each image, and saves them with corresponding names.
@@ -106,7 +126,7 @@ __README.md__: Original project description.
 
 __learn.md__: This learning and documentation guide.
 
-__LICENSE__: This project is licensed under the [MIT License](LICENSE).
+__LICENSE__: This project is licensed under the [GNU Affero General Public License v3.0 (AGPL-3.0)](https://www.gnu.org/licenses/agpl-3.0.html).
 
 __codeofConduct.md__: Ethical and moral guidelines to be followed while working on the project by all the respective members.
 
@@ -305,6 +325,34 @@ __codeofConduct.md__: Ethical and moral guidelines to be followed while working 
         ```
 
         ⚠️ Note: In a Twilio trial account, the alert phone numbers must be verified in the console.
+
+# Notes on Yolov5 custom model & object detection inference in our system:
+
+This project incorporates a custom-trained YOLOv5 model for accessory detection (cap, mask, scarf-kerchief, sunglasses) as a key component of the security screening system.
+
+The model was developed by a contributor who:
+
+1. Extended the dataset to 1005 images (852 training, 153 validation) using images collected from Google/Bing and manual downloads.
+
+2. Annotated the dataset via Roboflow in YOLOv5 PyTorch format, labeling normal glasses as part of the person class.
+
+3. Trained the model on the YOLOv5 pretrained weights (yolov5n.pt) for 100 epochs, achieving approximately 85–90% accuracy.
+
+4. Saved the best weights as yolov5n_best.pt, which is used in this system for real-time accessory detection.
+
+5. The minimal subset of the official Ultralytics YOLOv5 repository is included locally to support inference with this custom model, ensuring compliance with the AGPL-3.0 license.
+
+6. By integrating YOLOv5 under AGPL-3.0, this project honors all requirements including providing source code for any modifications and distributing the custom trained weights under the same license.
+
+Model loading in the code uses the local files only:
+
+```
+import torch
+yolo_model = torch.hub.load('yolov5', 'custom', path='models/yolov5n_best.pt', source='local')
+```
+This setup enables fast, on-device accessory detection while complying with the original YOLOv5 licensing terms.
+
+
 
 # Additional tip
 
