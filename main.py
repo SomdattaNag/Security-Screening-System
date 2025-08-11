@@ -12,7 +12,7 @@ import pickle
 import threading
 import torch
 import pathlib
-
+from voice import speak_event,speak_sequence
 # --- Pause/Resume global state ---
 is_paused = False
 pause_start_time = None
@@ -31,6 +31,12 @@ camera_error = None
 tamper_detected = False
 tamper_last_check = 0
 tamper_alert_sent = False
+
+# Voice/state management for start conditions
+screening_msg = False
+voice_sequence_playing = False
+first_face_sequence_played = False
+scroll_x = 640
 
 prev_time = 0
 IMAGE_LOG_DIR = "image_logs"
@@ -151,7 +157,7 @@ def detect_accessories(frame, conf_threshold=0.5):
     return accessories_found
 
 def get_frame():
-    global prev_time, current_status, status_color, is_paused, pause_start_time, paused_names_time, last_frame,tamper_detected,tamper_last_check,tamper_alert_sent
+    global prev_time, current_status, status_color, is_paused, pause_start_time, paused_names_time, last_frame,tamper_detected,tamper_last_check,tamper_alert_sent,screening_msg,first_face_sequence_played,voice_sequence_playing,scroll_x
     # Check if camera is started and opened
     if not camera_started or face_cap is None or not face_cap.isOpened():
         blank = np.zeros((480, 640, 3), dtype=np.uint8)
@@ -239,12 +245,22 @@ def get_frame():
 
     # -------------- Accessory Detection Before Face Recognition --------------
     accessories = detect_accessories(frame)
-
     if accessories:
         current_status = f"⚠️ Please remove: {', '.join(accessories).title()}"
-        status_color = '#ff0000' 
+        speak_event("remove_accessory",f"Please remove: {', '.join(accessories)}")
+        status_color = '#ff0000'    
         return frame  # Skip face recognition while showing live frames
-
+    
+    # Wait until first "Security Screening System starting" message finishes before scanning
+    if voice_sequence_playing:
+        message = "Security Screening System starting. People are waiting in line, please cooperate with the scanning procedure."
+        scroll_x -= 25  # speed of scrolling
+        if scroll_x < -len(message) * 15:  # reset after it scrolls out
+            scroll_x = 640
+        cv2.putText(frame, message, (scroll_x, 40),
+                    cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
+        return frame
+    
     small_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
     rgb_small_frame = cv2.cvtColor(small_frame, cv2.COLOR_BGR2RGB)
 
@@ -299,15 +315,33 @@ def get_frame():
                 current_status = f"⏱️ Please stand still for {remaining_time:.0f} seconds - Processing..."
                 status_color = '#ffaa00'  # Orange for processing
 
-    #starting timer
+    #Camera just started — first face appears (no accessories case handled earlier)
+    if not screening_msg and len(face_locations) > 0:
+        voice_sequence_playing = True
+        def start_scanning():
+            global voice_sequence_playing
+            voice_sequence_playing = False  # scanning can start now
 
+        speak_sequence([
+            ("camera_start", "Security Screening System starting. People are waiting in line, please cooperate with the scanning procedure."),
+            ("face_detected", "Please stand still for 10 seconds.")
+        ], after_first=start_scanning)
+
+        screening_msg = True
+        first_face_sequence_played = True
+        return frame
+    else:
+        first_face_sequence_played = False
+    
+    #starting timer
     detected_now = set(curr_names)
     for name in detected_now:
         if name not in detection_time:
-
             #first detection
             detection_time[name] = curr_time
             last_alarmed[name] = 0
+            if not first_face_sequence_played:
+                speak_event("face_detected","Please stand still for 10 seconds.")
 
     for name in detected_now:
         scan_time = curr_time - detection_time[name]
@@ -315,6 +349,7 @@ def get_frame():
             if name != "No match":
                 current_status = f"🚨 THREAT DETECTED: {name} - Security alert triggered!"
                 status_color = '#ff0000'  # Red for threat
+                speak_event("scan_complete_threat","scan complete",sync = True)
                 threat_alarm()
                 timestamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
                 filename = f"{name}_{timestamp}.jpg"
@@ -346,6 +381,7 @@ def get_frame():
             else:
                 current_status = "✅ SCAN COMPLETE: No match detected - You are safe to proceed"
                 status_color = '#00ff00'  # Green for safe
+                speak_event("scan_complete_safe","scan completed you are free to go.",sync = True)
                 safe_alarm()
 
             last_alarmed[name] = curr_time

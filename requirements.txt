@@ -11,7 +11,7 @@ torchvision
 tqdm
 phonenumbers
 pathlib
-
+gTTS
 # YOLOv5 specific dependencies
 pandas>=1.1.4
 matplotlib>=3.2.2
