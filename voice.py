@@ -64,19 +64,3 @@ def speak_event(key, text, sync=False):
             speak_async(text)
         last_prompt_time[key] = now
         
-def speak_sequence(messages, gap=0.3, after_first=None, on_complete=None):
-    """
-    Play messages sequentially in a background thread.
-    Calls after_first() after first message if provided.
-    Calls on_complete() after all messages if provided.
-    """
-    import threading, time
-    def _runner():
-        for i, (key, text) in enumerate(messages):
-            speak_event(key, text, sync=True)
-            if i == 0 and after_first:
-                after_first()  # trigger scanning start
-            time.sleep(gap)
-        if on_complete:
-            on_complete()
-    threading.Thread(target=_runner, daemon=True).start()

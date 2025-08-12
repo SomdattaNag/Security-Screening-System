@@ -12,7 +12,7 @@ import pickle
 import threading
 import torch
 import pathlib
-from voice import speak_event,speak_sequence
+from voice import speak_event
 # --- Pause/Resume global state ---
 is_paused = False
 pause_start_time = None
@@ -33,9 +33,7 @@ tamper_last_check = 0
 tamper_alert_sent = False
 
 # Voice/state management for start conditions
-screening_msg = False
-voice_sequence_playing = False
-first_face_sequence_played = False
+start_alert_playing = False
 scroll_x = 640
 
 prev_time = 0
@@ -157,7 +155,7 @@ def detect_accessories(frame, conf_threshold=0.5):
     return accessories_found
 
 def get_frame():
-    global prev_time, current_status, status_color, is_paused, pause_start_time, paused_names_time, last_frame,tamper_detected,tamper_last_check,tamper_alert_sent,screening_msg,first_face_sequence_played,voice_sequence_playing,scroll_x
+    global prev_time, current_status, status_color, is_paused, pause_start_time, paused_names_time, last_frame,tamper_detected,tamper_last_check,tamper_alert_sent,start_alert_playing,scroll_x
     # Check if camera is started and opened
     if not camera_started or face_cap is None or not face_cap.isOpened():
         blank = np.zeros((480, 640, 3), dtype=np.uint8)
@@ -243,6 +241,15 @@ def get_frame():
     else:
         last_frame = frame.copy()
 
+    # --- START CAMERA START MESSAGE FEATURE ---
+    if start_alert_playing:
+        message = "Security Screening System starting. Peaople are waiting in the line. Please cooperate with the scanning procedure."
+        scroll_x -= 8
+        if scroll_x < -len(message) * 15:
+            scroll_x = 640
+        cv2.putText(frame, message, (scroll_x, 40), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2 )
+        return frame  # show live video but skip detection
+    
     # -------------- Accessory Detection Before Face Recognition --------------
     accessories = detect_accessories(frame)
     if accessories:
@@ -250,16 +257,6 @@ def get_frame():
         speak_event("remove_accessory",f"Please remove: {', '.join(accessories)}")
         status_color = '#ff0000'    
         return frame  # Skip face recognition while showing live frames
-    
-    # Wait until first "Security Screening System starting" message finishes before scanning
-    if voice_sequence_playing:
-        message = "Security Screening System starting. People are waiting in line, please cooperate with the scanning procedure."
-        scroll_x -= 25  # speed of scrolling
-        if scroll_x < -len(message) * 15:  # reset after it scrolls out
-            scroll_x = 640
-        cv2.putText(frame, message, (scroll_x, 40),
-                    cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
-        return frame
     
     small_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
     rgb_small_frame = cv2.cvtColor(small_frame, cv2.COLOR_BGR2RGB)
@@ -314,24 +311,6 @@ def get_frame():
             if remaining_time > 0:
                 current_status = f"⏱️ Please stand still for {remaining_time:.0f} seconds - Processing..."
                 status_color = '#ffaa00'  # Orange for processing
-
-    #Camera just started — first face appears (no accessories case handled earlier)
-    if not screening_msg and len(face_locations) > 0:
-        voice_sequence_playing = True
-        def start_scanning():
-            global voice_sequence_playing
-            voice_sequence_playing = False  # scanning can start now
-
-        speak_sequence([
-            ("camera_start", "Security Screening System starting. People are waiting in line, please cooperate with the scanning procedure."),
-            ("face_detected", "Please stand still for 10 seconds.")
-        ], after_first=start_scanning)
-
-        screening_msg = True
-        first_face_sequence_played = True
-        return frame
-    else:
-        first_face_sequence_played = False
     
     #starting timer
     detected_now = set(curr_names)
@@ -340,8 +319,7 @@ def get_frame():
             #first detection
             detection_time[name] = curr_time
             last_alarmed[name] = 0
-            if not first_face_sequence_played:
-                speak_event("face_detected","Please stand still for 10 seconds.")
+            speak_event("face_detected","Please stand still for 10 seconds.")
 
     for name in detected_now:
         scan_time = curr_time - detection_time[name]
@@ -400,7 +378,7 @@ def start_camera():
     Initializes the webcam only when called (e.g., from GUI's Start button).
     Prevents re-initialization and sets status messages.
     """
-    global face_cap, current_status, status_color, camera_error, camera_started
+    global face_cap, current_status, status_color, camera_error, camera_started,start_alert_playing
     if camera_started:
         current_status = "Camera already started"
         status_color = "#28ce5a"
@@ -409,8 +387,25 @@ def start_camera():
         face_cap = cv2.VideoCapture(0)
         if not face_cap.isOpened():
             raise RuntimeError("Could not access the webcam.")
+        
         current_status = "Camera started"
         camera_started = True
+        start_alert_playing = True
+
+        def resume_scanning():
+            global start_alert_playing
+            start_alert_playing = False
+
+        # Play asynchronously but call resume_scanning after it finishes
+        threading.Thread(
+            target=lambda: (speak_event(
+                "camera_start",
+                "Security Screening System starting. People are waiting in the line, please cooperate with the scanning procedure.",
+                sync=True  # force blocking in this thread so we know when it ends
+            ), resume_scanning()),
+            daemon=True
+        ).start()
+
         status_color = "#00ff00"
         camera_error = None
     except Exception as e:
