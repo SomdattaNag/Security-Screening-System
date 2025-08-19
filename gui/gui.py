@@ -133,7 +133,7 @@ class guiwindow:
 
         # Keyboard shortcuts
         self.root.bind("<Control-s>", lambda e: self.start_camera())
-        self.root.bind("<space>", lambda e: self.toggle_pause())
+        self.root.bind_all("<space>", lambda e: self.toggle_pause())
         self.root.bind("<Control-e>", lambda e: self.export_log())
 
 
@@ -257,7 +257,7 @@ class guiwindow:
             "Security Screening System\n\n"
             "This GUI provides Start/Pause controls, status feedback, and log export.\n"
             "Shortcuts: Ctrl+S Start, Space Pause/Resume, Ctrl+E Export Log.\n"
-            "Developed as part of UI enhancement task without changing core features."
+            
         )
         messagebox.showinfo("About", message)
 
