@@ -60,11 +60,9 @@
 
 <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="150%">
 
-![GSSoC Logo](/Security-Screening-System/image_logs/gssoc%20logo.png)
-
 **🌟 Exciting News...**
 
-🚀 This project is now an official part of GirlScript Summer of Code – GSSoC'25! 💃🎉💻 We're thrilled to welcome contributors from all over India and beyond to collaborate, build, and grow Security-Screening-System! Let’s make learning and career development smarter – together! 🌟👨‍💻👩‍💻
+🚀 This project is an official part of GirlScript Summer of Code – GSSoC'25! 💃🎉💻 We're thrilled to welcome contributors from all over India and beyond to collaborate, build, and grow Security-Screening-System! Let’s make learning and career development smarter – together! 🌟👨‍💻👩‍💻
 
 👩‍💻 GSSoC is one of India’s **largest 3-month-long open-source programs** that encourages developers of all levels to contribute to real-world projects 🌍 while learning, collaborating, and growing together. 🌱
 
@@ -274,7 +272,7 @@ Please refer to the [`Code of Conduct`](https://github.com/SomdattaNag/Security-
 
 **🤝👤 Contribution Guidelines**
 
-We love our contributors! CONTRIBUTE.md `Will be Coming Soon`.
+We love our contributors! Please read the [Readme](./READEME.md) and [Learn Guide](./learn.md) carefully.
 
 >Thank you once again to all our contributors who has contributed to **Security-Screening-System!** Your efforts are truly appreciated. 💖👏
 
@@ -341,25 +339,7 @@ This project is licensed under the MIT License - see the [`License`](https://git
 
 <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="150%">
 
-<h2>🧑‍💻Project Admin:</h2>
-<table>
-<tr>
-<td align="center">
-<a href="https://github.com/SomdattaNag"><img src="https://avatars.githubusercontent.com/u/133194351?v=4" height="140px" width="140px" alt="Somdatta Nag"></a><br><sub><b>Somdatta Nag</b><br><a href="https://www.linkedin.com/in/somdatta-nag-523362260/"><img src="https://github-production-user-asset-6210df.s3.amazonaws.com/73993775/278833250-adb040ea-e3ef-446e-bcd4-3e8d7d4c0176.png" width="45px" height="45px"></a></sub>
-</td>
-</tr>
-</table>
 
-<img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="100%">
-
-**👨‍🏫 Mentors – Security-Screening-System (GSSoC'25)**
-
-| Role          | Name               | GitHub Profile                                      | LinkedIn Profile                                                        |
-| ------------- | ------------------ | --------------------------------------------------- | ----------------------------------------------------------------------- |
-| Mentor 1   | Mah Noor Fatima |  [theefatymah](https://github.com/theefatymah)  | [theefatymah](https://www.linkedin.com/in/theefatymah/) |
-| Mentor 2     | Dhruva kumar |  [dhruvak001](https://github.com/dhruvak001)   | [dhruvakkaushal](https://www.linkedin.com/in/dhruvakkaushal/)     |
-| Mentor 3     | Aditi Godse  | [aditigodse10](https://github.com/aditigodse10) | [aditi-godse30](https://www.linkedin.com/in/aditi-godse30/)    |
-| Mentor 4     | Ratan jyoti | [ratanjyoti](https://github.com/ratanjyoti) | [ratan-jyoti-024666280](https://www.linkedin.com/in/ratan-jyoti-024666280/) |
 
 <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="100%">
 
