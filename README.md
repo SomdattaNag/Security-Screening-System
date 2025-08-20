@@ -141,6 +141,7 @@ Python, OpenCV,  Face Recognition, SMTPLib, playsound, PyTorch, Tkinter, Twilio,
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
 <h2>Getting Started</h2>
+
 **1.** Start by forking the [Security-Screening-System](https://github.com/SomdattaNag/Security-Screening-System) repository. 
 
 **2.** Clone your forked repository:
@@ -371,6 +372,7 @@ This project is licensed under the MIT License - see the [`License`](https://git
 <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="150%">
 
 **👨‍💻 Built with ❤️ by the Security-Screening-System Team**
+
 **❤️ Somdatta Nag and Contributors ❤️** [open an issue](https://github.com/SomdattaNag/Security-Screening-System/issues) | [Report Bug](https://github.com/SomdattaNag/Security-Screening-System/issues)
 
 <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="150%">
