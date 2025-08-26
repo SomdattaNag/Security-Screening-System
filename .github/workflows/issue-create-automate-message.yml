@@ -16,13 +16,22 @@ jobs:
         with:
           script: |
             const issueNumber = context.issue.number;
-            const commentBody = `### Thank you for raising this issue!\n We'll review it as soon as possible. We truly appreciate your contributions! ✨\n\n> Meanwhile make sure you've visited the README.md, CONTRIBUTING.md, and CODE_OF_CONDUCT.md before creating a PR for this. Also, please do NOT create a PR until this issue has been assigned to you. 😊`;
+            const author = context.payload.issue.user.login;
 
-            await github.rest.issues.createComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: issueNumber,
-              body: commentBody
-            });
+            // List of users who should NOT trigger the auto-comment
+            const maintainers = ["SomdattaNag"]; 
 
-            console.log('Comment added successfully.');
+            if (!maintainers.includes(author)) {
+              const commentBody = `### Thank you for raising this issue!\nWe'll review it as soon as possible. We truly appreciate your contributions! ✨\n\n> Meanwhile make sure you've visited the README.md, CONTRIBUTING.md, and CODE_OF_CONDUCT.md before creating a PR for this. Also, please do NOT create a PR until this issue has been assigned to you. 😊`;
+
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: issueNumber,
+                body: commentBody
+              });
+
+              console.log('Comment added successfully.');
+            } else {
+              console.log(\`Issue opened by maintainer (\${author}) — skipping auto-comment.\`);
+            }
