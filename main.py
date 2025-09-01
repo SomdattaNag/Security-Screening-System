@@ -247,6 +247,9 @@ class SecuritySystem:
         # -------------- Accessory Detection Before Face Recognition --------------
         accessories = self.detect_accessories(frame)
         if accessories:
+            # Reset the countdown timer when an accessory is detected
+            self.detection_time.clear()
+            
             self.current_status = f"⚠️ Please remove: {', '.join(accessories).title()}"
             speak_event("remove_accessory", f"Please remove: {', '.join(accessories)}")
             self.status_color = '#ff0000'
