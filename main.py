@@ -16,6 +16,9 @@ from voice import speak_event
 
 class SecuritySystem:
     def __init__(self):
+        self.last_alerted = {} 
+        self.alert_cooldown = 10  # Cooldown period in seconds  
+
         # --- Pause/Resume global state ---
         self.is_paused = False
         self.pause_start_time = None
@@ -312,10 +315,14 @@ class SecuritySystem:
         detected_now = set(curr_names)
         for name in detected_now:
             if name not in self.detection_time:
-                # first detection
                 self.detection_time[name] = curr_time
                 self.last_alarmed[name] = 0
-                speak_event("face_detected", "Please stand still for 10 seconds.")
+                    
+                last_time = self.last_alerted.get(name, 0)
+                if (curr_time - last_time) >= self.alert_cooldown:
+                        speak_event("face_detected", "Please stand still for 10 seconds.")
+                        self.last_alerted[name] = curr_time
+
 
         for name in detected_now:
             scan_time = curr_time - self.detection_time[name]
