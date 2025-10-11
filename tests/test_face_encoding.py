@@ -1,7 +1,9 @@
+
 import unittest
 from unittest.mock import patch, MagicMock
 import os
 import pickle
+import shutil
 
 class TestFaceEncoding(unittest.TestCase):
     @patch('face_recognition.load_image_file')
@@ -29,10 +31,12 @@ class TestFaceEncoding(unittest.TestCase):
                 self.assertEqual(names, ["person1"])
                 self.assertEqual(encodings, [[0.1, 0.2, 0.3]])
         # Cleanup
-        os.remove(test_img_path)
-        os.rmdir(test_data_dir)
-        os.rmdir('tests/mock_data/person1')
-        os.rmdir('tests/mock_data')
+        if os.path.exists(test_img_path):
+            os.remove(test_img_path)
+        # Remove the mock_data directory tree safely
+        mock_data_root = 'tests/mock_data'
+        if os.path.exists(mock_data_root):
+            shutil.rmtree(mock_data_root)
         if os.path.exists('encodings/face_encodings.pkl'):
             os.remove('encodings/face_encodings.pkl')
 
