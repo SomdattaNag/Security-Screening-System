@@ -1,8 +1,8 @@
 
-def _import_or_exit(module, pip_name=None, import_name=None):
+
+# Only use _import_or_exit for simple imports
+def _import_or_exit(module, pip_name=None):
     try:
-        if import_name:
-            return __import__(import_name, fromlist=[module])
         return __import__(module)
     except ImportError:
         pkg = pip_name if pip_name else module
@@ -14,7 +14,11 @@ try:
 except ImportError:
     print("\n[ERROR] Required package 'gTTS' is not installed.\nPlease install it with: pip install gTTS\n")
     exit(1)
-playsound = _import_or_exit('playsound')
+try:
+    from playsound import playsound
+except ImportError:
+    print("\n[ERROR] Required package 'playsound' is not installed.\nPlease install it with: pip install playsound\n")
+    exit(1)
 tempfile = _import_or_exit('tempfile')
 threading = _import_or_exit('threading')
 os = _import_or_exit('os')

@@ -1,8 +1,8 @@
 
-def _import_or_exit(module, pip_name=None, import_name=None):
+
+# Only use _import_or_exit for simple imports
+def _import_or_exit(module, pip_name=None):
     try:
-        if import_name:
-            return __import__(import_name, fromlist=[module])
         return __import__(module)
     except ImportError:
         pkg = pip_name if pip_name else module
@@ -11,11 +11,27 @@ def _import_or_exit(module, pip_name=None, import_name=None):
 
 os = _import_or_exit('os')
 random = _import_or_exit('random')
-PIL_Image = _import_or_exit('PIL.Image', 'Pillow', 'PIL.Image')
-PIL_ImageDraw = _import_or_exit('PIL.ImageDraw', 'Pillow', 'PIL.ImageDraw')
-transforms = _import_or_exit('torchvision.transforms', 'torchvision', 'torchvision.transforms')
-torchvision = _import_or_exit('torchvision')
-tqdm = _import_or_exit('tqdm')
+
+try:
+    from PIL import Image, ImageDraw
+except ImportError:
+    print("\n[ERROR] Required package 'Pillow' is not installed.\nPlease install it with: pip install Pillow\n")
+    exit(1)
+try:
+    from torchvision import transforms
+except ImportError:
+    print("\n[ERROR] Required package 'torchvision' is not installed.\nPlease install it with: pip install torchvision\n")
+    exit(1)
+try:
+    import torchvision
+except ImportError:
+    print("\n[ERROR] Required package 'torchvision' is not installed.\nPlease install it with: pip install torchvision\n")
+    exit(1)
+try:
+    from tqdm import tqdm
+except ImportError:
+    print("\n[ERROR] Required package 'tqdm' is not installed.\nPlease install it with: pip install tqdm\n")
+    exit(1)
 
 # Config
 data_dir = "data"

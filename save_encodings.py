@@ -1,8 +1,8 @@
 
-def _import_or_exit(module, pip_name=None, import_name=None):
+
+# Only use _import_or_exit for simple imports
+def _import_or_exit(module, pip_name=None):
     try:
-        if import_name:
-            return __import__(import_name, fromlist=[module])
         return __import__(module)
     except ImportError:
         pkg = pip_name if pip_name else module

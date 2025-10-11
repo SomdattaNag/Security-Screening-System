@@ -1,42 +1,69 @@
 
-def _import_or_exit(module, pip_name=None, import_name=None):
+
+# Only use _import_or_exit for simple imports
+def _import_or_exit(module, pip_name=None):
     try:
-        if import_name:
-            return __import__(import_name, fromlist=[module])
         return __import__(module)
     except ImportError:
         pkg = pip_name if pip_name else module
         print(f"\n[ERROR] Required package '{pkg}' is not installed.\nPlease install it with: pip install {pkg}\n")
         exit(1)
 
-cv2 = _import_or_exit('cv2')
-np = _import_or_exit('numpy')
+# Simple imports
 os = _import_or_exit('os')
-face_recognition = _import_or_exit('face_recognition')
-playsound = _import_or_exit('playsound')
+sys = _import_or_exit('sys')
+time = _import_or_exit('time')
+pickle = _import_or_exit('pickle')
+threading = _import_or_exit('threading')
+datetime = _import_or_exit('datetime')
+json = _import_or_exit('json')
+
+# Imports that may fail and need user-friendly error
+try:
+    import cv2
+except ImportError:
+    print("\n[ERROR] Required package 'cv2' is not installed.\nPlease install it with: pip install opencv-python\n")
+    exit(1)
+try:
+    import numpy as np
+except ImportError:
+    print("\n[ERROR] Required package 'numpy' is not installed.\nPlease install it with: pip install numpy\n")
+    exit(1)
+try:
+    import face_recognition
+except ImportError:
+    print("\n[ERROR] Required package 'face_recognition' is not installed.\nPlease install it with: pip install face_recognition\n")
+    exit(1)
+try:
+    from playsound import playsound
+except ImportError:
+    print("\n[ERROR] Required package 'playsound' is not installed.\nPlease install it with: pip install playsound\n")
+    exit(1)
 try:
     from message import send_call, send_email, send_sms
 except ImportError:
     print("\n[ERROR] Required module 'message' is missing or has import errors.\n")
     exit(1)
-time = _import_or_exit('time')
-sys = _import_or_exit('sys')
 try:
     from gui.gui import guiwindow
 except ImportError:
     print("\n[ERROR] Required module 'gui.gui' is missing or has import errors.\n")
     exit(1)
-datetime = _import_or_exit('datetime')
-pickle = _import_or_exit('pickle')
-threading = _import_or_exit('threading')
-torch = _import_or_exit('torch')
-pathlib = _import_or_exit('pathlib')
+try:
+    import torch
+except ImportError:
+    print("\n[ERROR] Required package 'torch' is not installed.\nPlease install it with: pip install torch\n")
+    exit(1)
+try:
+    import pathlib
+except ImportError:
+    print("\n[ERROR] Required package 'pathlib' is not installed.\nPlease install it with: pip install pathlib\n")
+    exit(1)
 try:
     from voice import speak_event
 except ImportError:
     print("\n[ERROR] Required module 'voice' is missing or has import errors.\n")
     exit(1)
-json = _import_or_exit('json')
 
 class SecuritySystem:
     def __init__(self):
