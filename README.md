@@ -63,19 +63,21 @@
 
 **🌟 Exciting News...**
 
-🚀 This project is an official part of GirlScript Summer of Code – GSSoC'25! 💃🎉💻 We're thrilled to welcome contributors from all over India and beyond to collaborate, build, and grow Security-Screening-System! Let’s make learning and career development smarter – together! 🌟👨‍💻👩‍💻
+## 🌟 Open Source Journey — GSSoC 2025
 
-👩‍💻 GSSoC is one of India’s **largest 3-month-long open-source programs** that encourages developers of all levels to contribute to real-world projects 🌍 while learning, collaborating, and growing together. 🌱
+🚀 This project was an official part of **GirlScript Summer of Code – GSSoC'25** (July–October 2025). Over the course of the 3-month program, we welcomed contributors from across India and beyond who helped build, test, and grow Security-Screening-System into a production-level system. 🎉
 
-🌈 With **mentorship, community support**, and **collaborative coding**, it's the perfect platform for developers to:
+GSSoC is one of India's **largest 3-month open-source programs**, encouraging developers of all levels to contribute to real-world projects while learning, collaborating, and growing together.
 
-- ✨ Improve their skills
-- 🤝 Contribute to impactful projects
-- 🏆 Get recognized for their work
-- 📜 Receive certificates and swag!
+During GSSoC'25, contributors to this project:
+- ✨ Improved and extended core features
+- 🤝 Collaborated on real-world security system challenges
+- 🏆 Got recognized for their contributions
+- 📜 Earned certificates and points
 
-🎉 **I can’t wait to welcome new contributors** from GSSoC 2025 to this Security-Screening-System project family! Let's build, learn, and grow together — one commit at a time. 🔥👨‍💻👩‍💻
+🎉 **A huge thank you to every contributor who was part of the GSSoC 2025 journey on this project!** 💖
 
+> The GSSoC 2025 program has concluded. This project continues to be open source and welcomes contributions from the community — see the contribution guidelines below.
 <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="100%">
 
 ## 🧩 Problem Statement
@@ -96,8 +98,10 @@ If there’s no match and the person is safe, a safe signal will be shown, and t
 
 ## 👥 Contributors and Learning Resources
 
-As of July 2025, this project is a part of GirlScript Summer of Code 2025. Please read the README file carefully to understand the project workflow. For contribution tips and extended documentation, see the [Learn Guide](./learn.md).
-Only the issue with the label __gssoc25__ are open for GSSoC contributors right now.
+This project was part of GirlScript Summer of Code 2025 (July–October 2025). 
+For contribution tips and extended documentation, see the [Learn Guide](./learn.md).
+
+The project is open source and community contributions are welcome. Please read the README carefully to understand the project workflow before contributing.
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
