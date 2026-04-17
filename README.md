@@ -226,19 +226,6 @@ git push origin YourBranchName
 
 ![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
-<h2> Rules for Contributors </h2>
-
-**1.** Assignement to contributors is on a FCFS ( First Come First Serve basis), whoever comments first gets assigned first.
-
-**2.** The contributors who comes next, gets assigned if the previous assignee doesn't complete their task.
-
-**3.** General deadline for each level of assignment:
-       1. level 1: maximum 2-3 days
-       2. level 2: maximum 5-6 days
-       3. level 3: maximum 7-8 days
-**4.** If contributors want more days to work, deadline can be extended.
-
-![-----------------------------------------------------](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)
 
 ## 📝 Note
 
