@@ -84,7 +84,8 @@ project/
 │   
 ├── main.py                
 ├── message.py             
-├── requirements.txt       
+├── requirements.txt
+├── voice.py    
 ├── .gitignore             
 ├── .env.example           
 ├── README.md              
@@ -128,6 +129,8 @@ __requirements.txt__: Defines the Python dependencies needed to run the project.
 __main.py__: Central application logic (face detection, alarm triggers, notification handling).
 
 __message.py__: Handles email notifications using credentials from the .env file.
+
+__voice.py__: Handles voice automation. Main module used for text to speech instructions.
 
 __README.md__: Original project description.
 
